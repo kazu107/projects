@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>テストの点</title>
+</head>
+
+<body>
+<h1>テストの点<a class="ed-rial" href="https://kazu107.github.io/editorial/p1-ed.html" target="_blank">解説</a></h1>
+<hr>
+
+<h2>問題文</h2>
+<p>整数 \(N\) ,\(M\) と \(N\) 個のテストの点 \(A_1\), \(A_2\) ... \(A_N\) が与えられので、\(M\) 点以上をとっているテストの個数を出力してください。</p>
+
+<h2>制約</h2>
+<ul>
+    <li>\(1 ≤ N ≤ 100\)</li>
+    <li>\(0 ≤ M ≤ 100\)</li>
+    <li>\(0 ≤ S_i ≤ 100\) \((1 ≤ i ≤ N)\)</li>
+</ul>
+<hr>
+
+<h2>入力</h2>
+入力は以下の形式で標準入力から与えられる。
+<div class="io_format">\(N\) \(M\)
+\(A_1\) \(A_2\) ... \(A_N\)</div>
+
+<h2>出力</h2>
+<p>答えを出力せよ。</p>
+<hr>
+
+<h2>入力例1</h2>
+<pre id="sample1_input" class="sample">4 80
+95 75 83 78</pre>
+
+<h2>出力例1</h2>
+<pre id="sample1_output" class="sample">2</pre>
+<p>80点以上の点数は95, 83なので２個が正解です。</p>
+<hr>
+<!-- id が "*_input" and "*_output" の pre 要素が１組以上必要。 -->
+<!-- pre.sample には自動的にコピーボタンが付く。 -->
+
+<h2>入力例2</h2>
+<pre id="sample2_input" class="sample">10 60
+60 59 27 92 89 37 22 0 19 100</pre>
+
+<h2>出力例2</h2>
+<pre id="sample2_output" class="sample">4</pre>
+<hr>
+
+<pre id="testcase1_input"  class="testcase">1 0
+0</pre>
+<pre id="testcase1_output" class="testcase">1</pre>
+
+<pre id="testcase2_input"  class="testcase">2 100
+99 100</pre>
+<pre id="testcase2_output" class="testcase">1</pre>
+
+<pre id="testcase3_input"  class="testcase">100 50
+40 35 68 47 10 80 29 45 73 36 39 2 15 3 53 64 89 37 82 35 4 74 33 13 31 25 5 95 39 39 63 66 84 5 56 8 26 65 59 12 93 13 9 0 80 20 51 100 31 45 85 2 71 57 41 5 70 39 14 60 14 51 59 40 16 92 71 76 81 1 53 28 53 76 8 29 66 40 100 2 90 85 62 79 66 56 61 52 24 84 89 18 16 36 20 80 42 40 81 41</pre>
+<pre id="testcase3_output" class="testcase">47</pre>
+
+<pre id="testcase4_input"  class="testcase">100 25
+76 60 85 47 18 52 17 90 41 2 42 41 55 16 57 22 19 31 25 65 66 73 64 79 98 52 27 91 20 52 16 85 49 48 100 42 16 36 40 41 6 19 60 50 23 66 84 87 64 63 2 92 82 92 97 60 6 8 88 72 48 97 69 97 48 25 78 42 90 60 22 63 24 16 62 18 62 74 51 59 100 60 35 18 24 25 84 62 1 56 37 71 11 73 91 7 36 85 5 89</pre>
+<pre id="testcase4_output" class="testcase">75</pre>
+
+<textarea id="txt-editor"></textarea>
+<p>
+    <!-- ↓ button#run は必ず用意 -->
+    <button id="run">実行</button>
+    <input type="checkbox" id="autocopy" checked /><label for="autocopy">実行時にプログラムを自動的にコピーしておく</label>
+</p>
+<p>実行結果:</p>
+<!-- ↓ table#result は必ず用意 -->
+<table id="result"></table>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket = io();
+    console.log('Attempting to connect to server via WebSocket.');
+    const code = document.getElementById('txt-editor');
+    const run = document.getElementById('run');
+    const result = document.getElementById('result');
+
+    run.addEventListener("click", function () {
+        socket.emit('run', code.value);
+    });
+
+    socket.on('connect', function() {
+        console.log('Connected to server via WebSocket.');
+    });
+
+    socket.on('result', function(data) {
+        console.log('Received result:', data);  // 受け取った結果のログ出力
+        result.innerHTML = `<tr><td>${data}</td></tr>`; // 結果を表示する適切な方法に応じて変更
+    });
+</script>
+</body>
+</html>
