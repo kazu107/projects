@@ -88,8 +88,16 @@
     const run = document.getElementById('run');
     const result = document.getElementById('result');
 
+    function getFilenameWithoutExtension() {
+        const path = window.location.pathname;
+        const filenameWithExtension = path.split('/').pop(); // パスの最後の部分を取得
+        const filename = filenameWithExtension.split('.').slice(0, -1).join('.'); // 最後のドット以降を除去
+        return filename;
+    }
+    const identifier = getFilenameWithoutExtension();
+
     run.addEventListener("click", function () {
-        socket.emit('run', code.value);
+        socket.emit('run', code.value, identifier);
     });
 
     socket.on('connect', function() {
