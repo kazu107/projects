@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
             } catch (error) {
                 console.error("Error loading the module:", error);
             }
+            const judgeway = problemCases.judge;
             const { judge, ...cases } = problemCases;
             let inputs = [];
             let outputs = [];
@@ -70,42 +71,37 @@ io.on('connection', (socket) => {
             console.log('Inputs:', inputs);
             console.log('Outputs:', outputs);
             // 入力配列に対してプロセスを実行
-            processInputs(infos);
-            //let escapedCode = code.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
-            //インスタンスを作成
-            /*
-            const pyshell = new PythonShell(`sample.py`,options)
-            //実行
-            pyshell.on('message', function (msg)  {
-                console.log("instance ok");
-                console.log(msg);
-                const fileName = `${id}-testcase.js`;
-                try {
-                    const problemCases = require(`public/testcase/${fileName}-testcase.js`);
-                    // ここでファイル内のテストケースを利用した処理を行う
-                } catch (error) {
-                    console.error('Failed to load test cases:', error);
-                    socket.emit('error', 'Failed to load test cases');
+            const res = processInputs(infos);
+            res.then((data) => {
+                console.log("--judge--");
+                socket.emit('clearTable');
+                for (let i = 0; i < data.length; i++) {
+                    // 通常の判定方法
+                    if (judgeway === "normal") {
+                        if (data[i][1] === data[i][2]) {
+                            socket.emit('result', data[i][0], "AC", parseInt(data[i][3]) + " ms");
+                        }
+                        else {
+                            socket.emit('result', data[i][0], "WA", parseInt(data[i][3]) + " ms");
+                        }
+                    }
+                    // 小数点数の判定方法
+                    else if (judgeway === "decimal") {
+                        const numExpected = parseFloat(data[i][2]);
+                        const numActual = parseFloat(data[i][1]);
+                        if (numExpected - 0.001 <= numActual && numActual <= numExpected + 0.001) {
+                            socket.emit('result', data[i][0], "AC", parseInt(data[i][3]) + " ms");
+                        }
+                        else {
+                            socket.emit('result', data[i][0], "WA", parseInt(data[i][3]) + " ms");
+                        }
+                    }
+                    console.log(data[i][0], "AC", parseInt(data[i][3]) + " ms");
                 }
-                socket.emit('result', msg);
+            }).catch((err) => {
+                console.error("Error processing inputs:", err);
+                socket.emit('result', `processInputsError: ${err.message}`);
             });
-            pyshell.on("error",function (err) {
-                if (err) {
-                    console.error('Error running Python script:', err);
-                    socket.emit('result', `Error: ${err.message}`);
-                    return;
-                }
-                console.log('instance error');
-            });
-            pyshell.end(function (err) {
-                if (err) {
-                    console.error('Error running Python script:', err);
-                    socket.emit('result', `Error: ${err.message}`);
-                    return;
-                }
-                console.log('instance end');
-            });
-            */
         });
     });
 
@@ -117,24 +113,28 @@ io.on('connection', (socket) => {
 
 // Pythonスクリプトを実行し、入力を送り、結果を受け取る関数
 function runPythonScript(input) {
+    const startTime = performance.now();
     return new Promise((resolve, reject) => {
         const pyshell = new PythonShell('sample.py', options);
+        let output = '';  // 出力を格納する文字列
 
         pyshell.send(input);
 
         pyshell.on('message', function(message) {
-            console.log(`actual output:`, message);
-            pyshell.end(function (err) {
-                if (err) {
-                    console.error('Error finishing Python script:', err);
-                    reject(err);
-                } else {
-                    console.log(`Python script finished`);
-                    resolve(message);
-                }
-            });
+            //console.log(`actual output:`, message);
+            output += message + `\n`;
         });
-
+        pyshell.end(function (err) {
+            const endTime = performance.now();  // 高精度な終了時刻を記録
+            const executionTime = endTime - startTime;  // 実行時間を計算
+            if (err) {
+                console.error('Error finishing Python script:', err);
+                reject(err);
+            } else {
+                console.log(`Python script finished`);
+                resolve([output, executionTime]);
+            }
+        });
         pyshell.on('error', function(err) {
             console.error('Error from Python script:', err);
             reject(err);
@@ -144,21 +144,24 @@ function runPythonScript(input) {
 
 // 入力ごとにPythonスクリプトを実行する関数
 async function processInputs(inputs) {
+    let datas = [];
     for (let info of inputs) {
         try {
             console.log(`Processing\n${info[1]}`);
             const output = await runPythonScript(info[1]);
-            console.log(`expected Output is: `, info[2]);
-            if (output === info[2]) {
+            console.log(`expected Output is:`, info[2]);
+            console.log('actual Output is  :', output[0]);
+            datas.push([info[0], output[0], info[2], output[1]]);
+            if (output[0] === info[2]) {
                 console.log(`${info[0]} passed`, "\n");
             } else {
                 console.log(`${info[0]} failed`, "\n");
             }
-            console.log('Output:', output);
         } catch (err) {
             console.error(`Error processing ${info[1]}:`, err);
         }
     }
+    return datas;
 }
 
 

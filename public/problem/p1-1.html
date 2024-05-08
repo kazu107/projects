@@ -79,7 +79,18 @@
 </p>
 <p>実行結果:</p>
 <!-- ↓ table#result は必ず用意 -->
-<table id="result"></table>
+<table id="result">
+    <thead>
+        <tr>
+            <th>Case Number</th>
+            <th>Result</th>
+            <th>Execution Time</th>
+        </tr>
+    </thead>
+    <tbody>
+    <!-- テスト結果がここに追加されます -->
+    </tbody>
+</table>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
@@ -103,10 +114,31 @@
     socket.on('connect', function() {
         console.log('Connected to server via WebSocket.');
     });
+    // テーブルの内容をクリアするイベントリスナー
+    const tbody = document.querySelector('#result tbody');
+    socket.on('clearTable', function() {
+        // tbodyの中身をすべて削除
+        while (result.rows.length > 1) {
+            //tbody.removeChild(tbody.firstChild);
+            result.deleteRow(-1);
+        }
+        console.log('Table content has been cleared.');
+    });
+    // テーブルに行を追加するイベントリスナー
+    socket.on('result', (caseNumber, res, time) => {
+        console.log('Received result:', caseNumber, res, time);  // 受け取った結果のログ出力
+        //console.log('Received result:', data);  // 受け取った結果のログ出力
+        //result.innerHTML = `<tr><td>${caseNumber}</td><td>${res}</td><td>${time}</td></tr>`; // 結果を表示する適切な方法に応じて変更
+        // テーブルに行を追加
+        let row = result.insertRow(-1); // テーブルの最後に行を追加
+        let cell1 = row.insertCell(0); // 最初のセルを追加
+        let cell2 = row.insertCell(1); // 2番目のセルを追加
+        let cell3 = row.insertCell(2); // 3番目のセルを追加
 
-    socket.on('result', function(data) {
-        console.log('Received result:', data);  // 受け取った結果のログ出力
-        result.innerHTML = `<tr><td>${data}</td></tr>`; // 結果を表示する適切な方法に応じて変更
+        // 各セルにデータを設定
+        cell1.innerHTML = `${caseNumber}`;
+        cell2.innerHTML = res;
+        cell3.innerHTML = `${time}`;
     });
 </script>
 </body>
