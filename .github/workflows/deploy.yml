@@ -23,4 +23,4 @@ jobs:
 
       - name: Sync files via rsync
         run: |
-          rsync -avz -e "ssh -p 8022 -o StrictHostKeyChecking=no" ./* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/home/egn5n_r6577176/public_html/kazu107.com
+          rsync -avz -e "ssh -p 8022 -o StrictHostKeyChecking=no" ./* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/home/egn5n_r6577176@localhost/public_html/kazu107.com
