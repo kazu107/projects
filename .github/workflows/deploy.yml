@@ -22,4 +22,4 @@ jobs:
 
       - name: Copy files to server
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ r6577176@www325.onamae.ne.jp:egn5n_r6577176@localhost/public_html/kazu107.com
+          rsync -avz -e "ssh -p 8022 -o StrictHostKeyChecking=no" ./ r6577176@www325.onamae.ne.jp:egn5n_r6577176@localhost/public_html/kazu107.com
