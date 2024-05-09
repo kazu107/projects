@@ -23,4 +23,4 @@ jobs:
 
       - name: Sync files via rsync
         run: |
-          rsync -avz -e "ssh -p 8022 -o StrictHostKeyChecking=no" ./* r6577176@www325.onamae.ne.jp:/home/r6577176/public_html/
+          rsync -avz -e "ssh -p 8022 -o StrictHostKeyChecking=no" ./* r6577176@www325.onamae.ne.jp:/home/r6577176/public_html/kazu107.com/
