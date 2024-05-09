@@ -22,5 +22,5 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd kazu107.com
+            cd egn5n_r6577176@localhost/public_html/kazu107.com
             git pull origin main
