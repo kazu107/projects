@@ -1,0 +1,19 @@
+name: ftp upload
+on:
+  push:
+    branches:
+      - master
+jobs:
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: SamKirkland/FTP-Deploy-Action@2.0.0
+        env:
+          FTP_SERVER: ${{ SERVER_HOST }}
+          FTP_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.DEPLOY_KEY }}
+          LOCAL_DIR: public/
+          REMOTE_DIR: /home/kazu107.com/www/
+          ARGS: --delete
