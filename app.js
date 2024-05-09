@@ -19,7 +19,7 @@ const options = {
 
 app.use(express.static('public'));
 
-// HTMLファイルへのルートを設定
+// HTMLファイルへのルートを設定a
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
