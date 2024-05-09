@@ -22,5 +22,5 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ${{ secrets.SERVER_DEPLOY_DIR }}
+            cd ${{ kazu107.com }}
             git pull origin main
