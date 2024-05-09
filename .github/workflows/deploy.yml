@@ -7,23 +7,20 @@ on:
       - main  # mainブランチにpushされたときに動作
 
 jobs:
-  deploy:
-    name: Deploy to server via SSH
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Deploy
         uses: actions/checkout@v2
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: SSH into server and deploy
+        uses: appleboy/ssh-action@master
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Clear Perl environment variables
-        run: |
-          unset PERL5LIB PERL_LOCAL_LIB_ROOT PERL_MB_OPT PERL_MM_OPT
-
-      - name: Copy files to server
-        run: |
-          rsync -avz -e "ssh -p 8022 -o StrictHostKeyChecking=no" ./ r6577176@www325.onamae.ne.jp:egn5n_r6577176@localhost/public_html/kazu107.com
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.SERVER_DEPLOY_DIR }}
+            git pull origin main
