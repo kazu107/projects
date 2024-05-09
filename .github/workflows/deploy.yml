@@ -1,0 +1,25 @@
+# .github/workflows/deploy.yml
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main  # mainブランチにpushされたときに動作
+
+jobs:
+  deploy:
+    name: Deploy to server via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Copy files to server
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ r6577176@www325.onamae.ne.jp:egn5n_r6577176@localhost/public_html/kazu107.com
