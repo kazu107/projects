@@ -18,7 +18,9 @@ const options = {
 };
 
 // public ディレクトリを静的ファイルのルートとして設定
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+app.use(express.static("problem"));
+app.use("/problem", express.static("public"));
 
 // HTMLファイルへのルートを設定a
 app.get('/', function(req, res) {
