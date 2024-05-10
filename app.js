@@ -17,11 +17,12 @@ const options = {
     //args: [code]
 };
 
+// public ディレクトリを静的ファイルのルートとして設定
 app.use(express.static(path.join(__dirname, 'public')));
 
 // HTMLファイルへのルートを設定a
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 io.on('connection', (socket) => {
