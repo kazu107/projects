@@ -34,7 +34,7 @@ class SslProtoHandshakeTests(test_utils.TestCase):
 
     def ssl_protocol(self, *, waiter=None, proto=None):
         sslcontext = test_utils.dummy_ssl_context()
-        if proto is None:  # app protocol
+        if proto is None:  # index protocol
             proto = asyncio.Protocol()
         ssl_proto = sslproto.SSLProtocol(self.loop, proto, sslcontext, waiter,
                                          ssl_handshake_timeout=0.1)
@@ -129,7 +129,7 @@ class SslProtoHandshakeTests(test_utils.TestCase):
         # attribute errors
         outer = self.ssl_protocol(proto=self.ssl_protocol())
         self.connection_made(outer)
-        # Closing the outer app transport should not raise an exception
+        # Closing the outer index transport should not raise an exception
         messages = []
         self.loop.set_exception_handler(lambda loop, ctx: messages.append(ctx))
         outer._app_transport.close()

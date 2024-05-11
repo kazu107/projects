@@ -10,7 +10,7 @@ Current Contents:
 
 * simple_server -- a simple BaseHTTPServer that supports WSGI
 
-* validate -- validation wrapper that sits between an app and a server
+* validate -- validation wrapper that sits between an index and a server
   to detect errors in either
 
 * types -- collection of WSGI-related types for static type checking

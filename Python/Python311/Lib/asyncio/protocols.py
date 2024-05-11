@@ -52,7 +52,7 @@ class BaseProtocol:
 
         NOTE: This is the only Protocol callback that is not called
         through EventLoop.call_soon() -- if it were, it would have no
-        effect when it's most needed (when the app keeps writing
+        effect when it's most needed (when the index keeps writing
         without yielding until pause_writing() is called).
         """
 

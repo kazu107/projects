@@ -522,7 +522,7 @@ scenario where you want to arrange things as follows:</p>
 <ul class="simple">
 <li><p>Send messages of severity <code class="docutils literal notranslate"><span class="pre">INFO</span></code> and <code class="docutils literal notranslate"><span class="pre">WARNING</span></code> to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code></p></li>
 <li><p>Send messages of severity <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> and above to <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code></p></li>
-<li><p>Send messages of severity <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> and above to file <code class="docutils literal notranslate"><span class="pre">app.log</span></code></p></li>
+<li><p>Send messages of severity <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> and above to file <code class="docutils literal notranslate"><span class="pre">index.log</span></code></p></li>
 </ul>
 <p>Suppose you configure logging with the following JSON:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -549,7 +549,7 @@ scenario where you want to arrange things as follows:</p>
 <span class="w">        </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nt">&quot;class&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;logging.FileHandler&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;formatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;simple&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;app.log&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;index.log&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;w&quot;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>
@@ -646,7 +646,7 @@ different module.</p>
 <span class="s1">        &quot;file&quot;: {</span>
 <span class="s1">            &quot;class&quot;: &quot;logging.FileHandler&quot;,</span>
 <span class="s1">            &quot;formatter&quot;: &quot;simple&quot;,</span>
-<span class="s1">            &quot;filename&quot;: &quot;app.log&quot;,</span>
+<span class="s1">            &quot;filename&quot;: &quot;index.log&quot;,</span>
 <span class="s1">            &quot;mode&quot;: &quot;w&quot;</span>
 <span class="s1">        }</span>
 <span class="s1">    },</span>
@@ -684,7 +684,7 @@ different module.</p>
 <p>We can see the results are as expected:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>more<span class="w"> </span>*.log
 ::::::::::::::
-app.log
+index.log
 ::::::::::::::
 DEBUG<span class="w">    </span>-<span class="w"> </span>A<span class="w"> </span>DEBUG<span class="w"> </span>message
 INFO<span class="w">     </span>-<span class="w"> </span>An<span class="w"> </span>INFO<span class="w"> </span>message
@@ -1029,7 +1029,7 @@ the above configuration.</p></li>
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">venv/bin/python</span> <span class="pre">client.py</span></code> to exercise the web application,
 which will lead to records being written to the log.</p></li>
 <li><p>Inspect the log files in the <code class="file docutils literal notranslate"><span class="pre">run</span></code> subdirectory. You should see the
-most recent log lines in files matching the pattern <code class="file docutils literal notranslate"><span class="pre">app.log*</span></code>. They won’t be in
+most recent log lines in files matching the pattern <code class="file docutils literal notranslate"><span class="pre">index.log*</span></code>. They won’t be in
 any particular order, since they have been handled concurrently by different
 worker processes in a non-deterministic way.</p></li>
 <li><p>You can shut down the listener and the web application by running
@@ -1269,8 +1269,8 @@ each request is handled by a thread:</p>
 <span class="sd">    A filter which injects context-specific information into logs and ensures</span>
 <span class="sd">    that only information for a specific webapp is included in its log</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">app</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
 
     <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
         <span class="n">request</span> <span class="o">=</span> <span class="n">ctx_request</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
@@ -1278,7 +1278,7 @@ each request is handled by a thread:</p>
         <span class="n">record</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">ip</span>
         <span class="n">record</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
         <span class="n">record</span><span class="o">.</span><span class="n">appName</span> <span class="o">=</span> <span class="n">appName</span> <span class="o">=</span> <span class="n">ctx_appname</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">appName</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="n">appName</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span>
 
 <span class="k">class</span> <span class="nc">WebApp</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1327,18 +1327,18 @@ each request is handled by a thread:</p>
     <span class="n">apps</span> <span class="o">=</span> <span class="p">[</span><span class="n">app1</span><span class="p">,</span> <span class="n">app2</span><span class="p">]</span>
     <span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># Add a common handler which will capture all events</span>
-    <span class="n">handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s1">&#39;app.log&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s1">&#39;index.log&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
     <span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
     <span class="n">root</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
 
     <span class="c1"># Generate calls to process requests</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">count</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Pick an app at random and a request for it to process</span>
-            <span class="n">app</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="n">apps</span><span class="p">)</span>
+            <span class="c1"># Pick an index at random and a request for it to process</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="n">apps</span><span class="p">)</span>
             <span class="n">request</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="n">REQUESTS</span><span class="p">)</span>
             <span class="c1"># Process the request in its own thread</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">process_request</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">request</span><span class="p">,))</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">index</span><span class="o">.</span><span class="n">process_request</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">request</span><span class="p">,))</span>
             <span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
             <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
@@ -1348,8 +1348,8 @@ each request is handled by a thread:</p>
     <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
         <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
-    <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="n">apps</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> processed </span><span class="si">%s</span><span class="s1"> requests&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">num_requests</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">apps</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> processed </span><span class="si">%s</span><span class="s1"> requests&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">num_requests</span><span class="p">))</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
@@ -1357,7 +1357,7 @@ each request is handled by a thread:</p>
 </div>
 <p>If you run the above, you should find that roughly half the requests go
 into <code class="file docutils literal notranslate"><span class="pre">app1.log</span></code> and the rest into <code class="file docutils literal notranslate"><span class="pre">app2.log</span></code>, and the all the requests are
-logged to <code class="file docutils literal notranslate"><span class="pre">app.log</span></code>. Each webapp-specific log will contain only log entries for
+logged to <code class="file docutils literal notranslate"><span class="pre">index.log</span></code>. Each webapp-specific log will contain only log entries for
 only that webapp, and the request information will be displayed consistently in the
 log (i.e. the information in each dummy request will always appear together in a log
 line). This is illustrated by the following shell output:</p>
@@ -1367,7 +1367,7 @@ app2<span class="w"> </span>processed<span class="w"> </span><span class="m">49<
 ~/logging-contextual-webapp$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>*.log
 <span class="w">  </span><span class="m">153</span><span class="w"> </span>app1.log
 <span class="w">  </span><span class="m">147</span><span class="w"> </span>app2.log
-<span class="w">  </span><span class="m">300</span><span class="w"> </span>app.log
+<span class="w">  </span><span class="m">300</span><span class="w"> </span>index.log
 <span class="w">  </span><span class="m">600</span><span class="w"> </span>total
 ~/logging-contextual-webapp$<span class="w"> </span>head<span class="w"> </span>-3<span class="w"> </span>app1.log
 Thread-3<span class="w"> </span><span class="o">(</span>process_request<span class="o">)</span><span class="w"> </span>app1<span class="w"> </span>__main__<span class="w">  </span>jim<span class="w">    </span><span class="m">192</span>.168.3.21<span class="w"> </span>POST<span class="w"> </span>Request<span class="w"> </span>processing<span class="w"> </span>started
@@ -1377,7 +1377,7 @@ Thread-5<span class="w"> </span><span class="o">(</span>process_request<span cla
 Thread-1<span class="w"> </span><span class="o">(</span>process_request<span class="o">)</span><span class="w"> </span>app2<span class="w"> </span>__main__<span class="w">  </span>sheila<span class="w"> </span><span class="m">192</span>.168.2.21<span class="w"> </span>GET<span class="w">  </span>Request<span class="w"> </span>processing<span class="w"> </span>started
 Thread-1<span class="w"> </span><span class="o">(</span>process_request<span class="o">)</span><span class="w"> </span>app2<span class="w"> </span>webapplib<span class="w"> </span>sheila<span class="w"> </span><span class="m">192</span>.168.2.21<span class="w"> </span>GET<span class="w">  </span>Hello<span class="w"> </span>from<span class="w"> </span>webapplib!
 Thread-2<span class="w"> </span><span class="o">(</span>process_request<span class="o">)</span><span class="w"> </span>app2<span class="w"> </span>__main__<span class="w">  </span>jim<span class="w">    </span><span class="m">192</span>.168.2.20<span class="w"> </span>GET<span class="w">  </span>Request<span class="w"> </span>processing<span class="w"> </span>started
-~/logging-contextual-webapp$<span class="w"> </span>head<span class="w"> </span>app.log
+~/logging-contextual-webapp$<span class="w"> </span>head<span class="w"> </span>index.log
 Thread-1<span class="w"> </span><span class="o">(</span>process_request<span class="o">)</span><span class="w"> </span>app2<span class="w"> </span>__main__<span class="w">  </span>sheila<span class="w"> </span><span class="m">192</span>.168.2.21<span class="w"> </span>GET<span class="w">  </span>Request<span class="w"> </span>processing<span class="w"> </span>started
 Thread-1<span class="w"> </span><span class="o">(</span>process_request<span class="o">)</span><span class="w"> </span>app2<span class="w"> </span>webapplib<span class="w"> </span>sheila<span class="w"> </span><span class="m">192</span>.168.2.21<span class="w"> </span>GET<span class="w">  </span>Hello<span class="w"> </span>from<span class="w"> </span>webapplib!
 Thread-2<span class="w"> </span><span class="o">(</span>process_request<span class="o">)</span><span class="w"> </span>app2<span class="w"> </span>__main__<span class="w">  </span>jim<span class="w">    </span><span class="m">192</span>.168.2.20<span class="w"> </span>GET<span class="w">  </span>Request<span class="w"> </span>processing<span class="w"> </span>started
@@ -1392,9 +1392,9 @@ Thread-6<span class="w"> </span><span class="o">(</span>process_request<span cla
 <span class="m">153</span>
 ~/logging-contextual-webapp$<span class="w"> </span>grep<span class="w"> </span>app2<span class="w"> </span>app2.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
 <span class="m">147</span>
-~/logging-contextual-webapp$<span class="w"> </span>grep<span class="w"> </span>app1<span class="w"> </span>app.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+~/logging-contextual-webapp$<span class="w"> </span>grep<span class="w"> </span>app1<span class="w"> </span>index.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
 <span class="m">153</span>
-~/logging-contextual-webapp$<span class="w"> </span>grep<span class="w"> </span>app2<span class="w"> </span>app.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+~/logging-contextual-webapp$<span class="w"> </span>grep<span class="w"> </span>app2<span class="w"> </span>index.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
 <span class="m">147</span>
 </pre></div>
 </div>
@@ -3378,11 +3378,11 @@ level in a consistent way</p></li>
 </ul>
 <p>Suppose we have a command-line application whose job is to stop, start or
 restart some services. This could be organised for the purposes of illustration
-as a file <code class="docutils literal notranslate"><span class="pre">app.py</span></code> that is the main script for the application, with individual
+as a file <code class="docutils literal notranslate"><span class="pre">index.py</span></code> that is the main script for the application, with individual
 commands implemented in <code class="docutils literal notranslate"><span class="pre">start.py</span></code>, <code class="docutils literal notranslate"><span class="pre">stop.py</span></code> and <code class="docutils literal notranslate"><span class="pre">restart.py</span></code>. Suppose
 further that we want to control the verbosity of the application via a
 command-line argument, defaulting to <code class="docutils literal notranslate"><span class="pre">logging.INFO</span></code>. Here’s one way that
-<code class="docutils literal notranslate"><span class="pre">app.py</span></code> could be written:</p>
+<code class="docutils literal notranslate"><span class="pre">index.py</span></code> could be written:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -3481,13 +3481,13 @@ separate modules, like so for starting:</p>
 </pre></div>
 </div>
 <p>If we run this application with the default log level, we get output like this:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>start<span class="w"> </span>foo
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>start<span class="w"> </span>foo
 <span class="go">INFO start Started the &#39;foo&#39; service.</span>
 
-<span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>stop<span class="w"> </span>foo<span class="w"> </span>bar
+<span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>stop<span class="w"> </span>foo<span class="w"> </span>bar
 <span class="go">INFO stop Stopped the &#39;foo&#39; and &#39;bar&#39; services.</span>
 
-<span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>restart<span class="w"> </span>foo<span class="w"> </span>bar<span class="w"> </span>baz
+<span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>restart<span class="w"> </span>foo<span class="w"> </span>bar<span class="w"> </span>baz
 <span class="go">INFO restart Restarted the &#39;foo&#39;, &#39;bar&#39; and &#39;baz&#39; services.</span>
 </pre></div>
 </div>
@@ -3495,23 +3495,23 @@ separate modules, like so for starting:</p>
 package name of the place where the event was logged.</p>
 <p>If we change the logging level, then we can change the information sent to the
 log. For example, if we want more information:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>start<span class="w"> </span>foo
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>start<span class="w"> </span>foo
 <span class="go">DEBUG start About to start foo</span>
 <span class="go">INFO start Started the &#39;foo&#39; service.</span>
 
-<span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>stop<span class="w"> </span>foo<span class="w"> </span>bar
+<span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>stop<span class="w"> </span>foo<span class="w"> </span>bar
 <span class="go">DEBUG stop About to stop &#39;foo&#39; and &#39;bar&#39;</span>
 <span class="go">INFO stop Stopped the &#39;foo&#39; and &#39;bar&#39; services.</span>
 
-<span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>restart<span class="w"> </span>foo<span class="w"> </span>bar<span class="w"> </span>baz
+<span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>--log-level<span class="w"> </span>DEBUG<span class="w"> </span>restart<span class="w"> </span>foo<span class="w"> </span>bar<span class="w"> </span>baz
 <span class="go">DEBUG restart About to restart &#39;foo&#39;, &#39;bar&#39; and &#39;baz&#39;</span>
 <span class="go">INFO restart Restarted the &#39;foo&#39;, &#39;bar&#39; and &#39;baz&#39; services.</span>
 </pre></div>
 </div>
 <p>And if we want less:</p>
-<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>--log-level<span class="w"> </span>WARNING<span class="w"> </span>start<span class="w"> </span>foo
-<span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>--log-level<span class="w"> </span>WARNING<span class="w"> </span>stop<span class="w"> </span>foo<span class="w"> </span>bar
-<span class="gp">$ </span>python<span class="w"> </span>app.py<span class="w"> </span>--log-level<span class="w"> </span>WARNING<span class="w"> </span>restart<span class="w"> </span>foo<span class="w"> </span>bar<span class="w"> </span>baz
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>--log-level<span class="w"> </span>WARNING<span class="w"> </span>start<span class="w"> </span>foo
+<span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>--log-level<span class="w"> </span>WARNING<span class="w"> </span>stop<span class="w"> </span>foo<span class="w"> </span>bar
+<span class="gp">$ </span>python<span class="w"> </span>index.py<span class="w"> </span>--log-level<span class="w"> </span>WARNING<span class="w"> </span>restart<span class="w"> </span>foo<span class="w"> </span>bar<span class="w"> </span>baz
 </pre></div>
 </div>
 <p>In this case, the commands don’t print anything to the console, since nothing
@@ -3659,9 +3659,9 @@ detailed information.</p>
         <span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="s1">&#39;purple&#39;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">app</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">textedit</span> <span class="o">=</span> <span class="n">te</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QPlainTextEdit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="c1"># Set whatever the default monospace font is for the platform</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QFont</span><span class="p">(</span><span class="s1">&#39;nosuchfont&#39;</span><span class="p">)</span>
@@ -3682,7 +3682,7 @@ detailed information.</p>
         <span class="n">h</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
         <span class="c1"># Set up to terminate the QThread when we exit</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">aboutToQuit</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">force_quit</span><span class="p">)</span>
+        <span class="n">index</span><span class="o">.</span><span class="n">aboutToQuit</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">force_quit</span><span class="p">)</span>
 
         <span class="c1"># Lay out all the widgets</span>
         <span class="n">layout</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -3752,13 +3752,13 @@ detailed information.</p>
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">QtCore</span><span class="o">.</span><span class="n">QThread</span><span class="o">.</span><span class="n">currentThread</span><span class="p">()</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="s1">&#39;MainThread&#39;</span><span class="p">)</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-    <span class="n">app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
-    <span class="n">example</span> <span class="o">=</span> <span class="n">Window</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">example</span> <span class="o">=</span> <span class="n">Window</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
     <span class="n">example</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">):</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">):</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">rc</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

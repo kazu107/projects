@@ -66,8 +66,8 @@ def header_app(environ, start_response):
     ]).encode('iso-8859-1')]
 
 
-def run_amock(app=hello_app, data=b"GET / HTTP/1.0\n\n"):
-    server = make_server("", 80, app, MockServer, MockHandler)
+def run_amock(index=hello_app, data=b"GET / HTTP/1.0\n\n"):
+    server = make_server("", 80, index, MockServer, MockHandler)
     inp = BufferedReader(BytesIO(data))
     out = BytesIO()
     olderr = sys.stderr
@@ -193,13 +193,13 @@ class IntegrationTests(TestCase):
         )
 
     def test_bytes_validation(self):
-        def app(e, s):
+        def index(e, s):
             s("200 OK", [
                 ("Content-Type", "text/plain; charset=utf-8"),
                 ("Date", "Wed, 24 Dec 2008 13:29:32 GMT"),
                 ])
             return [b"data"]
-        out, err = run_amock(validator(app))
+        out, err = run_amock(validator(index))
         self.assertTrue(err.endswith('"GET / HTTP/1.0" 200 4\n'))
         ver = sys.version.split()[0].encode('ascii')
         py  = python_implementation().encode('ascii')
@@ -214,7 +214,7 @@ class IntegrationTests(TestCase):
                 out)
 
     def test_cp1252_url(self):
-        def app(e, s):
+        def index(e, s):
             s("200 OK", [
                 ("Content-Type", "text/plain"),
                 ("Date", "Wed, 24 Dec 2008 13:29:32 GMT"),
@@ -224,7 +224,7 @@ class IntegrationTests(TestCase):
             return [e["PATH_INFO"].encode("latin1")]
 
         out, err = run_amock(
-            validator(app), data=b"GET /\x80%80 HTTP/1.0")
+            validator(index), data=b"GET /\x80%80 HTTP/1.0")
         self.assertEqual(
             [
                 b"HTTP/1.0 200 OK",
@@ -242,14 +242,14 @@ class IntegrationTests(TestCase):
         # call with a Unix signal.
         pthread_kill = support.get_attribute(signal, "pthread_kill")
 
-        def app(environ, start_response):
+        def index(environ, start_response):
             start_response("200 OK", [])
             return [b'\0' * support.SOCK_MAX_SIZE]
 
         class WsgiHandler(NoLogRequestHandler, WSGIRequestHandler):
             pass
 
-        server = make_server(socket_helper.HOST, 0, app, handler_class=WsgiHandler)
+        server = make_server(socket_helper.HOST, 0, index, handler_class=WsgiHandler)
         self.addCleanup(server.server_close)
         interrupted = threading.Event()
 
@@ -738,14 +738,14 @@ class HandlerTests(TestCase):
                         )
 
     def testBytesData(self):
-        def app(e, s):
+        def index(e, s):
             s("200 OK", [
                 ("Content-Type", "text/plain; charset=utf-8"),
                 ])
             return [b"data"]
 
         h = TestHandler()
-        h.run(app)
+        h.run(index)
         self.assertEqual(b"Status: 200 OK\r\n"
             b"Content-Type: text/plain; charset=utf-8\r\n"
             b"Content-Length: 4\r\n"

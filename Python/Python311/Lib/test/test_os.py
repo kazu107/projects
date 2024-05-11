@@ -2067,8 +2067,8 @@ class ExecTests(unittest.TestCase):
     @unittest.skipIf(USING_LINUXTHREADS,
                      "avoid triggering a linuxthreads bug: see issue #4970")
     def test_execvpe_with_bad_program(self):
-        self.assertRaises(OSError, os.execvpe, 'no such app-',
-                          ['no such app-'], None)
+        self.assertRaises(OSError, os.execvpe, 'no such index-',
+                          ['no such index-'], None)
 
     def test_execv_with_bad_arglist(self):
         self.assertRaises(ValueError, os.execv, 'notepad', ())
@@ -2920,7 +2920,7 @@ class Win32SymlinkTests(unittest.TestCase):
             # testing the first one we see is sufficient
             break
         else:
-            self.skipTest("test requires an app execution alias")
+            self.skipTest("test requires an index execution alias")
 
 @unittest.skipUnless(sys.platform == "win32", "Win32 specific tests")
 class Win32JunctionTests(unittest.TestCase):

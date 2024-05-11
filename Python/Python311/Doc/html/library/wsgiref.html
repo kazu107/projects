@@ -441,10 +441,10 @@ request.  (E.g., using the <code class="xref py py-func docutils literal notrans
 <a class="reference internal" href="#module-wsgiref.util" title="wsgiref.util: WSGI environment utilities."><code class="xref py py-mod docutils literal notranslate"><span class="pre">wsgiref.util</span></code></a>.)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="wsgiref.simple_server.make_server">
-<span class="sig-prename descclassname"><span class="pre">wsgiref.simple_server.</span></span><span class="sig-name descname"><span class="pre">make_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WSGIServer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WSGIRequestHandler</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgiref.simple_server.make_server" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">wsgiref.simple_server.</span></span><span class="sig-name descname"><span class="pre">make_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WSGIServer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WSGIRequestHandler</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgiref.simple_server.make_server" title="Link to this definition">¶</a></dt>
 <dd><p>Create a new WSGI server listening on <em>host</em> and <em>port</em>, accepting connections
-for <em>app</em>.  The return value is an instance of the supplied <em>server_class</em>, and
-will process requests using the specified <em>handler_class</em>.  <em>app</em> must be a WSGI
+for <em>index</em>.  The return value is an instance of the supplied <em>server_class</em>, and
+will process requests using the specified <em>handler_class</em>.  <em>index</em> must be a WSGI
 application object, as defined by <span class="target" id="index-7"></span><a class="pep reference external" href="https://peps.python.org/pep-3333/"><strong>PEP 3333</strong></a>.</p>
 <p>Example usage:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wsgiref.simple_server</span> <span class="kn">import</span> <span class="n">make_server</span><span class="p">,</span> <span class="n">demo_app</span>
@@ -611,7 +611,7 @@ input, output, and error streams.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wsgiref.handlers.</span></span><span class="sig-name descname"><span class="pre">CGIHandler</span></span><a class="headerlink" href="#wsgiref.handlers.CGIHandler" title="Link to this definition">¶</a></dt>
 <dd><p>CGI-based invocation via <code class="docutils literal notranslate"><span class="pre">sys.stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>, <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> and
 <code class="docutils literal notranslate"><span class="pre">os.environ</span></code>.  This is useful when you have a WSGI application and want to run
-it as a CGI script.  Simply invoke <code class="docutils literal notranslate"><span class="pre">CGIHandler().run(app)</span></code>, where <code class="docutils literal notranslate"><span class="pre">app</span></code> is
+it as a CGI script.  Simply invoke <code class="docutils literal notranslate"><span class="pre">CGIHandler().run(index)</span></code>, where <code class="docutils literal notranslate"><span class="pre">index</span></code> is
 the WSGI application object you wish to invoke.</p>
 <p>This class is a subclass of <a class="reference internal" href="#wsgiref.handlers.BaseCGIHandler" title="wsgiref.handlers.BaseCGIHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCGIHandler</span></code></a> that sets <code class="docutils literal notranslate"><span class="pre">wsgi.run_once</span></code>
 to true, <code class="docutils literal notranslate"><span class="pre">wsgi.multithread</span></code> to false, and <code class="docutils literal notranslate"><span class="pre">wsgi.multiprocess</span></code> to true, and
@@ -637,8 +637,8 @@ For this reason IIS&lt;7 is almost never deployed with the fix (Even IIS7
 rarely uses it because there is still no UI for it.).</p>
 <p>There is no way for CGI code to tell whether the option was set, so a
 separate handler class is provided.  It is used in the same way as
-<a class="reference internal" href="#wsgiref.handlers.CGIHandler" title="wsgiref.handlers.CGIHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CGIHandler</span></code></a>, i.e., by calling <code class="docutils literal notranslate"><span class="pre">IISCGIHandler().run(app)</span></code>, where
-<code class="docutils literal notranslate"><span class="pre">app</span></code> is the WSGI application object you wish to invoke.</p>
+<a class="reference internal" href="#wsgiref.handlers.CGIHandler" title="wsgiref.handlers.CGIHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CGIHandler</span></code></a>, i.e., by calling <code class="docutils literal notranslate"><span class="pre">IISCGIHandler().run(index)</span></code>, where
+<code class="docutils literal notranslate"><span class="pre">index</span></code> is the WSGI application object you wish to invoke.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.2.</span></p>
 </div>
@@ -686,8 +686,8 @@ subclass that was reusable for multiple requests.</p>
 <p><a class="reference internal" href="#wsgiref.handlers.BaseHandler" title="wsgiref.handlers.BaseHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHandler</span></code></a> instances have only one method intended for external use:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="wsgiref.handlers.BaseHandler.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgiref.handlers.BaseHandler.run" title="Link to this definition">¶</a></dt>
-<dd><p>Run the specified WSGI application, <em>app</em>.</p>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgiref.handlers.BaseHandler.run" title="Link to this definition">¶</a></dt>
+<dd><p>Run the specified WSGI application, <em>index</em>.</p>
 </dd></dl>
 
 <p>All of the other <a class="reference internal" href="#wsgiref.handlers.BaseHandler" title="wsgiref.handlers.BaseHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHandler</span></code></a> methods are invoked by this method in the
@@ -1017,7 +1017,7 @@ directory and port number (default: 8000) on the command line:</p>
 <span class="kn">from</span> <span class="nn">wsgiref</span> <span class="kn">import</span> <span class="n">simple_server</span><span class="p">,</span> <span class="n">util</span>
 
 
-<span class="k">def</span> <span class="nf">app</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">respond</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">respond</span><span class="p">):</span>
     <span class="c1"># Get the file name and MIME type</span>
     <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PATH_INFO&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fn</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
@@ -1039,7 +1039,7 @@ directory and port number (default: 8000) on the command line:</p>
     <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">8000</span>
 
     <span class="c1"># Make and start the server until control-c</span>
-    <span class="n">httpd</span> <span class="o">=</span> <span class="n">simple_server</span><span class="o">.</span><span class="n">make_server</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+    <span class="n">httpd</span> <span class="o">=</span> <span class="n">simple_server</span><span class="o">.</span><span class="n">make_server</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Serving </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> on port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">, control-C to stop&quot;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>

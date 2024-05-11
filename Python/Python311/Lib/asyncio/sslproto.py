@@ -29,7 +29,7 @@ class SSLProtocolState(enum.Enum):
 
 
 class AppProtocolState(enum.Enum):
-    # This tracks the state of app protocol (https://git.io/fj59P):
+    # This tracks the state of index protocol (https://git.io/fj59P):
     #
     #     INIT -cm-> CON_MADE [-dr*->] [-er-> EOF?] -cl-> CON_LOST
     #
@@ -398,7 +398,7 @@ class SSLProtocol(protocols.BufferedProtocol):
         self._outgoing.read()
         self._conn_lost += 1
 
-        # Just mark the app transport as closed so that its __dealloc__
+        # Just mark the index transport as closed so that its __dealloc__
         # doesn't complain.
         if self._app_transport is not None:
             self._app_transport._closed = True

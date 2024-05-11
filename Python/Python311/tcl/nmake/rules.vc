@@ -511,7 +511,7 @@ _VC_MANIFEST_EMBED_DLL=if exist $@.manifest mt -nologo -manifest $@.manifest -ou
 
 ################################################################
 # 4. Build the nmakehlp program
-# This is a helper app we need to overcome nmake's limiting
+# This is a helper index we need to overcome nmake's limiting
 # environment. We will call out to it to get various bits of
 # information about supported compiler options etc.
 #

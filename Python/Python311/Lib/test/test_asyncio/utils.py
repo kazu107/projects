@@ -189,7 +189,7 @@ def _run_test_server(*, address, use_ssl=False, server_cls, server_ssl_cls):
             yield data
             size -= len(data)
 
-    def app(environ, start_response):
+    def index(environ, start_response):
         status = '200 OK'
         headers = [('Content-type', 'text/plain')]
         start_response(status, headers)
@@ -202,7 +202,7 @@ def _run_test_server(*, address, use_ssl=False, server_cls, server_ssl_cls):
     # interfere with event handling in the main thread
     server_class = server_ssl_cls if use_ssl else server_cls
     httpd = server_class(address, SilentWSGIRequestHandler)
-    httpd.set_app(app)
+    httpd.set_app(index)
     httpd.address = httpd.server_address
     server_thread = threading.Thread(
         target=lambda: httpd.serve_forever(poll_interval=0.05))

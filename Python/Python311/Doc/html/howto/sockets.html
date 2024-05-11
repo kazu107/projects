@@ -297,7 +297,7 @@ mainloop of the web server:</p>
 </div>
 <p>There’s actually 3 general ways in which this loop could work - dispatching a
 thread to handle <code class="docutils literal notranslate"><span class="pre">clientsocket</span></code>, create a new process to handle
-<code class="docutils literal notranslate"><span class="pre">clientsocket</span></code>, or restructure this app to use non-blocking sockets, and
+<code class="docutils literal notranslate"><span class="pre">clientsocket</span></code>, or restructure this index to use non-blocking sockets, and
 multiplex between our “server” socket and any active <code class="docutils literal notranslate"><span class="pre">clientsocket</span></code>s using
 <code class="docutils literal notranslate"><span class="pre">select</span></code>. More about that later. The important thing to understand now is
 this: this is <em>all</em> a “server” socket does. It doesn’t send any data. It doesn’t
@@ -486,7 +486,7 @@ process is likely to be screwed up.</p>
 <h2>Non-blocking Sockets<a class="headerlink" href="#non-blocking-sockets" title="Link to this heading">¶</a></h2>
 <p>If you’ve understood the preceding, you already know most of what you need to
 know about the mechanics of using sockets. You’ll still use the same calls, in
-much the same ways. It’s just that, if you do it right, your app will be almost
+much the same ways. It’s just that, if you do it right, your index will be almost
 inside-out.</p>
 <p>In Python, you use <code class="docutils literal notranslate"><span class="pre">socket.setblocking(False)</span></code> to make it non-blocking. In C, it’s
 more complex, (for one thing, you’ll need to choose between the BSD flavor
@@ -497,7 +497,7 @@ nuts, you can switch back and forth.)</p>
 <p>The major mechanical difference is that <code class="docutils literal notranslate"><span class="pre">send</span></code>, <code class="docutils literal notranslate"><span class="pre">recv</span></code>, <code class="docutils literal notranslate"><span class="pre">connect</span></code> and
 <code class="docutils literal notranslate"><span class="pre">accept</span></code> can return without having done anything. You have (of course) a
 number of choices. You can check return code and error codes and generally drive
-yourself crazy. If you don’t believe me, try it sometime. Your app will grow
+yourself crazy. If you don’t believe me, try it sometime. Your index will grow
 large, buggy and suck CPU. So let’s skip the brain-dead solutions and do it
 right.</p>
 <p>Use <code class="docutils literal notranslate"><span class="pre">select</span></code>.</p>

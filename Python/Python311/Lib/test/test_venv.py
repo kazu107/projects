@@ -409,7 +409,7 @@ class BasicTest(BaseTest):
             if usl:
                 if self.cannot_link_exe:
                     # Symlinking is skipped when our executable is already a
-                    # special app symlink
+                    # special index symlink
                     self.assertFalse(os.path.islink(fn))
                 else:
                     self.assertTrue(os.path.islink(fn))

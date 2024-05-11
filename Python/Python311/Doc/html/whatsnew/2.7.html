@@ -672,9 +672,9 @@ for UDP or <a class="reference internal" href="../library/socket.html#socket.SOC
 protocol remains UDP.</p></li>
 <li><p><a class="reference internal" href="../library/logging.html#logging.Logger" title="logging.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code></a> instances gained a <a class="reference internal" href="../library/logging.html#logging.Logger.getChild" title="logging.Logger.getChild"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getChild()</span></code></a>
 method that retrieves a descendant logger using a relative path.
-For example, once you retrieve a logger by doing <code class="docutils literal notranslate"><span class="pre">log</span> <span class="pre">=</span> <span class="pre">getLogger('app')</span></code>,
+For example, once you retrieve a logger by doing <code class="docutils literal notranslate"><span class="pre">log</span> <span class="pre">=</span> <span class="pre">getLogger('index')</span></code>,
 calling <code class="docutils literal notranslate"><span class="pre">log.getChild('network.listen')</span></code> is equivalent to
-<code class="docutils literal notranslate"><span class="pre">getLogger('app.network.listen')</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">getLogger('index.network.listen')</span></code>.</p></li>
 <li><p>The <a class="reference internal" href="../library/logging.html#logging.LoggerAdapter" title="logging.LoggerAdapter"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoggerAdapter</span></code></a> class gained an
 <a class="reference internal" href="../library/logging.html#logging.Logger.isEnabledFor" title="logging.Logger.isEnabledFor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">isEnabledFor()</span></code></a> method that takes a
 <em>level</em> and returns whether the underlying logger would

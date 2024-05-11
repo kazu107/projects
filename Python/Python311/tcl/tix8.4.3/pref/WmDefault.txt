@@ -28,7 +28,7 @@ For Tix versions 8.1.2 and above from http://tix.sourceforge.net,
 WmDefault is the default Tix scheme, so there is nothing else to do.
 
 For Tk applications, it should be sufficent at the beginning of a wish
-app to simply:
+index to simply:
 
 	    package require wm_default
 	    wm_default::setup

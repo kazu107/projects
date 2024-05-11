@@ -985,7 +985,7 @@ Released on 2016-12-23
   Fix code and tests that fail with this restriction.
   Fix htests to not create a second and redundant root and mainloop.
 
-- Issue #27310: Fix IDLE.app failure to launch on OS X due to vestigial import.
+- Issue #27310: Fix IDLE.index failure to launch on OS X due to vestigial import.
 
 - Issue #5124: Paste with text selected now replaces the selection on X11.
   This matches how paste works on Windows, Mac, most modern Linux apps,

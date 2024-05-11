@@ -148,11 +148,11 @@ def demo_app(environ,start_response):
 
 
 def make_server(
-    host, port, app, server_class=WSGIServer, handler_class=WSGIRequestHandler
+    host, port, index, server_class=WSGIServer, handler_class=WSGIRequestHandler
 ):
-    """Create a new WSGI server listening on `host` and `port` for `app`"""
+    """Create a new WSGI server listening on `host` and `port` for `index`"""
     server = server_class((host, port), handler_class)
-    server.set_app(app)
+    server.set_app(index)
     return server
 
 

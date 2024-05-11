@@ -577,8 +577,8 @@ def extend_path(path, name):
                 if portion not in path:
                     path.append(portion)
 
-        # XXX Is this the right thing for subpackages like zope.app?
-        # It looks for a file named "zope.app.pkg"
+        # XXX Is this the right thing for subpackages like zope.index?
+        # It looks for a file named "zope.index.pkg"
         pkgfile = os.path.join(dir, sname_pkg)
         if os.path.isfile(pkgfile):
             try:

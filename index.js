@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const { PythonShell } = require('python-shell');
 const { exec } = require('child_process');
-const app = express();
-const server = http.createServer(app);
+const index = express();
+const server = http.createServer(index);
 const io = require('socket.io')(server);
 const options = {
     mode: 'text',
@@ -18,13 +18,13 @@ const options = {
 };
 
 // public ディレクトリを静的ファイルのルートとして設定
-app.use(express.static('public'));
-app.use(express.static("problem"));
-app.use("/problem", express.static("public"));
+index.use(express.static('public'));
+//index.use(express.static("problem"));
+//index.use("/problem", express.static("public"));
 
 // HTMLファイルへのルートを設定a
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'));
+index.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 io.on('connection', (socket) => {

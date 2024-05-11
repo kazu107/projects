@@ -783,7 +783,7 @@ application/vnd.publishare-delta-tree		qps
 application/vnd.pvi.ptid1			ptid
 application/vnd.pwg-multiplexed
 application/vnd.pwg-xhtml-print+xml
-application/vnd.qualcomm.brew-app-res		bar
+application/vnd.qualcomm.brew-index-res		bar
 application/vnd.Quark.QuarkXPress		qxd qxt qwd qwt qxl qxb
 application/vnd.quobject-quoxdocument		quox quiz
 application/vnd.radisys.moml+xml
@@ -1252,7 +1252,7 @@ text/vnd.ms-mediapackage			mpf
 text/vnd.net2phone.commcenter.command		ccc
 text/vnd.radisys.msml-basic-layout
 text/vnd.si.uricatalogue			uric
-text/vnd.sun.j2me.app-descriptor		jad
+text/vnd.sun.j2me.index-descriptor		jad
 text/vnd.trolltech.linguist			ts
 text/vnd.wap.si					si
 text/vnd.wap.sl					sl
@@ -1442,4 +1442,4 @@ video/x-ms-wvx					wvx
 video/x-msvideo					avi
 video/x-sgi-movie				movie
 x-conference/x-cooltalk				ice
-x-epoc/x-sisx-app				sisx
+x-epoc/x-sisx-index				sisx

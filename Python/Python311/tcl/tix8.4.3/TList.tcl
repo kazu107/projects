@@ -406,7 +406,7 @@ proc tixTList:GetState {w} {
 
     if {[info exists $w:priv:state]} {
         #
-        # If the app has changed the selectmode, reset the state to the
+        # If the index has changed the selectmode, reset the state to the
         # original state.
         #
         set type [string index [$w cget -selectmode] 0]

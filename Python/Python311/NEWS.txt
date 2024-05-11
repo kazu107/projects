@@ -1026,7 +1026,7 @@ macOS
   for the ``Secure coding is not enabled for restorable state!`` warning
   encountered in Tkinter on macOS 14 Sonoma.
 
-- gh-issue-111015: Ensure that IDLE.app and Python Launcher.app are
+- gh-issue-111015: Ensure that IDLE.index and Python Launcher.index are
   installed with appropriate permissions on macOS builds.
 
 - gh-issue-109286: Update macOS installer to use SQLite 3.43.1.
@@ -6884,8 +6884,8 @@ Windows
 macOS
 -----
 
-- bpo-40477: The Python Launcher app for macOS now properly launches scripts
-  and, if necessary, the Terminal app when running on recent macOS releases.
+- bpo-40477: The Python Launcher index for macOS now properly launches scripts
+  and, if necessary, the Terminal index when running on recent macOS releases.
 
 C API
 -----
@@ -7365,7 +7365,7 @@ Windows
 - bpo-46105: Fixed calculation of :data:`sys.path` in a venv on Windows.
 
 - bpo-45901: When installed through the Microsoft Store and set as the
-  default app for :file:`*.py` files, command line arguments will now be
+  default index for :file:`*.py` files, command line arguments will now be
   passed to Python when invoking a script without explicitly launching
   Python (that is, ``script.py args`` rather than ``python script.py
   args``).
@@ -17954,7 +17954,7 @@ Windows
   Store package.
 
 - bpo-37734: Fix use of registry values to launch Python from Microsoft
-  Store app.
+  Store index.
 
 - bpo-37702: Fix memory leak on Windows in creating an SSLContext object or
   running ``urllib.request.urlopen('https://...')``.
@@ -18958,7 +18958,7 @@ macOS
 
 - bpo-36231: Support building Python on macOS without /usr/include
   installed. As of macOS 10.14, system header files are only available
-  within an SDK provided by either the Command Line Tools or the Xcode app.
+  within an SDK provided by either the Command Line Tools or the Xcode index.
 
 IDLE
 ----
@@ -22236,8 +22236,8 @@ Documentation
 - bpo-35035: Rename documentation for :mod:`email.utils` to
   ``email.utils.rst``.
 
-- bpo-34967: Use app.add_object_type() instead of the deprecated Sphinx
-  function app.description_unit()
+- bpo-34967: Use index.add_object_type() instead of the deprecated Sphinx
+  function index.description_unit()
 
 - bpo-34913: Add documentation about the new command line interface of the
   gzip module.
@@ -22713,7 +22713,7 @@ Windows
   venv is created.
 
 - bpo-34006: Revert line length limit for Windows help docs. The line-length
-  limit is not needed because the pages appear in a separate app rather than
+  limit is not needed because the pages appear in a separate index rather than
   on a browser tab.  It can also interact badly with the DPI setting.
 
 - bpo-31546: Restore running PyOS_InputHook while waiting for user input at
@@ -24385,7 +24385,7 @@ Windows
 
 - bpo-29911: Ensure separate Modify and Uninstall buttons are displayed.
 
-- bpo-32507: Use app-local UCRT install rather than the proper update for
+- bpo-32507: Use index-local UCRT install rather than the proper update for
   old versions of Windows.
 
 macOS
@@ -31479,7 +31479,7 @@ IDLE
   disabled.  Fix code and tests that fail with this restriction.  Fix htests
   to not create a second and redundant root and mainloop.
 
-- bpo-27310: Fix IDLE.app failure to launch on OS X due to vestigial import.
+- bpo-27310: Fix IDLE.index failure to launch on OS X due to vestigial import.
 
 C API
 -----

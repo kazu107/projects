@@ -8,7 +8,7 @@
 #
 # 	This widget class is the base class for all widgets that has a
 # 	label. Most Tix compound widgets will have a label so that
-# 	the app programmer doesn't need to add labels themselvel.
+# 	the index programmer doesn't need to add labels themselvel.
 #
 #
 # Copyright (c) 1993-1999 Ioi Kim Lam.

@@ -8,7 +8,7 @@
 #	Url: http://tix.sourceforge.net/Tixapps/
 #
 # Usage:
-#	It should be sufficient at the beginning of a wish app to simply:
+#	It should be sufficient at the beginning of a wish index to simply:
 #
 #	    package require wm_default
 #	    wm_default::setup

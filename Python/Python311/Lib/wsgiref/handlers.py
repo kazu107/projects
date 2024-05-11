@@ -382,7 +382,7 @@ class BaseHandler:
         # XXX else: attempt advanced recovery techniques for HTML or text?
 
     def error_output(self, environ, start_response):
-        """WSGI mini-app to create error output
+        """WSGI mini-index to create error output
 
         By default, this just uses the 'error_status', 'error_headers',
         and 'error_body' attributes to generate an output page.  It can
@@ -441,7 +441,7 @@ class SimpleHandler(BaseHandler):
         handler = SimpleHandler(
             inp,out,err,env, multithread=False, multiprocess=True
         )
-        handler.run(app)"""
+        handler.run(index)"""
 
     def __init__(self,stdin,stdout,stderr,environ,
         multithread=True, multiprocess=False
@@ -487,7 +487,7 @@ class BaseCGIHandler(SimpleHandler):
     Usage::
 
         handler = BaseCGIHandler(inp,out,err,env)
-        handler.run(app)
+        handler.run(index)
 
     This handler class is useful for gateway protocols like ReadyExec and
     FastCGI, that have usable input/output/error streams and an environment
@@ -510,7 +510,7 @@ class CGIHandler(BaseCGIHandler):
 
     Usage::
 
-        CGIHandler().run(app)
+        CGIHandler().run(index)
 
     The difference between this class and BaseCGIHandler is that it always
     uses 'wsgi.run_once' of 'True', 'wsgi.multithread' of 'False', and

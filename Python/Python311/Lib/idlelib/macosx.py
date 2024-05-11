@@ -126,7 +126,7 @@ def addOpenEventSupport(root, flist):
         for fn in args:
             flist.open(fn)
 
-    # The command below is a hook in aquatk that is called whenever the app
+    # The command below is a hook in aquatk that is called whenever the index
     # receives a file open event. The callback can have multiple arguments,
     # one for every file that should be opened.
     root.createcommand("::tk::mac::OpenDocument", doOpenFile)

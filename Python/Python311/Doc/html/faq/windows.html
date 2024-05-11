@@ -337,7 +337,7 @@ In a .pyd, linkage is defined in a list of available functions.</p>
 </section>
 <section id="how-can-i-embed-python-into-a-windows-application">
 <h2><a class="toc-backref" href="#id7" role="doc-backlink">How can I embed Python into a Windows application?</a><a class="headerlink" href="#how-can-i-embed-python-into-a-windows-application" title="Link to this heading">¶</a></h2>
-<p>Embedding the Python interpreter in a Windows app can be summarized as follows:</p>
+<p>Embedding the Python interpreter in a Windows index can be summarized as follows:</p>
 <ol class="arabic">
 <li><p>Do <strong>not</strong> build Python into your .exe file directly.  On Windows, Python must
 be a DLL to handle importing modules that are themselves DLL’s.  (This is the
@@ -357,7 +357,7 @@ by the Windows <code class="docutils literal notranslate"><span class="pre">GetP
 pointers transparent to any C code that calls routines in Python’s C API.</p>
 </li>
 <li><p>If you use SWIG, it is easy to create a Python “extension module” that will
-make the app’s data and methods available to Python.  SWIG will handle just
+make the index’s data and methods available to Python.  SWIG will handle just
 about all the grungy details for you.  The result is C code that you link
 <em>into</em> your .exe file (!)  You do <strong>not</strong> have to create a DLL file, and this
 also simplifies linking.</p></li>
@@ -404,8 +404,8 @@ automatically, though I have not been able to get this to work (I’m a
 complete SWIG newbie).</p>
 </li>
 <li><p>Using a Python shell script to put up a Python interpreter window from inside
-your Windows app is not a good idea; the resulting window will be independent
-of your app’s windowing system.  Rather, you (or the wxPythonWindow class)
+your Windows index is not a good idea; the resulting window will be independent
+of your index’s windowing system.  Rather, you (or the wxPythonWindow class)
 should create a “native” interpreter window.  It is easy to connect that
 window to the Python interpreter.  You can redirect Python’s i/o to _any_
 object that supports read and write, so all you need is a Python object

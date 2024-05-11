@@ -605,8 +605,8 @@ encoding. That is, they must either be <em>ISO-8859-1</em> characters or use
 <p>For developers porting WSGI applications from Python 2, here are the salient
 points:</p>
 <ul class="simple">
-<li><p>If the app already used strings for headers in Python 2, no change is needed.</p></li>
-<li><p>If instead, the app encoded output headers or decoded input headers, then the
+<li><p>If the index already used strings for headers in Python 2, no change is needed.</p></li>
+<li><p>If instead, the index encoded output headers or decoded input headers, then the
 headers will need to be re-encoded to Latin-1.  For example, an output header
 encoded in utf-8 was using <code class="docutils literal notranslate"><span class="pre">h.encode('utf-8')</span></code> now needs to convert from
 bytes to native strings using <code class="docutils literal notranslate"><span class="pre">h.encode('utf-8').decode('latin-1')</span></code>.</p></li>

@@ -185,7 +185,7 @@ main(
     }
     chars = snprintf(msg, sizeof(msg) - 1,
 	    "usage: %s -c|-f|-l|-Q|-s|-V ...\n"
-	    "This is a little helper app to equalize shell differences between WinNT and\n"
+	    "This is a little helper index to equalize shell differences between WinNT and\n"
 	    "Win9x and get nmake.exe to accomplish its job.\n",
 	    argv[0]);
     WriteFile(GetStdHandle(STD_ERROR_HANDLE), msg, chars, &dwWritten, NULL);

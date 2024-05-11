@@ -538,12 +538,12 @@ whenever the current log file is nearly <em>maxBytes</em> in length; but if eith
 to set <em>backupCount</em> to at least 1, and have a non-zero <em>maxBytes</em>.
 When <em>backupCount</em> is non-zero, the system will save old log files by appending
 the extensions ‘.1’, ‘.2’ etc., to the filename. For example, with a <em>backupCount</em>
-of 5 and a base file name of <code class="file docutils literal notranslate"><span class="pre">app.log</span></code>, you would get <code class="file docutils literal notranslate"><span class="pre">app.log</span></code>,
-<code class="file docutils literal notranslate"><span class="pre">app.log.1</span></code>, <code class="file docutils literal notranslate"><span class="pre">app.log.2</span></code>, up to <code class="file docutils literal notranslate"><span class="pre">app.log.5</span></code>. The file being
-written to is always <code class="file docutils literal notranslate"><span class="pre">app.log</span></code>.  When this file is filled, it is closed
-and renamed to <code class="file docutils literal notranslate"><span class="pre">app.log.1</span></code>, and if files <code class="file docutils literal notranslate"><span class="pre">app.log.1</span></code>,
-<code class="file docutils literal notranslate"><span class="pre">app.log.2</span></code>, etc. exist, then they are renamed to <code class="file docutils literal notranslate"><span class="pre">app.log.2</span></code>,
-<code class="file docutils literal notranslate"><span class="pre">app.log.3</span></code> etc. respectively.</p>
+of 5 and a base file name of <code class="file docutils literal notranslate"><span class="pre">index.log</span></code>, you would get <code class="file docutils literal notranslate"><span class="pre">index.log</span></code>,
+<code class="file docutils literal notranslate"><span class="pre">index.log.1</span></code>, <code class="file docutils literal notranslate"><span class="pre">index.log.2</span></code>, up to <code class="file docutils literal notranslate"><span class="pre">index.log.5</span></code>. The file being
+written to is always <code class="file docutils literal notranslate"><span class="pre">index.log</span></code>.  When this file is filled, it is closed
+and renamed to <code class="file docutils literal notranslate"><span class="pre">index.log.1</span></code>, and if files <code class="file docutils literal notranslate"><span class="pre">index.log.1</span></code>,
+<code class="file docutils literal notranslate"><span class="pre">index.log.2</span></code>, etc. exist, then they are renamed to <code class="file docutils literal notranslate"><span class="pre">index.log.2</span></code>,
+<code class="file docutils literal notranslate"><span class="pre">index.log.3</span></code> etc. respectively.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 3.6: </span>As well as string values, <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> objects are also accepted
 for the <em>filename</em> argument.</p>
