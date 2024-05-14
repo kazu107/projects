@@ -117,7 +117,7 @@ io.on('connection', (socket) => {
 
 // Pythonスクリプトを実行し、入力を送り、結果を受け取る関数
 function runPythonScript(input) {
-    const startTime = performance.now();
+    const startTime = require('perf_hooks').performance.now();
     return new Promise((resolve, reject) => {
         const pyshell = new PythonShell('sample.py', options);
         let output = '';  // 出力を格納する文字列
@@ -129,7 +129,7 @@ function runPythonScript(input) {
             output += message + `\n`;
         });
         pyshell.end(function (err) {
-            const endTime = performance.now();  // 高精度な終了時刻を記録
+            const endTime = require('perf_hooks').performance.now();  // 高精度な終了時刻を記録
             const executionTime = endTime - startTime;  // 実行時間を計算
             if (err) {
                 console.error('Error finishing Python script:', err);
