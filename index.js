@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 //const io = require('socket.io')(index);
 const options = {
     mode: 'text',
-    pythonPath: `${__dirname}/Python/Python311/python.exe`,
+    pythonPath: process.env.PYTHON_PATH || `/app/Python/Python311/python.exe`,
     pythonOptions: ['-u'], // コマンドラインオプション
     scriptPath: __dirname, // スクリプトのディレクトリ指定
     stderrParser: (log) => { return log; },
