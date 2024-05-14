@@ -6,7 +6,9 @@ const { PythonShell } = require('python-shell');
 const { exec } = require('child_process');
 const index = express();
 const server = http.createServer(index);
-const io = require('socket.io')(server);
+const socketIO = require('socket.io');
+//const io = socketIO(index);
+//const io = socketIO(server);
 const options = {
     mode: 'text',
     pythonPath: `${__dirname}\\Python\\Python311\\python.exe`,
@@ -17,6 +19,14 @@ const options = {
     //args: [code]
 };
 
+const port = process.env.PORT || 5001;
+index.listen(port, () => console.log(`Listening on ${ port }`))
+/*
+server.listen(port, () => {
+    console.log('Server running on http://localhost:' + port);
+});
+*/
+
 // public ディレクトリを静的ファイルのルートとして設定
 index.use(express.static('public'));
 //index.use(express.static("problem"));
@@ -26,6 +36,8 @@ index.use(express.static('public'));
 index.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+const io = socketIO(index);
 
 io.on('connection', (socket) => {
     console.log('A user connected');
@@ -113,6 +125,7 @@ io.on('connection', (socket) => {
         console.log('User disconnected');
     });
 });
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
 // Pythonスクリプトを実行し、入力を送り、結果を受け取る関数
 function runPythonScript(input) {
@@ -166,12 +179,3 @@ async function processInputs(inputs) {
     }
     return datas;
 }
-
-
-const port = process.env.PORT || 5001;
-index.listen(port, () => console.log(`Listening on ${ port }`))
-/*
-server.listen(port, () => {
-    console.log('Server running on http://localhost:' + port);
-});
-*/
