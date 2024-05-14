@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
             try {
                 // ファイルのフルパスを解決
                 //const fullPath = require.resolve(`${__dirname}\\public\\testcase\\${fileName}`);
-                const fullPath = require.resolve(`${__dirname}\\test.js`);
+                const fullPath = require.resolve(`.\\test.js`);
                 console.log("Full path of the module:", fullPath);
 
                 // モジュールを読み込む
