@@ -49,7 +49,8 @@ io.on('connection', (socket) => {
             let problemCases = "";
             try {
                 // ファイルのフルパスを解決
-                const fullPath = require.resolve(`${__dirname}\\public\\testcase\\${fileName}`);
+                //const fullPath = require.resolve(`${__dirname}\\public\\testcase\\${fileName}`);
+                const fullPath = require.resolve(`${__dirname}\\test.js`);
                 console.log("Full path of the module:", fullPath);
 
                 // モジュールを読み込む

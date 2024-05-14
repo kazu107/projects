@@ -1,23 +1,27 @@
-'use strict';
-
-const express = require('express');
-const socketIO = require('socket.io');
-const path = require("path");
-
-const PORT = process.env.PORT || 5001;
-
-const server = express()
-    .use(express.static('public'))
-    .get('/', function(req, res) {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    })
-    .listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
-
-const io = socketIO(server);
-
-io.on('connection', (socket) => {
-    console.log('Client connected');
-    socket.on('disconnect', () => console.log('Client disconnected'));
-});
-
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+module.exports = {
+    judge: "normal",
+    sample1: {
+        input: '4 80\n95 75 83 78',
+        output: '2\n',
+    },
+    sample2: {
+        input: '10 60\n60 59 27 92 89 37 22 0 19 100',
+        output: '4\n',
+    },
+    test1: {
+        input: '1 0\n0',
+        output: '1\n',
+    },
+    test2: {
+        input: '2 100\n99 100',
+        output: '1\n',
+    },
+    test3: {
+        input: '100 50\n40 35 68 47 10 80 29 45 73 36 39 2 15 3 53 64 89 37 82 35 4 74 33 13 31 25 5 95 39 39 63 66 84 5 56 8 26 65 59 12 93 13 9 0 80 20 51 100 31 45 85 2 71 57 41 5 70 39 14 60 14 51 59 40 16 92 71 76 81 1 53 28 53 76 8 29 66 40 100 2 90 85 62 79 66 56 61 52 24 84 89 18 16 36 20 80 42 40 81 41',
+        output: '47\n',
+    },
+    test4: {
+        input: '100 25\n76 60 85 47 18 52 17 90 41 2 42 41 55 16 57 22 19 31 25 65 66 73 64 79 98 52 27 91 20 52 16 85 49 48 100 42 16 36 40 41 6 19 60 50 23 66 84 87 64 63 2 92 82 92 97 60 6 8 88 72 48 97 69 97 48 25 78 42 90 60 22 63 24 16 62 18 62 74 51 59 100 60 35 18 24 25 84 62 1 56 37 71 11 73 91 7 36 85 5 89',
+        output: '75\n',
+    },
+}
