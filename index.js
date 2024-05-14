@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 //const io = require('socket.io')(index);
 const options = {
     mode: 'text',
-    pythonPath: `${__dirname}\\Python\\Python311\\python.exe`,
+    pythonPath: `${__dirname}/Python/Python311/python.exe`,
     pythonOptions: ['-u'], // コマンドラインオプション
     scriptPath: __dirname, // スクリプトのディレクトリ指定
     stderrParser: (log) => { return log; },
@@ -49,8 +49,8 @@ io.on('connection', (socket) => {
             let problemCases = "";
             try {
                 // ファイルのフルパスを解決
-                //const fullPath = require.resolve(`${__dirname}\\public\\testcase\\${fileName}`);
-                const fullPath = require.resolve(`/app/test.js`);
+                const fullPath = require.resolve(`${__dirname}/public/testcase/${fileName}`);
+                //const fullPath = require.resolve(`/app/test.js`);
                 console.log("Full path of the module:", fullPath);
 
                 // モジュールを読み込む
