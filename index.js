@@ -168,7 +168,10 @@ async function processInputs(inputs) {
 }
 
 
-const port = 8022;
+const port = process.env.PORT || 5001;
+index.listen(port, () => console.log(`Listening on ${ port }`))
+/*
 server.listen(port, () => {
     console.log('Server running on http://localhost:' + port);
 });
+*/
