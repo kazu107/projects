@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="ed-style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>1-3解説</title>
+</head>
+<body>
+<h1><a href="../problem/p1-3.html" target="_blank">1-3:身長</a>
+    解説
+</h1>
+<hr>
+<!-- 解説文　-->
+<p>まず、最大値を更新していくための変数\(ans\)を用意します。</p>
+<p>そして、\(A_1\), \(A_2\), \(\cdots\), \(A_{N-1}\)を1つずつ見ていき、\(A_i\)と\(A_{i+1}\)の差を計算し、その差が\(ans\)より大きければ\(ans\)を更新します。</p>
+<p>身長の差は変数 \(dif\) に格納し、マイナスになる場合のために絶対値を取ります。また、 \(i\) と \(i+1\) を比較しているので、配列の範囲外を参照しないように \(n-1\) までのループにします。</p>
+<p>最後に、\(ans\)を出力します。</p>
+<p></p>
+<p></p>
+<!-- ソースコード　-->
+<p>実装例</p>
+<script src="https://gist.github.com/kazu107/41c81328f8aabb31c5b8756d9ecfc973.js"></script>
+</body>
+</html>

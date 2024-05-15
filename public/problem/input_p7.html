@@ -9,50 +9,58 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
     <script src="index.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <title>テストの点</title>
+    <title>input7</title>
 </head>
 
 <body>
-<h1>テストの点<a class="ed-rial" href="../editorial/p1-1-ed.html" target="_blank">解説</a></h1>
+<h1>複数の整数</h1>
 <hr>
 
 <h2>問題文</h2>
-<p>整数 \(N\) ,\(M\) と \(N\) 個のテストの点 \(A_1\), \(A_2\) ... \(A_N\) が与えられので、\(M\) 点以上をとっているテストの個数を出力してください。</p>
+<p>整数\(N\)と\(N\)個の整数からなる整数列\(A\)(\(A_1\),\(A_2\), ... \(A_N\))が与えられるので、整数列\(A\)の平均を出力してください。</p>
+<p>入力は、<strong>配列変数= list(map(int, input().split()))</strong>で受け取れます。</p>
 
 <h2>制約</h2>
 <ul>
     <li>\(1 ≤ N ≤ 100\)</li>
-    <li>\(0 ≤ M ≤ 100\)</li>
-    <li>\(0 ≤ S_i ≤ 100\) \((1 ≤ i ≤ N)\)</li>
+    <li>\(1 ≤ A_i ≤ 100\)(1 ≤ i ≤ N)</li>
+    <li>\(N, A_i\) は整数</li>
 </ul>
 <hr>
 
 <h2>入力</h2>
 入力は以下の形式で標準入力から与えられる。
-<div class="io_format">\(N\) \(M\)
-\(A_1\) \(A_2\) ... \(A_N\)</div>
+<div class="io_format">\(s\) \(l\)</div>
 
 <h2>出力</h2>
-<p>答えを出力せよ。</p>
+<p>答えを出力せよ。ただし、出力誤差は<code>0.0001</code>まで認められる。</p>
 <hr>
-
 <h2>入力例1</h2>
-<pre id="sample1_input" class="sample">4 80
-95 75 83 78</pre>
+<pre id="sample1_input" class="sample">4
+2 4 6 8</pre>
 
 <h2>出力例1</h2>
-<pre id="sample1_output" class="sample">2</pre>
-<p>80点以上の点数は95, 83なので２個が正解です。</p>
+<pre id="sample1_output" class="sample">5</pre>
+<p>sum(配列変数)で簡単に和を求められます。</p>
 <hr>
 <!-- id が "*_input" and "*_output" の pre 要素が１組以上必要。 -->
 <!-- pre.sample には自動的にコピーボタンが付く。 -->
 
 <h2>入力例2</h2>
-<pre id="sample2_input" class="sample">10 60
-60 59 27 92 89 37 22 0 19 100</pre>
+<pre id="sample2_input" class="sample">2
+1 2</pre>
 
 <h2>出力例2</h2>
-<pre id="sample2_output" class="sample">4</pre>
+<pre id="sample2_output" class="sample">1.5</pre>
+<p>小数になる場合もあります。</p>
+<hr>
+
+<h2>入力例3</h2>
+<pre id="sample3_input" class="sample">10
+23 91 58 60 21 71 28 58 72 91</pre>
+
+<h2>出力例3</h2>
+<pre id="sample3_output" class="sample">57.3</pre>
 <hr>
 
 <textarea id="txt-editor"></textarea>
@@ -65,11 +73,11 @@
 <!-- ↓ table#result は必ず用意 -->
 <table id="result">
     <thead>
-        <tr>
-            <th>Case Number</th>
-            <th>Result</th>
-            <th>Execution Time</th>
-        </tr>
+    <tr>
+        <th>Case Number</th>
+        <th>Result</th>
+        <th>Execution Time</th>
+    </tr>
     </thead>
     <tbody>
     <!-- テスト結果がここに追加されます -->

@@ -9,50 +9,79 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
     <script src="index.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <title>テストの点</title>
+    <title>input9</title>
 </head>
 
 <body>
-<h1>テストの点<a class="ed-rial" href="../editorial/p1-1-ed.html" target="_blank">解説</a></h1>
+<h1>複数行複数列</h1>
 <hr>
 
 <h2>問題文</h2>
-<p>整数 \(N\) ,\(M\) と \(N\) 個のテストの点 \(A_1\), \(A_2\) ... \(A_N\) が与えられので、\(M\) 点以上をとっているテストの個数を出力してください。</p>
+<p>整数\(N\),\(M\)と\(N\)行\(M\)列の整数列\(A\)が与えられます。\(A\)の\(i\)行目\(j\)列目\(1 ≤ i ≤ N\),\(1 ≤ j ≤ M\)には整数\(A_{i,j}\)が書かれています。</p>
+<p>各行の整数列の最大値をそれぞれ改行区切りで出力してください。</p>
+<p>複数行複数列の整数列の入力は、<strong>変数配列 = [list(map(int, input().split())) for _ in range(行の変数)]</strong>で一括で受け取れます。(様々な受け取り方がある)</p>
+<p>配列の最大値は、<strong>max(変数)</strong>で取得できます。</p>
 
 <h2>制約</h2>
 <ul>
-    <li>\(1 ≤ N ≤ 100\)</li>
-    <li>\(0 ≤ M ≤ 100\)</li>
-    <li>\(0 ≤ S_i ≤ 100\) \((1 ≤ i ≤ N)\)</li>
+    <li>\(1 ≤ N, M ≤ 100\)</li>
+    <li>\(1 ≤ M ≤ N\)</li>
+    <li>\(1 ≤ S_{i,j} ≤ 100(1 ≤ i ≤ N),(1 ≤ j ≤ M)\)</li>
+    <li>\(N, M\) は整数</li>
 </ul>
 <hr>
 
 <h2>入力</h2>
 入力は以下の形式で標準入力から与えられる。
 <div class="io_format">\(N\) \(M\)
-\(A_1\) \(A_2\) ... \(A_N\)</div>
+\(A_{1,1}\) \(A_{1,2}\) \(\cdots\) \(A_{1,M}\)
+\(A_{2,1}\) \(A_{2,2}\) \(\cdots\) \(A_{2,M}\)
+\(\vdots\)
+\(A_{N,1}\) \(A_{N,2}\) \(\cdots\) \(A_{N,M}\)
+</div>
 
 <h2>出力</h2>
-<p>答えを出力せよ。</p>
+<p>答えを\(N\)行出力せよ。</p>
 <hr>
-
 <h2>入力例1</h2>
-<pre id="sample1_input" class="sample">4 80
-95 75 83 78</pre>
+<pre id="sample1_input" class="sample">3 4
+2 3 5 1
+9 1 4 2
+7 4 2 3</pre>
 
 <h2>出力例1</h2>
-<pre id="sample1_output" class="sample">2</pre>
-<p>80点以上の点数は95, 83なので２個が正解です。</p>
+<pre id="sample1_output" class="sample">5
+9
+7</pre>
+<p>１行目の最大値は5、２行目の最大値は9、３行目の最大値は7です。</p>
 <hr>
 <!-- id が "*_input" and "*_output" の pre 要素が１組以上必要。 -->
 <!-- pre.sample には自動的にコピーボタンが付く。 -->
 
 <h2>入力例2</h2>
-<pre id="sample2_input" class="sample">10 60
-60 59 27 92 89 37 22 0 19 100</pre>
+<pre id="sample2_input" class="sample">10 10
+49 51 24 71 62 78 56 12 21 63
+18 83 37 83 19 90 95 36 17 74
+55 63 23 22 17 33 32 1 35 37
+31 90 62 62 32 27 97 13 98 67
+55 51 16 96 4 54 50 37 55 70
+88 76 50 87 76 79 68 47 31 12
+45 36 5 35 57 28 23 80 38 1
+70 61 84 57 69 98 79 67 78 36
+7 92 7 17 2 75 40 54 30 94
+23 38 75 55 35 63 18 77 98 44</pre>
 
 <h2>出力例2</h2>
-<pre id="sample2_output" class="sample">4</pre>
+<pre id="sample2_output" class="sample">78
+95
+63
+98
+96
+88
+80
+98
+94
+98</pre>
 <hr>
 
 <textarea id="txt-editor"></textarea>
@@ -65,11 +94,11 @@
 <!-- ↓ table#result は必ず用意 -->
 <table id="result">
     <thead>
-        <tr>
-            <th>Case Number</th>
-            <th>Result</th>
-            <th>Execution Time</th>
-        </tr>
+    <tr>
+        <th>Case Number</th>
+        <th>Result</th>
+        <th>Execution Time</th>
+    </tr>
     </thead>
     <tbody>
     <!-- テスト結果がここに追加されます -->

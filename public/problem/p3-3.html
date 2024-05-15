@@ -13,46 +13,55 @@
 </head>
 
 <body>
-<h1>テストの点<a class="ed-rial" href="../editorial/p1-1-ed.html" target="_blank">解説</a></h1>
+<h1>すごろく<a class="ed-rial" href="../editorial/p1-2-ed.html" target="_blank">解説</a></h1>
 <hr>
 
 <h2>問題文</h2>
-<p>整数 \(N\) ,\(M\) と \(N\) 個のテストの点 \(A_1\), \(A_2\) ... \(A_N\) が与えられので、\(M\) 点以上をとっているテストの個数を出力してください。</p>
-
+<p>あなたはすごろくをしています。あなたは今、０マス目に居て、\(M\) マス目がゴールです。あなたは今から \(N\) 回サイコロを振り、出た目の数に応じて駒を進めます。</p>
+<p>\(N\) 個の出た目 \(A\) が与えられるので、ゴールに到達している場合は<code>Yes</code>を、到達していない場合は<code>No</code>を出力してください。</p>
 <h2>制約</h2>
 <ul>
     <li>\(1 ≤ N ≤ 100\)</li>
-    <li>\(0 ≤ M ≤ 100\)</li>
-    <li>\(0 ≤ S_i ≤ 100\) \((1 ≤ i ≤ N)\)</li>
+    <li>\(1 ≤ M ≤ 1000\)</li>
+    <li>\(1 ≤ A_i ≤ 6(1 ≤ i ≤ N)\)</li>
 </ul>
 <hr>
 
 <h2>入力</h2>
 入力は以下の形式で標準入力から与えられる。
 <div class="io_format">\(N\) \(M\)
-\(A_1\) \(A_2\) ... \(A_N\)</div>
+    \(A_1\) \(A_2\) \(\cdots\) \(A_N\)</div>
 
 <h2>出力</h2>
 <p>答えを出力せよ。</p>
 <hr>
 
 <h2>入力例1</h2>
-<pre id="sample1_input" class="sample">4 80
-95 75 83 78</pre>
+<pre id="sample1_input" class="sample">4 10
+4 2 3 1</pre>
 
 <h2>出力例1</h2>
-<pre id="sample1_output" class="sample">2</pre>
-<p>80点以上の点数は95, 83なので２個が正解です。</p>
+<pre id="sample1_output" class="sample">Yes</pre>
+<p>10マス目に到達しているので<code>Yes</code>を出力します。</p>
 <hr>
 <!-- id が "*_input" and "*_output" の pre 要素が１組以上必要。 -->
 <!-- pre.sample には自動的にコピーボタンが付く。 -->
 
 <h2>入力例2</h2>
-<pre id="sample2_input" class="sample">10 60
-60 59 27 92 89 37 22 0 19 100</pre>
+<pre id="sample2_input" class="sample">3 12
+6 5 3</pre>
 
 <h2>出力例2</h2>
-<pre id="sample2_output" class="sample">4</pre>
+<pre id="sample2_output" class="sample">Yes</pre>
+<p>ゴールを超えている場合も<code>Yes</code>を出力します。</p>
+<hr>
+
+<h2>入力例3</h2>
+<pre id="sample3_input" class="sample">5 20
+6 1 2 4 1 5</pre>
+
+<h2>出力例3</h2>
+<pre id="sample3_output" class="sample">No</pre>
 <hr>
 
 <textarea id="txt-editor"></textarea>
@@ -65,11 +74,11 @@
 <!-- ↓ table#result は必ず用意 -->
 <table id="result">
     <thead>
-        <tr>
-            <th>Case Number</th>
-            <th>Result</th>
-            <th>Execution Time</th>
-        </tr>
+    <tr>
+        <th>Case Number</th>
+        <th>Result</th>
+        <th>Execution Time</th>
+    </tr>
     </thead>
     <tbody>
     <!-- テスト結果がここに追加されます -->

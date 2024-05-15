@@ -9,50 +9,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
     <script src="index.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <title>テストの点</title>
+    <title>ゲーム木改題</title>
 </head>
 
 <body>
-<h1>テストの点<a class="ed-rial" href="../editorial/p1-1-ed.html" target="_blank">解説</a></h1>
+<h1>ゲーム木改題<a class="ed-rial" href="../editorial/p2-1-ed.html" target="_blank">解説</a></h1>
 <hr>
 
 <h2>問題文</h2>
-<p>整数 \(N\) ,\(M\) と \(N\) 個のテストの点 \(A_1\), \(A_2\) ... \(A_N\) が与えられので、\(M\) 点以上をとっているテストの個数を出力してください。</p>
-
+<p>石が場に合計 \(N\) 個置かれています。</p>
+<p>この石を、人間とコンピュータが交互に取り去っていきます。 ただし、１回に取り去ることができる石の数は\(1個、2個、3個\)のいずれかです。人間が先に石を取ってスタートし、最後に場から石を取った方が負けとなります。</p>
+<p>このゲームで人間が勝つパターンの総数を求めてください。</p>
 <h2>制約</h2>
 <ul>
-    <li>\(1 ≤ N ≤ 100\)</li>
-    <li>\(0 ≤ M ≤ 100\)</li>
-    <li>\(0 ≤ S_i ≤ 100\) \((1 ≤ i ≤ N)\)</li>
+    <li>\(1 ≤ N ≤ 50\)</li>
 </ul>
 <hr>
 
 <h2>入力</h2>
 入力は以下の形式で標準入力から与えられる。
-<div class="io_format">\(N\) \(M\)
-\(A_1\) \(A_2\) ... \(A_N\)</div>
+<div class="io_format">\(N\)</div>
 
 <h2>出力</h2>
 <p>答えを出力せよ。</p>
 <hr>
 
 <h2>入力例1</h2>
-<pre id="sample1_input" class="sample">4 80
-95 75 83 78</pre>
+<pre id="sample1_input" class="sample">3</pre>
 
 <h2>出力例1</h2>
 <pre id="sample1_output" class="sample">2</pre>
-<p>80点以上の点数は95, 83なので２個が正解です。</p>
+<p>(3 -> 2 -> 0), (3 -> 1 -> 0) の2つの遷移のみが勝ちうるパターンです。</p>
 <hr>
 <!-- id が "*_input" and "*_output" の pre 要素が１組以上必要。 -->
 <!-- pre.sample には自動的にコピーボタンが付く。 -->
 
 <h2>入力例2</h2>
-<pre id="sample2_input" class="sample">10 60
-60 59 27 92 89 37 22 0 19 100</pre>
+<pre id="sample2_input" class="sample">5</pre>
 
 <h2>出力例2</h2>
-<pre id="sample2_output" class="sample">4</pre>
+<pre id="sample2_output" class="sample">6</pre>
 <hr>
 
 <textarea id="txt-editor"></textarea>
@@ -65,11 +61,11 @@
 <!-- ↓ table#result は必ず用意 -->
 <table id="result">
     <thead>
-        <tr>
-            <th>Case Number</th>
-            <th>Result</th>
-            <th>Execution Time</th>
-        </tr>
+    <tr>
+        <th>Case Number</th>
+        <th>Result</th>
+        <th>Execution Time</th>
+    </tr>
     </thead>
     <tbody>
     <!-- テスト結果がここに追加されます -->

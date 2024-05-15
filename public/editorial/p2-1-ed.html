@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="ed-style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>2-1解説</title>
+</head>
+<body>
+<h1><a href="../problem/p2-1.html" target="_blank">2-1:ゲーム木改題</a>
+    解説
+</h1>
+<hr>
+<!-- 解説文　-->
+<p>この問題は状態の遷移を書き出していけば解くことができますが、nが大きい場合は大変な作業になります。そこで、n個の石のゲームはn-1, n-2, n-3個の石のゲームから効率的に求めることができる性質を利用します。</p>
+<p>実際にある程度のゲーム木を書いてみると、重複している部分木があることがわかります。これらをよく見ると、n個の石から派生する木の形は例外なく一致していることがわかります。</p>
+<p>この性質より、n個の石のゲームはn-1, n-2, n-3個の石のゲームの結果を合算したものであるとわかります。具体的には、0, 1, 2個の石のゲームの勝ちパターンをあらかじめ求めておき、3以降を計算していくということです。</p>
+<p>実際に式を立てると、\(A_i\) を人間の勝ちパターン、\(B_i\) をコンピュータの勝ちパターン（iは最初の石の数）とすると、</p>
+<p>\(A_i = B_{i-1} + B_{i-2} + B_{i-3}\), \(B_i = A_{i-1} + A_{i-2} + A_{i-3}\)となります。</p>
+<p>ここで、石が1個変わるとターンが変わり、勝ちと負けのパターンが入れ替わることに注意してください。</p>
+<!-- ソースコード　-->
+<p>実装例</p>
+<script src="https://gist.github.com/kazu107/cca41cf67258b5787b9e455800829df0.js"></script>
+</body>
+</html>
