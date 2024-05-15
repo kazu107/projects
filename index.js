@@ -12,7 +12,7 @@ const pythonPath = process.env.PYTHON_PATH || (fs.existsSync(defaultPythonPath) 
 const options = {
     mode: 'text',
     pythonPath: pythonPath,
-    pythonOptions: ['-u'], // コマンドラインオプション
+    pythonOptions: ['-u'], // コマンドラインオプションs
     scriptPath: __dirname, // スクリプトのディレクトリ指定
     stderrParser: (log) => { return log; },
     stdoutParser: (log) => { return log; }
