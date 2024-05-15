@@ -7,9 +7,11 @@ const { PythonShell } = require('python-shell');
 const { exec } = require('child_process');
 //const server = http.createServer(index);
 //const io = require('socket.io')(index);
+const defaultPythonPath = `${__dirname}/Python/Python311/python.exe`;
+const pythonPath = process.env.PYTHON_PATH || (fs.existsSync(defaultPythonPath) ? defaultPythonPath : 'python');
 const options = {
     mode: 'text',
-    pythonPath: 'python',
+    pythonPath: pythonPath,
     pythonOptions: ['-u'], // コマンドラインオプション
     scriptPath: __dirname, // スクリプトのディレクトリ指定
     stderrParser: (log) => { return log; },
