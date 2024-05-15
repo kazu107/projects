@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "postbuild": "chmod +x /app/Python/Python311/python.exe",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
