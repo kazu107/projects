@@ -33,122 +33,55 @@ const io = require('socket.io')(index);
 io.on('connection', (socket) => {
     console.log('A user connected');
 
-    socket.on('run', (code, id) => {
+    socket.on('run', async (code, id) => {
         console.log('Code received: ', code);
         // ファイルにコードを書き込む
-        fs.writeFile('sample.py', code, (err) => {
-            // セキュリティリスクを減らすための基本的なサニタイズ
-            // 実際のアプリケーションではより厳格なチェックが必要
-            /*
-            if (code.match(/import|exec|eval|os\.|sys\./)) {
-                socket.emit('result', 'secError: Unsafe code is not allowed.');
-                return;
-            }
-            */
-            if (err) {
-                console.error('Error writing code to file:', err);
-                socket.emit('result', `writeFileError: ${err.message}`);
-                return;
-            }
+        try {
+            await fs.promises.writeFile('sample.py', code);  // fs.writeFile を Promise に変更
             const fileName = `${id}-testcase.js`;
-            let problemCases = "";
-            try {
-                // ファイルのフルパスを解決
-                const fullPath = require.resolve(`${__dirname}/public/testcase/${fileName}`);
-                //const fullPath = require.resolve(`/app/test.js`);
-                console.log("Full path of the module:", fullPath);
-
-                // モジュールを読み込む
-                problemCases = require(fullPath);
-                // problemCases を使用した処理をここで行う
-            } catch (error) {
-                console.error("Error loading the module:", error);
-            }
+            const fullPath = require.resolve(`${__dirname}/public/testcase/${fileName}`);
+            const problemCases = require(fullPath);
             const judgeway = problemCases.judge;
             const { judge, ...cases } = problemCases;
-            let inputs = [];
-            let outputs = [];
-            // "input" と "output" をそれぞれの配列に追加
-            let infos = [];
+
+            console.log('Cases loaded:', cases);
+            socket.emit('clearTable');
+
             for (const key in cases) {
                 if (cases.hasOwnProperty(key)) {
-                    inputs.push(cases[key].input);
-                    outputs.push(cases[key].output);
-                    infos.push([key, cases[key].input, cases[key].output]);
+                    let caseData = cases[key];
+                    let result = await processInputs([key, caseData.input, caseData.output]);
+                    const times = parseInt(result[3]);
+                    if (judgeway === "normal") {
+                        if (times > 4000) {
+                            socket.emit('result', result[0], "TLE", times + " ms");
+                        }
+                        else if (result[1] === result[2]) {
+                            socket.emit('result', result[0], "AC", times + " ms");
+                        }
+                        else {
+                            socket.emit('result', result[0], "WA", times + " ms");
+                        }
+                    }
+                    else if (judgeway === "decimal") {
+                        const numExpected = parseFloat(result[2]);
+                        const numActual = parseFloat(result[1]);
+                        if (times > 4000) {
+                            socket.emit('result', result[0], "TLE", times + " ms");
+                        }
+                        else if (Math.abs(numExpected - numActual) <= 0.0001) {
+                            socket.emit('result', result[0], "AC", times + " ms");
+                        }
+                        else {
+                            socket.emit('result', result[0], "WA", times + " ms");
+                        }
+                    }
                 }
             }
-            console.log('Inputs:', inputs);
-            console.log('Outputs:', outputs);
-            // 入力配列に対してプロセスを実行
-            socket.emit('clearTable');
-            for (const info of infos) {
-                const res = processInputs(info);
-                res.then((data) => {
-                    if (judgeway === "normal") {
-                        if (parseInt(data[3]) > 4000) {
-                            socket.emit('result', data[0], "TLE", parseInt(data[3]) + " ms");
-                        }
-                        else if (data[1] === data[2]) {
-                            socket.emit('result', data[0], "AC", parseInt(data[3]) + " ms");
-                        }
-                        else {
-                            socket.emit('result', data[0], "WA", parseInt(data[3]) + " ms");
-                        }
-                    }
-                    // 小数点数の判定方法
-                    else if (judgeway === "decimal") {
-                        const numExpected = parseFloat(data[2]);
-                        const numActual = parseFloat(data[1]);
-                        if (parseInt(data[3]) > 4000) {
-                            socket.emit('result', data[0], "TLE", parseInt(data[3]) + " ms");
-                        }
-                        else if (numExpected - 0.001 <= numActual && numActual <= numExpected + 0.001) {
-                            socket.emit('result', data[0], "AC", parseInt(data[3]) + " ms");
-                        }
-                        else {
-                            socket.emit('result', data[0], "WA", parseInt(data[3]) + " ms");
-                        }
-                    }
-                    console.log(data[0], "AC", parseInt(data[3]) + " ms");
-                }).catch((err) => {
-                    console.error("Error processing inputs:", err);
-                    socket.emit('result', `processInputsError: ${err.message}`);
-                });
-            }
-            //const res = processInputs(infos, judgeway);
-            /*
-            res.then((data) => {
-                console.log("--judge--");
-                socket.emit('clearTable');
-                for (let i = 0; i < data.length; i++) {
-                    // 通常の判定方法
-                    if (judgeway === "normal") {
-                        if (data[i][1] === data[i][2]) {
-                            socket.emit('result', data[i][0], "AC", parseInt(data[i][3]) + " ms");
-                        }
-                        else {
-                            socket.emit('result', data[i][0], "WA", parseInt(data[i][3]) + " ms");
-                        }
-                    }
-                    // 小数点数の判定方法
-                    else if (judgeway === "decimal") {
-                        const numExpected = parseFloat(data[i][2]);
-                        const numActual = parseFloat(data[i][1]);
-                        if (numExpected - 0.001 <= numActual && numActual <= numExpected + 0.001) {
-                            socket.emit('result', data[i][0], "AC", parseInt(data[i][3]) + " ms");
-                        }
-                        else {
-                            socket.emit('result', data[i][0], "WA", parseInt(data[i][3]) + " ms");
-                        }
-                    }
-                    console.log(data[i][0], "AC", parseInt(data[i][3]) + " ms");
-                }
-            }).catch((err) => {
-                console.error("Error processing inputs:", err);
-                socket.emit('result', `processInputsError: ${err.message}`);
-            });
-            */
-        });
+        } catch (error) {
+            console.error("Error processing inputs or loading cases:", error);
+            socket.emit('result', `Error: ${error.message}`);
+        }
     });
 
 
