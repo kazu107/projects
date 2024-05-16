@@ -1,5 +1,8 @@
 'use strict';
 const http = require('http');
+const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -20,13 +23,59 @@ const options = {
     //args: [code]
 };
 
+const SECRET_KEY = process.env.SECRET_KEY;
+
 const port = process.env.PORT || 5001;
 const index = express()
     .use(express.static('public'))
+    .use(express.json())
+    // ユーザー登録
+    .post('/register', async (req, res) => {
+        try {
+            const { username, email, password } = req.body;
+            const passwordHash = await bcrypt.hash(password, 10);
+            const result = await pool.query(
+                'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id',
+                [username, email, passwordHash]
+            );
+            res.status(201).json({ userId: result.rows[0].id });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    })
+    // ログイン
+    .post('/login', async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+            const user = result.rows[0];
+            if (user && await bcrypt.compare(password, user.password_hash)) {
+                const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
+                res.json({ token });
+            } else {
+                res.status(401).json({ error: 'Invalid credentials' });
+            }
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    })
+    .get('/register', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'register.html'));
+    })
+    .get('/login', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    })
     .get('/', function(req, res) {
         res.sendFile(path.join(__dirname, 'public', 'index.html'));
     })
     .listen(port, () => console.log(`Listening on http://localhost:${ port }`))
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
 const io = require('socket.io')(index);
 

@@ -2,12 +2,14 @@
   "name": "projects",
   "version": "1.0.0",
   "engines": {
-    "node": "12.x"
+    "node": "20.x"
   },
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "knex": "knex",
+    "postinstall": "knex migrate:latest",
     "postbuild": "chmod +x /app/Python/Python311/python.exe",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,7 +22,11 @@
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "socket.io": "^4.7.5",
-    "python-shell": "^5.0.0"
+    "python-shell": "^5.0.0",
+    "pg": "^8.11.5",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.6"
   },
   "keywords": [
     "node",
