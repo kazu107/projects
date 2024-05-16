@@ -2,7 +2,8 @@
   "name": "projects",
   "version": "1.0.0",
   "engines": {
-    "node": "16.x"
+    "node": "v20.13.1",
+    "npm": "10.5.2"
   },
   "description": "",
   "main": "index.js",
@@ -22,7 +23,7 @@
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "jsonwebtoken": "9.0.0",
-    "knex": "2.4.0",
+    "knex": "^2.5.1",
     "pg": "^8.11.5",
     "python-shell": "^5.0.0",
     "socket.io": "^4.7.5"
