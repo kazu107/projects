@@ -9,8 +9,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "knex": "knex",
-    "postinstall": "knex migrate:latest",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +21,6 @@
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "jsonwebtoken": "9.0.0",
-    "knex": "^2.5.1",
     "pg": "^8.11.5",
     "python-shell": "^5.0.0",
     "socket.io": "^4.7.5"
