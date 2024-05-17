@@ -67,6 +67,25 @@ code {
     border-radius: 3px;
 }
 
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+    border-top: 1px solid #e7e7e7;
+}
+footer a {
+    color: #333;
+    text-decoration: none;
+    padding: 0 10px;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+.footer-icons i {
+    margin-right: 5px;
+}
+
 #result {
     text-align: center;
     border-collapse: collapse;

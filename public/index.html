@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <title>Code Executor</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             padding-top: 50px;
@@ -32,7 +34,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Code Executor</a>
+            <a class="navbar-brand" href="/">kazu107</a>
         </div>
         <ul class="nav navbar-nav navbar-right" id="auth-links">
             <!-- 認証リンクがここに挿入されます -->
@@ -76,6 +78,21 @@
         </div>
     </div>
 </div>
+<footer>
+    <div class="container">
+        <p>&copy; 2024 kazu107's WebSite. All Rights Reserved.</p>
+        <p>
+            <a href="/about.html">About</a>
+            <a href="/contact.html">Contact</a>
+            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms of Service</a>
+        </p>
+        <p class="footer-icons">
+            <a href="https://twitter.com/uttu03_k" target="_blank"><i class="fab fa-twitter"></i>Twitter</a>
+            <a href="https://github.com/kazu107" target="_blank"><i class="fab fa-github"></i>GitHub</a>
+        </p>
+    </div>
+</footer>
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         const authLinks = document.getElementById('auth-links');
