@@ -78,8 +78,10 @@
 
         const result = await response.json();
         if (response.status === 200) {
+            localStorage.setItem('token', result.token); // トークンをlocalStorageに保存
             alert('ログインに成功しました');
             // トークンを保存するなどの処理を行う
+            window.location.href = '/dashboard.html'; // ログイン後のページ
         } else {
             alert('ログインに失敗しました: ' + result.error);
         }

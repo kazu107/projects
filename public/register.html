@@ -84,6 +84,7 @@
         const result = await response.json();
         if (response.status === 201) {
             alert('登録に成功しました');
+            window.location.href = '/login.html';
         } else {
             alert('登録に失敗しました: ' + result.error);
         }
