@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダッシュボード</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>ダッシュボード</h2>
+    <div id="content"></div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('ログインが必要です');
+            window.location.href = '/login.html';
+            return;
+        }
+
+        const response = await fetch('/dashboard', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        const result = await response.json();
+        if (response.status === 200) {
+            document.getElementById('content').textContent = 'ようこそ、' + result.username + 'さん！';
+        } else {
+            alert('認証に失敗しました: ' + result.error);
+            window.location.href = '/login.html';
+        }
+    });
+</script>
+</body>
+</html>

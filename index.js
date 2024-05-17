@@ -25,6 +25,19 @@ const options = {
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
+// 認証ミドルウェア
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+}
+
 const port = process.env.PORT || 5001;
 const index = express()
     .use(express.static('public'))
@@ -67,6 +80,37 @@ const index = express()
     })
     .get('/', function(req, res) {
         res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    })
+    // ダッシュボード (認証が必要)
+    .get('/dashboard', authenticateToken, async (req, res) => {
+        try {
+            const result = await pool.query('SELECT username FROM users WHERE id = $1', [req.user.userId]);
+            const user = result.rows[0];
+            if (user) {
+                res.json({ username: user.username });
+            } else {
+                res.status(404).json({ error: 'User not found' });
+            }
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    })
+    // プロフィール情報 (認証が必要)
+    .get('/profile', authenticateToken, async (req, res) => {
+        try {
+            const result = await pool.query('SELECT username FROM users WHERE id = $1', [req.user.userId]);
+            const user = result.rows[0];
+            if (user) {
+                res.json({ username: user.username });
+            } else {
+                res.status(404).json({ error: 'User not found' });
+            }
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    })
+    .get('/dashboard', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
     })
     .listen(port, () => console.log(`Listening on http://localhost:${ port }`))
 
