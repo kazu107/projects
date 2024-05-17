@@ -93,7 +93,12 @@
                 const user = await response.json();
                 authLinks.innerHTML = `
                     <li><a href="/dashboard.html">${user.username}</a></li>
+                    <li><a href="#" id="logout">ログアウト</a></li>
                 `;
+                document.getElementById('logout').addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    location.reload();
+                });
             } else {
                 authLinks.innerHTML = `
                     <li><a href="/register.html">Register</a></li>
