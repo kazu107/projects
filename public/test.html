@@ -99,43 +99,43 @@
         </div>
     </div>
 </main>
-<script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const authLinks = document.getElementById('auth-links');
-        const token = localStorage.getItem('token');
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const authLinks = document.getElementById('auth-links');
+            const token = localStorage.getItem('token');
 
-        if (token) {
-            // トークンがある場合、ユーザー情報を取得
-            const response = await fetch('/profile', {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            });
+            if (token) {
+                // トークンがある場合、ユーザー情報を取得
+                const response = await fetch('/profile', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
 
-            if (response.ok) {
-                const user = await response.json();
-                authLinks.innerHTML = `
+                if (response.ok) {
+                    const user = await response.json();
+                    authLinks.innerHTML = `
                     <a href="/dashboard.html" class="auth-link"><i class="fas fa-user"></i> ${user.username}</a>
                     <a href="#" id="logout" class="auth-link"><i class="fas fa-sign-out-alt"></i> ログアウト</a>
                 `;
-                document.getElementById('logout').addEventListener('click', () => {
-                    localStorage.removeItem('token');
-                    location.reload();
-                });
-            } else {
-                authLinks.innerHTML = `
+                    document.getElementById('logout').addEventListener('click', () => {
+                        localStorage.removeItem('token');
+                        location.reload();
+                    });
+                } else {
+                    authLinks.innerHTML = `
                     <a href="/register.html" class="auth-link"><i class="fas fa-user-plus"></i> Register</a>
                     <a href="/login.html" class="auth-link"><i class="fas fa-sign-in-alt"></i> Login</a>
                 `;
-            }
-        } else {
-            // トークンがない場合、RegisterとLoginリンクを表示
-            authLinks.innerHTML = `
+                }
+            } else {
+                // トークンがない場合、RegisterとLoginリンクを表示
+                authLinks.innerHTML = `
                 <a href="/register.html" class="auth-link"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/login.html" class="auth-link"><i class="fas fa-sign-in-alt"></i> Login</a>
             `;
-        }
-    });
-</script>
+            }
+        });
+    </script>
 </body>
 </html>
