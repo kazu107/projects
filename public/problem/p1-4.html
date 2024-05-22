@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会合</title>
+  <link rel="stylesheet" href="../css/problem.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header>
+  <div id="top-row">
+    <h1 id="problem-title">会合</h1>
+    <!-- 解説リンク -->
+    <a class="ed-rial" href="../editorial/p1-4-ed.html" target="_blank">
+      <button id="explanation-button">解説</button>
+    </a>
+  </div>
+  <div id="limits">
+    <span id="time-limit">実行時間制限: 4秒</span>
+    <span id="memory-limit">メモリ使用制限: 256MB</span>
+  </div>
+</header>
+<main>
+  <div id="problem-statement">
+    <h2>問題文</h2>
+    <!-- 問題文 -->
+    <p>kazu107さんは、paizaのランク<code>s</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>, <code>f</code>の人同士で会合を開こうと考えています。</p>
+    <p>今のところ \(N\) 人が参加予定ですが、どのランクも一人ずついたほうがいいと考えています。</p>
+    <p>それぞれの参加者のランク \(S\) が与えられるので、すべてのランクがそろっているか判定してください。</p>
+    <!-- 問題文 -->
+    <hr>
+    <h2>制約</h2>
+    <ul id="constraints">
+      <!-- 制約 -->
+      <li>\(1 ≤ N ≤ 2 × 10^6\)</li>
+      <li>\(S_i\) は、<code>s</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, <code>e</code>, <code>f</code>のいずれか</li>
+      <!-- 制約 -->
+    </ul>
+    <hr>
+    <h2>入力</h2>
+    <!-- 入力 -->
+    <p>入力は以下の形式で標準入力から与えられる。</p>
+    <div class="code-container">
+      <!-- 入力の形式 -->
+      <div class="code-block io_format">\(N\)
+\(S_1\) \(S_2\) \(\cdots\) \(S_N\)</div>
+    </div>
+    <hr>
+    <h2>出力</h2>
+
+    <!-- 出力の形式 -->
+    <p>答えを出力せよ。</p>
+    <hr>
+
+    <!-- テストケース -->
+    <h2>入力例 1</h2>
+    <div class="code-container">
+      <!-- 入力の形式 -->
+      <div class="code-block io_format">5
+safbbcdeaaccdef</div>
+    </div>
+    <h2>出力例 1</h2>
+    <div class="code-container">
+      <!-- 出力の形式 -->
+      <div class="code-block io_format">Yes</div>
+    </div>
+
+    <!-- 出力例の説明 -->
+    <p>それぞれ、<code>s</code>が1人, <code>a</code>が３人, <code>b</code>が２人, <code>c</code>が3人, <code>d</code>が2人, <code>e</code>が2人, <code>f</code>が2人いるので、すべてのランクの人が集まっています。</p>
+    <hr>
+
+    <h2>入力例 2</h2>
+    <div class="code-container">
+      <!-- 入力の形式 -->
+      <div class="code-block io_format">10
+sbcdefscde</div>
+    </div>
+    <h2>出力例 2</h2>
+    <div class="code-container">
+      <!-- 出力の形式 -->
+      <div class="code-block io_format">No</div>
+    </div>
+
+    <p><code>a</code>ランクの人が居ません。</p>
+
+    <h2>提出欄</h2>
+    <div class="code-editor-container">
+      <div id="txt-editor" class="code-editor"></div>
+      <button id="run" class="submit-button">提出</button>
+    </div>
+    <hr>
+    <!-- 実行結果 -->
+    <h2>実行結果</h2>
+    <table id="result">
+      <thead>
+      <tr>
+        <th>ケース番号</th>
+        <th>結果</th>
+        <th>実行時間 (ms)</th>
+      </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+<script>
+  const socket = io();
+  //接続
+  socket.on('connect', function() {
+    console.log('Connected to server');
+  });
+  //結果を受信してテーブルを更新
+  socket.on('result', (caseNumber, res, time) => {
+    const tableBody = document.querySelector('#result tbody');
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+                <td>${caseNumber}</td>
+                <td>${res}</td>
+                <td>${time}</td>
+            `;
+    tableBody.appendChild(newRow);
+  });
+  //テーブルをクリア
+  socket.on('clearTable', function() {
+    const tableBody = document.querySelector('#result tbody');
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.firstChild);
+    }
+  });
+  //コピー
+  function copyToClipboard(elementId) {
+    const code = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      const copyMessage = document.querySelector(`#${elementId} + .copy-message`);
+      copyMessage.style.visibility = 'visible';
+      setTimeout(() => {
+        copyMessage.style.visibility = 'hidden';
+      }, 2000);
+    });
+  }
+  //コードエディターの設定
+  document.addEventListener("DOMContentLoaded", function() {
+    MathJax.typesetPromise();
+
+    // Initialize ACE Editor
+    const editor = ace.edit("txt-editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/python");
+    editor.setOptions({
+      fontSize: "14pt",
+      showPrintMargin: false,
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true,
+      enableSnippets: true,
+    });
+    // 提出ボタンが押されたときの処理
+    document.getElementById("run").addEventListener("click", function() {
+      const code = editor.getValue();
+      const path = window.location.pathname;
+      const pageName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
+      console.log('Sent code:', code);
+      socket.emit('run', code, pageName);
+    });
+  });
+</script>
+</body>
+</html>

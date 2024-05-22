@@ -1,215 +1,131 @@
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 header {
-    background-color: #F8F8F8;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ccc;
+}
+
+#top-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: black;
+#problem-title {
+    font-size: 24px;
+    margin: 0;
+    margin-right: 20px;
 }
 
-.icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-}
-
-.site-name {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-#auth-links {
-    display: flex;
-    align-items: center;
-}
-
-.auth-link {
-    margin-left: 15px;
-    padding: 5px 10px;
-    text-decoration: none;
-    color: black;
-    border: 1px solid green;
+#explanation-button {
+    background-color: green;
+    color: white;
+    border: 2px solid gray;
     border-radius: 5px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s;
+    padding: 5px 15px;
+    cursor: pointer;
 }
 
-.auth-link i {
-    margin-right: 5px;
+#limits {
+    font-size: 14px;
 }
 
-.auth-link:hover {
-    background-color: #e0e0e0;
+#time-limit,
+#memory-limit {
+    display: block;
+    margin: 0;
 }
 
 main {
-    background: linear-gradient(to left, #a9a9a9, #f8f8f8);
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.title-container {
-    background-color: #ffffff;
     padding: 20px;
+}
+
+#problem-statement {
+    background-color: #fff;
+    border: 2px solid #ccc;
     border-radius: 10px;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1000px;
+    text-align: left;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 800px;
-    margin-bottom: 20px; /* 新たに追加したボックスのスタイルを統一 */
 }
 
-.main-title {
+#problem-statement h2 {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-top: 0;
 }
 
-.item-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+#problem-statement p {
+    font-size: 16px;
+    line-height: 1.5;
 }
 
-.item-list li {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 20px 0;
 }
 
-.item-list li:last-child {
-    border-bottom: none;
+#constraints {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
-.item-list li a {
-    text-decoration: none;
-    color: black;
-    display: flex;
-    align-items: center;
+.code-container {
     position: relative;
 }
 
-.item-list li a::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: yellow;
-    visibility: hidden;
-    transition: all 0.3s ease-in-out;
-}
-
-.item-list li a:hover::after {
-    visibility: visible;
-    width: 100%;
-}
-
-.item-list li a i {
-    margin-right: 5px;
-}
-
-.outer-box {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 800px;
-    margin-top: 20px;
-}
-
-.outer-box-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.box-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.row {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: 10px; /* 行の間隔を小さく */
-}
-
-.box {
-    background-color: #F0FFF0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: calc(45% - 20px); /* ボックスの幅を少し小さく */
-    margin: 10px; /* 列の間隔を小さく */
-}
-
-.box-title {
-    font-size: 20px;
-    margin-bottom: 10px;
-    padding: 10px;
+.code-block {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    padding: 8px;
+    text-align: left;
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
-.title-1 { background-color: #ffdddd; }
-.title-2 { background-color: #ddffdd; }
-.title-3 { background-color: #ddddff; }
-.title-4 { background-color: #ffffdd; }
-.title-5 { background-color: #ffddff; }
-.title-6 { background-color: #ddffff; }
-
-.box-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.box-list li {
-    margin-bottom: 10px;
-}
-
-.box-list li a {
-    text-decoration: none;
-    color: black;
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.box-list li a::after {
-    content: "";
+.copy-button {
     position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: yellow;
+    top: -30px;
+    right: 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#copy-message {
+    position: absolute;
+    top: -60px;
+    right: 0;
+    background-color: #333;
+    color: white;
+    border-radius: 3px;
+    padding: 5px 10px;
     visibility: hidden;
-    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    font-size: 12px;
 }
 
-.box-list li a:hover::after {
-    visibility: visible;
-    width: 100%;
-}
-
-.box-list li a i {
-    margin-right: 5px;
+.io_format {
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    margin: 0;
+    padding: 8px;
 }

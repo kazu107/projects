@@ -1,140 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="../css/problem.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
-    <script src="index.js"></script>
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>input8</title>
+    <link rel="stylesheet" href="../css/problem.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-
 <body>
-<h1>複数行</h1>
-<hr>
-
-<h2>問題文</h2>
-<p>整数\(N\),\(M\)と\(N\)個の文字列\(S_1\),\(S_2\)...\(S_N\)が改行区切りで与えられるので、\(M\)番目の文字列\(S_M\)の長さを出力してください。</p>
-<p>複数の文字列の入力は、<strong>配列変数 = [input() for _ in range(変数)]</strong>で一括で受け取れます。(様々な受け取り方がある)</p>
-<p>文字列の長さは、<strong>len(変数)</strong>で取得できます。</p>
-
-<h2>制約</h2>
-<ul>
-    <li>\(1 ≤ N ≤ 100\)</li>
-    <li>\(1 ≤ M ≤ N\)</li>
-    <li>\(S_i(1 ≤ i ≤ N)\)は1以上100以下の文字列</li>
-    <li>\(N, M\) は整数</li>
-</ul>
-<hr>
-
-<h2>入力</h2>
-入力は以下の形式で標準入力から与えられる。
-<div class="io_format">\(N\) \(M\)
+<header>
+    <div id="top-row">
+        <h1 id="problem-title">複数行</h1>
+        <!-- 解説リンク -->
+        <a class="ed-rial" href="#" target="_blank">
+            <button id="explanation-button">解説</button>
+        </a>
+    </div>
+    <div id="limits">
+        <span id="time-limit">実行時間制限: 4秒</span>
+        <span id="memory-limit">メモリ使用制限: 256MB</span>
+    </div>
+</header>
+<main>
+    <div id="problem-statement">
+        <h2>問題文</h2>
+        <!-- 問題文 -->
+        <p>整数\(N\),\(M\)と\(N\)個の文字列\(S_1\),\(S_2\)...\(S_N\)が改行区切りで与えられるので、\(M\)番目の文字列\(S_M\)の長さを出力してください。</p>
+        <p>複数の文字列の入力は、<strong>配列変数 = [input() for _ in range(変数)]</strong>で一括で受け取れます。(様々な受け取り方がある)</p>
+        <p>文字列の長さは、<strong>len(変数)</strong>で取得できます。</p>
+        <!-- 問題文 -->
+        <hr>
+        <h2>制約</h2>
+        <ul id="constraints">
+            <!-- 制約 -->
+            <li>\(1 ≤ N ≤ 100\)</li>
+            <li>\(1 ≤ M ≤ N\)</li>
+            <li>\(S_i(1 ≤ i ≤ N)\)は1以上100以下の文字列</li>
+            <li>\(N, M\) は整数</li>
+            <!-- 制約 -->
+        </ul>
+        <hr>
+        <h2>入力</h2>
+        <!-- 入力 -->
+        <p>入力は以下の形式で標準入力から与えられる。</p>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">\(N\) \(M\)
 \(S_1\)
 \(S_2\)
 \(\vdots\)
 \(S_N\)</div>
+        </div>
+        <hr>
+        <h2>出力</h2>
 
-<h2>出力</h2>
-<p>答えを出力せよ。</p>
-<hr>
-<h2>入力例1</h2>
-<pre id="sample1_input" class="sample">4 2
+        <!-- 出力の形式 -->
+        <p>答えを出力せよ。</p>
+        <hr>
+
+        <!-- テストケース -->
+        <h2>入力例 1</h2>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">4 2
 apple
 ringo
 banana
-appuru</pre>
+appuru</div>
+        </div>
+        <h2>出力例 1</h2>
+        <div class="code-container">
+            <!-- 出力の形式 -->
+            <div class="code-block io_format">5</div>
+        </div>
 
-<h2>出力例1</h2>
-<pre id="sample1_output" class="sample">5</pre>
-<p>2番目の文字列は<code>ringo</code>で、これは５文字です。</p>
-<hr>
-<!-- id が "*_input" and "*_output" の pre 要素が１組以上必要。 -->
-<!-- pre.sample には自動的にコピーボタンが付く。 -->
+        <!-- 出力例の説明 -->
+        <p>2番目の文字列は<code>ringo</code>で、これは５文字です。</p>
+        <hr>
 
-<h2>入力例2</h2>
-<pre id="sample2_input" class="sample">5 5
+        <h2>入力例 2</h2>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">5 5
 a
 b
 c
 d
-e</pre>
+e</div>
+        </div>
+        <h2>出力例 2</h2>
+        <div class="code-container">
+            <!-- 出力の形式 -->
+            <div class="code-block io_format">1</div>
+        </div>
 
-<h2>出力例2</h2>
-<pre id="sample2_output" class="sample">1</pre>
-<hr>
-
-<textarea id="txt-editor"></textarea>
-<p>
-    <!-- ↓ button#run は必ず用意 -->
-    <button id="run">実行</button>
-    <input type="checkbox" id="autocopy" checked /><label for="autocopy">実行時にプログラムを自動的にコピーしておく</label>
-</p>
-<p>実行結果:</p>
-<!-- ↓ table#result は必ず用意 -->
-<table id="result">
-    <thead>
-    <tr>
-        <th>Case Number</th>
-        <th>Result</th>
-        <th>Execution Time</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- テスト結果がここに追加されます -->
-    </tbody>
-</table>
+        <h2>提出欄</h2>
+        <div class="code-editor-container">
+            <div id="txt-editor" class="code-editor"></div>
+            <button id="run" class="submit-button">提出</button>
+        </div>
+        <hr>
+        <!-- 実行結果 -->
+        <h2>実行結果</h2>
+        <table id="result">
+            <thead>
+            <tr>
+                <th>ケース番号</th>
+                <th>結果</th>
+                <th>実行時間 (ms)</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</main>
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
 <script>
-    let socket = io();
-    console.log('Attempting to connect to server via WebSocket.');
-    const code = document.getElementById('txt-editor');
-    const run = document.getElementById('run');
-    const result = document.getElementById('result');
-
-    function getFilenameWithoutExtension() {
-        const path = window.location.pathname;
-        const filenameWithExtension = path.split('/').pop(); // パスの最後の部分を取得
-        const filename = filenameWithExtension.split('.').slice(0, -1).join('.'); // 最後のドット以降を除去
-        return filename;
-    }
-    const identifier = getFilenameWithoutExtension();
-
-    run.addEventListener("click", function () {
-        socket.emit('run', code.value, identifier);
-    });
-
+    const socket = io();
+    //接続
     socket.on('connect', function() {
-        console.log('Connected to server via WebSocket.');
+        console.log('Connected to server');
     });
-    // テーブルの内容をクリアするイベントリスナー
-    const tbody = document.querySelector('#result tbody');
-    socket.on('clearTable', function() {
-        // tbodyの中身をすべて削除
-        while (result.rows.length > 1) {
-            //tbody.removeChild(tbody.firstChild);
-            result.deleteRow(-1);
-        }
-        console.log('Table content has been cleared.');
-    });
-    // テーブルに行を追加するイベントリスナー
+    //結果を受信してテーブルを更新
     socket.on('result', (caseNumber, res, time) => {
-        console.log('Received result:', caseNumber, res, time);  // 受け取った結果のログ出力
-        //console.log('Received result:', data);  // 受け取った結果のログ出力
-        //result.innerHTML = `<tr><td>${caseNumber}</td><td>${res}</td><td>${time}</td></tr>`; // 結果を表示する適切な方法に応じて変更
-        // テーブルに行を追加
-        let row = result.insertRow(-1); // テーブルの最後に行を追加
-        let cell1 = row.insertCell(0); // 最初のセルを追加
-        let cell2 = row.insertCell(1); // 2番目のセルを追加
-        let cell3 = row.insertCell(2); // 3番目のセルを追加
+        const tableBody = document.querySelector('#result tbody');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+                <td>${caseNumber}</td>
+                <td>${res}</td>
+                <td>${time}</td>
+            `;
+        tableBody.appendChild(newRow);
+    });
+    //テーブルをクリア
+    socket.on('clearTable', function() {
+        const tableBody = document.querySelector('#result tbody');
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+        }
+    });
+    //コピー
+    function copyToClipboard(elementId) {
+        const code = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(code).then(() => {
+            const copyMessage = document.querySelector(`#${elementId} + .copy-message`);
+            copyMessage.style.visibility = 'visible';
+            setTimeout(() => {
+                copyMessage.style.visibility = 'hidden';
+            }, 2000);
+        });
+    }
+    //コードエディターの設定
+    document.addEventListener("DOMContentLoaded", function() {
+        MathJax.typesetPromise();
 
-        // 各セルにデータを設定
-        cell1.innerHTML = `${caseNumber}`;
-        cell2.innerHTML = res;
-        cell3.innerHTML = `${time}`;
+        // Initialize ACE Editor
+        const editor = ace.edit("txt-editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/python");
+        editor.setOptions({
+            fontSize: "14pt",
+            showPrintMargin: false,
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            enableSnippets: true,
+        });
+        // 提出ボタンが押されたときの処理
+        document.getElementById("run").addEventListener("click", function() {
+            const code = editor.getValue();
+            const path = window.location.pathname;
+            const pageName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
+            console.log('Sent code:', code);
+            socket.emit('run', code, pageName);
+        });
     });
 </script>
 </body>
