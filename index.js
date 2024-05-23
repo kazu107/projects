@@ -19,8 +19,8 @@ const options = {
     デプロイするときは絶対に書き換える！！！！！
     デプロイするときは絶対に書き換える！！！！！
      */
-    pythonPath: heroku_pythonPath,
-    //pythonPath: defaultPythonPath,
+    //pythonPath: heroku_pythonPath,
+    pythonPath: defaultPythonPath,
     /*
     デプロイするときは絶対に書き換える！！！！！
     デプロイするときは絶対に書き換える！！！！！

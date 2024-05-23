@@ -1,3 +1,9 @@
+const fs = require('fs');
+const path = require('path');
+
+const largeInput1 = fs.readFileSync(path.join(__dirname, 'largeinputs', 'p1-4', 'p1-4-test3.txt'), 'utf8');
+const largeInput2 = fs.readFileSync(path.join(__dirname, 'largeinputs', 'p1-4', 'p1-4-test4.txt'), 'utf8');
+
 module.exports = {
     judge: "normal",
     sample1: {
@@ -6,7 +12,7 @@ module.exports = {
     },
     sample2: {
         input: '10\nsbcdefscde',
-        output: '5\n',
+        output: 'No\n',
     },
     test1: {
         input: '10\nabcdefabcd',
@@ -17,11 +23,11 @@ module.exports = {
         output: 'Yes\n',
     },
     test3: {
-        input: '2000000\n' + 'a'.repeat(1000000) + 'b'.repeat(1000000),
+        input: largeInput1,
         output: 'No\n',
     },
     test4: {
-        input: '2000000\n' + 'a'.repeat(200000) + 'b'.repeat(200000) + 'c'.repeat(200000) + 'd'.repeat(200000) + 'e'.repeat(200000) + 'f'.repeat(200000) + 's'.repeat(800000),
+        input: largeInput2,
         output: 'Yes\n',
     },
-}
+};
