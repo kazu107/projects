@@ -124,8 +124,8 @@ hr {
 
 .io_format {
     white-space: pre-wrap;
-    font-family: "menlo", "monaco", "consolas", "courier new", "monospace";
-    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
     margin: 0;
     padding: 8px;
 }
@@ -169,4 +169,21 @@ hr {
 
 #result th {
     background-color: #f8f8f8;
+}
+
+.result {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.result.green {
+    background-color: green;
+}
+
+.result.yellow {
+    background-color: yellow;
+    color: black;
 }

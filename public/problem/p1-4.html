@@ -117,14 +117,15 @@ sbcdefscde</div>
   });
   //結果を受信してテーブルを更新
   socket.on('result', (caseNumber, res, time) => {
-    const tableBody = document.querySelector('#result tbody');
-    const newRow = document.createElement('tr');
-    newRow.innerHTML = `
+      const tableBody = document.querySelector('#result tbody');
+      const newRow = document.createElement('tr');
+      const resColor = res === "AC" ? "green" : "yellow";
+      newRow.innerHTML = `
                 <td>${caseNumber}</td>
-                <td>${res}</td>
+                <td><span class="result ${resColor}">${res}</span></td>
                 <td>${time}</td>
             `;
-    tableBody.appendChild(newRow);
+      tableBody.appendChild(newRow);
   });
   //テーブルをクリア
   socket.on('clearTable', function() {

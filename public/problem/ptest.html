@@ -104,9 +104,10 @@
     socket.on('result', (caseNumber, res, time) => {
         const tableBody = document.querySelector('#result tbody');
         const newRow = document.createElement('tr');
+        const resColor = res === "AC" ? "green" : "yellow";
         newRow.innerHTML = `
                 <td>${caseNumber}</td>
-                <td>${res}</td>
+                <td><span class="result ${resColor}">${res}</span></td>
                 <td>${time}</td>
             `;
         tableBody.appendChild(newRow);
