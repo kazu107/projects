@@ -14,8 +14,18 @@ const defaultPythonPath = `${__dirname}/Python/Python311/python.exe`;
 const heroku_pythonPath = 'python';
 const options = {
     mode: 'text',
-    //pythonPath: heroku_pythonPath,
-    pythonPath: defaultPythonPath,
+    /*
+    デプロイするときは絶対に書き換える！！！！！
+    デプロイするときは絶対に書き換える！！！！！
+    デプロイするときは絶対に書き換える！！！！！
+     */
+    pythonPath: heroku_pythonPath,
+    //pythonPath: defaultPythonPath,
+    /*
+    デプロイするときは絶対に書き換える！！！！！
+    デプロイするときは絶対に書き換える！！！！！
+    デプロイするときは絶対に書き換える！！！！！
+     */
     pythonOptions: ['-u'], // コマンドラインオプション
     scriptPath: __dirname, // スクリプトのディレクトリ指定
     stderrParser: (log) => { return log; },
@@ -143,30 +153,39 @@ io.on('connection', (socket) => {
             for (const key in cases) {
                 if (cases.hasOwnProperty(key)) {
                     let caseData = cases[key];
+                    console.log("--sending to processInputs--");
+                    console.log("case: ", key);
                     let result = await processInputs([key, caseData.input, caseData.output]);
                     const times = parseInt(result[3]);
+                    console.log("--send to client--\n", "case: "+ result[0] + "\n" , result[1] + " and " + result[2] + "  time: ", times + " ms");
                     if (judgeway === "normal") {
                         if (times > 4000) {
-                            socket.emit('result', result[0], "TLE", times + " ms");
+                            socket.emit('result', key, "TLE", times + " ms");
+                        }
+                        else if (result[1] === undefined || result[1] === undefined) {
+                            socket.emit('result', key, "RE", times + " ms");
                         }
                         else if (result[1] === result[2]) {
-                            socket.emit('result', result[0], "AC", times + " ms");
+                            socket.emit('result', key, "AC", times + " ms");
                         }
                         else {
-                            socket.emit('result', result[0], "WA", times + " ms");
+                            socket.emit('result', key, "WA", times + " ms");
                         }
                     }
                     else if (judgeway === "decimal") {
                         const numExpected = parseFloat(result[2]);
                         const numActual = parseFloat(result[1]);
                         if (times > 4000) {
-                            socket.emit('result', result[0], "TLE", times + " ms");
+                            socket.emit('result', key, "TLE", times + " ms");
+                        }
+                        else if (result[1] === undefined || result[1] === undefined) {
+                            socket.emit('result', key, "RE", times + " ms");
                         }
                         else if (Math.abs(numExpected - numActual) <= 0.0001) {
-                            socket.emit('result', result[0], "AC", times + " ms");
+                            socket.emit('result', key, "AC", times + " ms");
                         }
                         else {
-                            socket.emit('result', result[0], "WA", times + " ms");
+                            socket.emit('result', key, "WA", times + " ms");
                         }
                     }
                 }
@@ -256,5 +275,7 @@ async function processInputs(info) {
     } catch (err) {
         console.error(`Error processing ${info[1]}:`, err);
     }
+    console.log("--send back to judge from processInputs--");
+    console.log("case: ", datas[0] + "\n", datas[1] + " and " + datas[2] + "  time: ", datas[3] + " ms");
     return datas;
 }
