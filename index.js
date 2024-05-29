@@ -98,6 +98,7 @@ const index = express()
         }
     })
     .post('/refresh', refreshToken)
+    /*
     .post('/refresh-token', (req, res) => {
         const { token } = req.body;
         if (!token) return res.sendStatus(401);
@@ -107,6 +108,7 @@ const index = express()
             res.json({ accessToken });
         });
     })
+    */
     .get('/register', (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'register.html'));
     })
