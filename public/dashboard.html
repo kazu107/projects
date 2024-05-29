@@ -24,6 +24,29 @@
     </div>
 </main>
 <script>
+    // トークンの有効期限チェックとリフレッシュ関数
+    async function refreshAccessToken() {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) {
+            return;
+        }
+
+        const response = await fetch('/refresh-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: refreshToken })
+        });
+
+        if (response.status === 200) {
+            const result = await response.json();
+            localStorage.setItem('token', result.accessToken); // 新しいアクセストークンを保存
+        } else {
+            console.error('Failed to refresh access token');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
         const authLinks = document.getElementById('auth-links');
         const token = localStorage.getItem('token');
@@ -44,6 +67,7 @@
                 `;
                 document.getElementById('logout').addEventListener('click', () => {
                     localStorage.removeItem('token');
+                    localStorage.removeItem('refreshToken');
                     location.reload();
                 });
             } else {
@@ -60,11 +84,13 @@
             `;
         }
     });
-</script>
-<script>
+
+    // 定期的にトークンをリフレッシュ
+    setInterval(refreshAccessToken, 10 * 60 * 1000); // 10分ごとにリフレッシュ
+    //ページ表示
     document.addEventListener('DOMContentLoaded', async () => {
         const token = localStorage.getItem('token');
-        if (token) {
+        if (!token) {
             alert('ログインが必要です');
             window.location.href = '/login.html';
             return;

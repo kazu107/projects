@@ -34,6 +34,7 @@ const options = {
 };
 
 const SECRET_KEY = process.env.SECRET_KEY;
+const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
 
 // 認証ミドルウェア
 function authenticateToken(req, res, next) {
@@ -45,6 +46,19 @@ function authenticateToken(req, res, next) {
         if (err) return res.sendStatus(403);
         req.user = user;
         next();
+    });
+}
+
+// トークンリフレッシュ用ミドルウェア
+function refreshToken(req, res, next) {
+    const refreshToken = req.body.refreshToken;
+    if (!refreshToken) return res.sendStatus(401);
+
+    jwt.verify(refreshToken, REFRESH_SECRET_KEY, (err, user) => {
+        if (err) return res.sendStatus(403);
+        const newAccessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '1h' });
+        const newRefreshToken = jwt.sign({ userId: user.userId }, REFRESH_SECRET_KEY, { expiresIn: '7d' });
+        res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     });
 }
 
@@ -73,14 +87,25 @@ const index = express()
             const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
             const user = result.rows[0];
             if (user && await bcrypt.compare(password, user.password_hash)) {
-                const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
-                res.json({ token });
+                const accessToken = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
+                const refreshToken = jwt.sign({ userId: user.id }, REFRESH_SECRET_KEY, { expiresIn: '30d' });
+                res.json({ accessToken, refreshToken });
             } else {
                 res.status(401).json({ error: 'Invalid credentials' });
             }
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
+    })
+    .post('/refresh', refreshToken)
+    .post('/refresh-token', (req, res) => {
+        const { token } = req.body;
+        if (!token) return res.sendStatus(401);
+        jwt.verify(token, REFRESH_SECRET_KEY, (err, user) => {
+            if (err) return res.sendStatus(403);
+            const accessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '1h' });
+            res.json({ accessToken });
+        });
     })
     .get('/register', (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'register.html'));
