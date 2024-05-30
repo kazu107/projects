@@ -56,8 +56,8 @@ function refreshToken(req, res, next) {
 
     jwt.verify(refreshToken, REFRESH_SECRET_KEY, (err, user) => {
         if (err) return res.sendStatus(403);
-        const newAccessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '1h' });
-        const newRefreshToken = jwt.sign({ userId: user.userId }, REFRESH_SECRET_KEY, { expiresIn: '7d' });
+        const newAccessToken = jwt.sign({ userId: user.userId }, SECRET_KEY, { expiresIn: '7d' });
+        const newRefreshToken = jwt.sign({ userId: user.userId }, REFRESH_SECRET_KEY, { expiresIn: '30d' });
         res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     });
 }
@@ -87,7 +87,7 @@ const index = express()
             const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
             const user = result.rows[0];
             if (user && await bcrypt.compare(password, user.password_hash)) {
-                const accessToken = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
+                const accessToken = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '7d' });
                 const refreshToken = jwt.sign({ userId: user.id }, REFRESH_SECRET_KEY, { expiresIn: '30d' });
                 res.json({ accessToken, refreshToken });
             } else {
@@ -97,7 +97,12 @@ const index = express()
             res.status(500).json({ error: err.message });
         }
     })
-    .post('/refresh', refreshToken)
+    .post('/refresh', refreshToken, (req, res) => {
+        const { userId } = req.user;
+        const newAccessToken = jwt.sign({ userId }, SECRET_KEY, { expiresIn: '7d' });
+        const newRefreshToken = jwt.sign({ userId }, REFRESH_SECRET_KEY, { expiresIn: '30d' });
+        res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+    })
     /*
     .post('/refresh-token', (req, res) => {
         const { token } = req.body;

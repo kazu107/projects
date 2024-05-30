@@ -62,36 +62,67 @@
     </div>
 </main>
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const authLinks = document.getElementById('auth-links');
-        const token = localStorage.getItem('token');
+    async function fetchWithAuth(url, options = {}) {
+        let token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login.html';
+            return;
+        }
 
-        if (token) {
-            // トークンがある場合、ユーザー情報を取得
-            const response = await fetch('/profile', {
+        options.headers = options.headers || {};
+        options.headers['Authorization'] = 'Bearer ' + token;
+
+        let response = await fetch(url, options);
+
+        if (response.status === 401) {  // トークンの期限切れ
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (!refreshToken) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const refreshResponse = await fetch('/refresh', {
+                method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer ' + token
-                }
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ refreshToken })
             });
 
-            if (response.ok) {
-                const user = await response.json();
-                authLinks.innerHTML = `
-                    <a href="/dashboard.html" class="auth-link"><i class="fas fa-user"></i> ${user.username}</a>
-                    <a href="#" id="logout" class="auth-link"><i class="fas fa-sign-out-alt"></i> ログアウト</a>
-                `;
-                document.getElementById('logout').addEventListener('click', () => {
-                    localStorage.removeItem('token');
-                    location.reload();
-                });
+            if (refreshResponse.ok) {
+                const refreshResult = await refreshResponse.json();
+                localStorage.setItem('token', refreshResult.accessToken);
+                localStorage.setItem('refreshToken', refreshResult.refreshToken);
+
+                options.headers['Authorization'] = 'Bearer ' + refreshResult.accessToken;
+                response = await fetch(url, options);
             } else {
-                authLinks.innerHTML = `
-                    <a href="/register.html" class="auth-link"><i class="fas fa-user-plus"></i> Register</a>
-                    <a href="/login.html" class="auth-link"><i class="fas fa-sign-in-alt"></i> Login</a>
-                `;
+                localStorage.removeItem('token');
+                localStorage.removeItem('refreshToken');
+                window.location.href = '/login.html';
+                return;
             }
+        }
+
+        return response;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const authLinks = document.getElementById('auth-links');
+        const response = await fetchWithAuth('/profile');
+
+        if (response.ok) {
+            const user = await response.json();
+            authLinks.innerHTML = `
+                <a href="/dashboard.html" class="auth-link"><i class="fas fa-user"></i> ${user.username}</a>
+                <a href="#" id="logout" class="auth-link"><i class="fas fa-sign-out-alt"></i> ログアウト</a>
+            `;
+            document.getElementById('logout').addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('refreshToken');
+                location.reload();
+            });
         } else {
-            // トークンがない場合、RegisterとLoginリンクを表示
             authLinks.innerHTML = `
                 <a href="/register.html" class="auth-link"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/login.html" class="auth-link"><i class="fas fa-sign-in-alt"></i> Login</a>
