@@ -231,24 +231,25 @@ io.on('connection', (socket) => {
                 const user = userid.rows[0].id;
                 console.log("user id: ", user, " を取得");
                 let chap, num;
+                const tempID = id;
                 //0章の問題の場合
-                if (id.length > 4) {
+                if (tempID.length > 4) {
                     chap = 0;
                     //idの最後の文字を整数に変換
-                    num = parseInt(id.slice(-1));
+                    num = parseInt(tempID.slice(-1));
                 }
                 else {
-                    chap = id[1];
-                    num = parseInt(id.slice(-1));
+                    chap = tempID[1];
+                    num = parseInt(tempID.slice(-1));
                 }
                 console.log("chapter: ", chap, " problem number: ", num, " を取得");
                 const problem = await pool.query('SELECT id FROM problems WHERE chapter_id = $1 and problem_number = $2', [chap, num]);
-                const id = problem.rows[0].id;
+                const probID = problem.rows[0].id;
                 let check;
                 check = ACcount === Object.keys(cases).length;
                 const result = await pool.query(
                     'INSERT INTO usersolvedproblems (user_id, problem_id, is_correct, source_code) VALUES ($1, $2, $3, $4) RETURNING id',
-                    [user, id, check, code]
+                    [user, probID, check, code]
                 );
                 console.log("result: ", result.rows[0].id);
             }
