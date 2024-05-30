@@ -106,7 +106,7 @@
             </tbody>
         </table>
         <div id = "progress">
-
+            <!-- 進捗バー -->
         </div>
     </div>
 </main>
@@ -125,9 +125,8 @@
         const newRow = document.createElement('tr');
         const resColor = res === "AC" ? "green" : "yellow";
         newRow.innerHTML = `
-                <td>${caseNumber}</td>
-                <td><span class="result ${resColor}">${res}</span></td>
-                <td>${time}</td>
+                <p>進捗:<span id="cur_num">0</span> / <span id="max_num">0</span>
+                <progress id = "prog-bar" value="" max=""></progress></p>
             `;
         tableBody.appendChild(newRow);
     });
