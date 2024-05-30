@@ -162,12 +162,17 @@
             enableSnippets: true,
         });
         // 提出ボタンが押されたときの処理
-        document.getElementById("run").addEventListener("click", function() {
+        document.getElementById("run").addEventListener("click", async function() {
             const code = editor.getValue();
             const path = window.location.pathname;
             const pageName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
             console.log('Sent code:', code);
-            socket.emit('run', code, pageName);
+            const response = await fetchWithAuth('/profile');
+            if (response.ok) {
+                const user = await response.json();
+                socket.emit('run', code, pageName, true, user.username);
+            }
+            else socket.emit('run', code, pageName, false);
         });
     });
 </script>

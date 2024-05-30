@@ -168,7 +168,7 @@ const io = require('socket.io')(index);
 io.on('connection', (socket) => {
     console.log('A user connected');
 
-    socket.on('run', async (code, id) => {
+    socket.on('run', async (code, id, isLogin, username) => {
         console.log('Code received: ', code);
         // ファイルにコードを書き込む
         try {
@@ -182,6 +182,7 @@ io.on('connection', (socket) => {
             console.log('Cases loaded:', cases);
             socket.emit('clearTable');
 
+            let ACcount = 0;
             for (const key in cases) {
                 if (cases.hasOwnProperty(key)) {
                     let caseData = cases[key];
@@ -198,6 +199,7 @@ io.on('connection', (socket) => {
                             socket.emit('result', key, "RE", times + " ms");
                         }
                         else if (result[1] === result[2]) {
+                            ACcount++;
                             socket.emit('result', key, "AC", times + " ms");
                         }
                         else {
@@ -214,6 +216,7 @@ io.on('connection', (socket) => {
                             socket.emit('result', key, "RE", times + " ms");
                         }
                         else if (Math.abs(numExpected - numActual) <= 0.0001) {
+                            ACcount++;
                             socket.emit('result', key, "AC", times + " ms");
                         }
                         else {
@@ -221,6 +224,29 @@ io.on('connection', (socket) => {
                         }
                     }
                 }
+            }
+            if (isLogin) {
+                const userid = await pool.query('SELECT id FROM users WHERE username = $1', [username]);
+                const user = userid.rows[0].id;
+                let chap, num;
+                //0章の問題の場合
+                if (id.length > 4) {
+                    chap = 0;
+                    //idの最後の文字を整数に変換
+                    num = parseInt(id.slice(-1));
+                }
+                else {
+                    chap = id[1];
+                    num = parseInt(id.slice(-1));
+                }
+                const problem = await pool.query('SELECT id FROM problems WHERE chapter_id = $1 and problem_number = $2', [chap, num]);
+                const id = problem.rows[0].id;
+                let check;
+                check = ACcount === Object.keys(cases).length;
+                const result = await pool.query(
+                    'INSERT INTO usersolvedproblems (user_id, problem_id, is_correct, source_code) VALUES ($1, $2, $3, $4) RETURNING id',
+                    [user, id, check, code]
+                );
             }
         } catch (error) {
             console.error("Error processing inputs or loading cases:", error);
