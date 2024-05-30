@@ -271,61 +271,61 @@ io.on('connection', (socket) => {
         const isAC = stats === "AC";
         if (searchUser === "") {
             const result = await pool.query(
-                'with' +
-                'maindate' +
-                'as (' +
-                'select' +
-                'solved_date,' +
-                '(' +
-                'select' +
-                'id' +
-                'from' +
-                'users' +
-                'where' +
-                'usersolvedproblems.user_id = users.id' +
-                ') as "username",' +
-                '(' +
-                'select' +
-                'tid' +
-                'from' +
-                'problems' +
-                'where' +
-                'usersolvedproblems.problem_id = problems.id' +
-                ') as "prob",' +
-                'is_correct,' +
-                'execute_time ' +
-                'from' +
-                'usersolvedproblems' +
-                '),' +
-                'maindate2' +
-                'as(' +
-                'select ' +
-                'maindate.solved_date,' +
-                '(' +
-                'select' +
-                'username' +
-                'from' +
-                'users' +
-                'where' +
-                'usersolvedproblems.user_id = users.id' +
-                ') as "users",' +
-                'prob,' +
-                'maindate.is_correct,' +
-                'maindate.execute_time' +
-                'from' +
-                'maindate,' +
-                'usersolvedproblems' +
-                'where' +
-                'maindate.is_correct = $1' +
-                ')' +
-                'select ' +
-                '*' +
-                'from ' +
-                'maindate2' +
-                'order by' +
-                'maindate2.solved_date desc' +
-                'limit $2' +
-                '',
+                'with\n' +
+                '\tmaindate\n' +
+                'as (\n' +
+                '\tselect \n' +
+                '\t\tsolved_date, \n' +
+                '\t\t(\n' +
+                '\t\t\tselect\n' +
+                '\t\t\t\tid\n' +
+                '\t\t\tfrom\n' +
+                '\t\t\t\tusers\n' +
+                '\t\t\twhere\n' +
+                '\t\t\t\tusersolvedproblems.user_id = users.id\n' +
+                '\t\t) as "username",\n' +
+                '\t\t(\n' +
+                '\t\t\tselect\n' +
+                '\t\t\t\tid\n' +
+                '\t\t\tfrom\n' +
+                '\t\t\t\tproblems\n' +
+                '\t\t\twhere\n' +
+                '\t\t\t\tusersolvedproblems.problem_id = problems.id\n' +
+                '\t\t) as "prob",\n' +
+                '\t\tis_correct,\n' +
+                '\t\texecute_time \n' +
+                '\tfrom\n' +
+                '\t\tusersolvedproblems\n' +
+                '\t),\n' +
+                '\tmaindate2\n' +
+                'as(\n' +
+                '\tselect \n' +
+                '\t\tmaindate.solved_date,\n' +
+                '\t\t(\n' +
+                '\t\t\t\tselect\n' +
+                '\t\t\t\t\tusername\n' +
+                '\t\t\t\tfrom\n' +
+                '\t\t\t\t\tusers\n' +
+                '\t\t\t\twhere\n' +
+                '\t\t\t\t\tusersolvedproblems.user_id = users.id\n' +
+                '\t\t\t) as "users",\n' +
+                '\t\tprob,\n' +
+                '\t\tmaindate.is_correct,\n' +
+                '\t\tmaindate.execute_time\n' +
+                '\tfrom\n' +
+                '\t\tmaindate,\n' +
+                '\t\tusersolvedproblems\n' +
+                '\twhere\n' +
+                '\t\tmaindate.is_correct = $1\n' +
+                '\t)\n' +
+                'select \n' +
+                '\t*\n' +
+                'from \n' +
+                '\tmaindate2\n' +
+                'order by\n' +
+                '\tmaindate2.solved_date desc\n' +
+                'limit $2\n' +
+                '\t',
                 [isAC, amount]
             );
             socket.emit('searchResult', result.rows);
