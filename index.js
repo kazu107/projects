@@ -316,7 +316,7 @@ io.on('connection', (socket) => {
                 '\t\tmaindate,\n' +
                 '\t\tusersolvedproblems\n' +
                 '\twhere\n' +
-                '\t\tmaindate.is_correct = $1\n' +
+                '\t\tmaindate.is_correct = true\n' +
                 '\t)\n' +
                 'select \n' +
                 '\t*\n' +
@@ -324,10 +324,11 @@ io.on('connection', (socket) => {
                 '\tmaindate2\n' +
                 'order by\n' +
                 '\tmaindate2.solved_date desc\n' +
-                'limit $2\n' +
+                'limit 5\n' +
                 '\t',
                 [isAC, amount]
             );
+            console.log("---search result no name---\n", result.rows);
             socket.emit('searchResult', result.rows);
         }
         else {
