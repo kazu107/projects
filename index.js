@@ -184,7 +184,7 @@ io.on('connection', (socket) => {
             //プログレスバーの初期化
             socket.emit('progress', "init", Object.keys(cases).length);
 
-            let ACcount = 0, allCount = 0;
+            let ACcount = 0, allCount = 0, maxTime = 0;
             for (const key in cases) {
                 if (cases.hasOwnProperty(key)) {
                     let caseData = cases[key];
@@ -192,6 +192,9 @@ io.on('connection', (socket) => {
                     console.log("case: ", key);
                     let result = await processInputs([key, caseData.input, caseData.output]);
                     const times = parseInt(result[3]);
+                    if (times > maxTime) {
+                        maxTime = times;
+                    }
                     console.log("--send to client--\n", "case: "+ result[0] + "\n" , result[1] + " and " + result[2] + "  time: ", times + " ms");
                     if (judgeway === "normal") {
                         if (times > 4000) {
@@ -252,14 +255,142 @@ io.on('connection', (socket) => {
                 let check;
                 check = ACcount === Object.keys(cases).length;
                 const result = await pool.query(
-                    'INSERT INTO usersolvedproblems (user_id, problem_id, is_correct, source_code) VALUES ($1, $2, $3, $4) RETURNING id',
-                    [user, probID, check, code]
+                    'INSERT INTO usersolvedproblems (user_id, problem_id, is_correct, source_code, execute_time) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+                    [user, probID, check, code, maxTime]
                 );
                 console.log("result: ", result.rows[0].id);
             }
         } catch (error) {
             console.error("Error processing inputs or loading cases:", error);
             socket.emit('result', `Error: ${error.message}`);
+        }
+    });
+    //メインページの最近の解答を取得
+    socket.on('search', async (searchUser, stats, amount) => {
+        const isAC = stats === "AC";
+        if (searchUser === "") {
+            const result = await pool.query(
+                'with\n' +
+                '\tmaindate\n' +
+                'as (\n' +
+                '\tselect \n' +
+                '\t\tsolved_date, \n' +
+                '\t\t(\n' +
+                '\t\t\tselect\n' +
+                '\t\t\t\tid\n' +
+                '\t\t\tfrom\n' +
+                '\t\t\t\tusers\n' +
+                '\t\t\twhere\n' +
+                '\t\t\t\tusersolvedproblems.user_id = users.id\n' +
+                '\t\t) as "username",\n' +
+                '\t\t(\n' +
+                '\t\t\tselect\n' +
+                '\t\t\t\tid\n' +
+                '\t\t\tfrom\n' +
+                '\t\t\t\tproblems\n' +
+                '\t\t\twhere\n' +
+                '\t\t\t\tusersolvedproblems.problem_id = problems.id\n' +
+                '\t\t) as "prob",\n' +
+                '\t\tis_correct,\n' +
+                '\t\texecute_time \n' +
+                '\tfrom\n' +
+                '\t\tusersolvedproblems\n' +
+                '\t),\n' +
+                '\tmaindate2\n' +
+                'as(\n' +
+                '\tselect \n' +
+                '\t\tmaindate.solved_date,\n' +
+                '\t\t(\n' +
+                '\t\t\t\tselect\n' +
+                '\t\t\t\t\tusername\n' +
+                '\t\t\t\tfrom\n' +
+                '\t\t\t\t\tusers\n' +
+                '\t\t\t\twhere\n' +
+                '\t\t\t\t\tusersolvedproblems.user_id = users.id\n' +
+                '\t\t\t) as "users",\n' +
+                '\t\tprob,\n' +
+                '\t\tmaindate.is_correct,\n' +
+                '\t\tmaindate.execute_time\n' +
+                '\tfrom\n' +
+                '\t\tmaindate,\n' +
+                '\t\tusersolvedproblems\n' +
+                '\twhere\n' +
+                '\t\tmaindate.is_correct = $1\n' +
+                '\t)\n' +
+                'select \n' +
+                '\t*\n' +
+                'from \n' +
+                '\tmaindate2\n' +
+                'order by\n' +
+                '\tmaindate2.solved_date desc\n' +
+                'limit $2\n' +
+                '\t',
+                [isAC, amount]
+            );
+            socket.emit('searchResult', result.rows);
+        }
+        else {
+            const result = await pool.query(
+                'with\n' +
+                '\tmaindate\n' +
+                'as (\n' +
+                '\tselect \n' +
+                '\t\tsolved_date, \n' +
+                '\t\t(\n' +
+                '\t\t\tselect\n' +
+                '\t\t\t\tid\n' +
+                '\t\t\tfrom\n' +
+                '\t\t\t\tusers\n' +
+                '\t\t\twhere\n' +
+                '\t\t\t\tusersolvedproblems.user_id = users.id\n' +
+                '\t\t) as "username",\n' +
+                '\t\t(\n' +
+                '\t\t\tselect\n' +
+                '\t\t\t\tid\n' +
+                '\t\t\tfrom\n' +
+                '\t\t\t\tproblems\n' +
+                '\t\t\twhere\n' +
+                '\t\t\t\tusersolvedproblems.problem_id = problems.id\n' +
+                '\t\t) as "prob",\n' +
+                '\t\tis_correct,\n' +
+                '\t\texecute_time \n' +
+                '\tfrom\n' +
+                '\t\tusersolvedproblems\n' +
+                '\t),\n' +
+                '\tmaindate2\n' +
+                'as(\n' +
+                '\tselect \n' +
+                '\t\tmaindate.solved_date,\n' +
+                '\t\t(\n' +
+                '\t\t\t\tselect\n' +
+                '\t\t\t\t\tusername\n' +
+                '\t\t\t\tfrom\n' +
+                '\t\t\t\t\tusers\n' +
+                '\t\t\t\twhere\n' +
+                '\t\t\t\t\tusersolvedproblems.user_id = users.id\n' +
+                '\t\t\t) as "users",\n' +
+                '\t\tprob,\n' +
+                '\t\tmaindate.is_correct,\n' +
+                '\t\tmaindate.execute_time\n' +
+                '\tfrom\n' +
+                '\t\tmaindate,\n' +
+                '\t\tusersolvedproblems\n' +
+                '\twhere\n' +
+                '\t\tmaindate.is_correct = $2\n' +
+                '\t)\n' +
+                'select \n' +
+                '\t*\n' +
+                'from \n' +
+                '\tmaindate2\n' +
+                'where \n' +
+                '\tmaindate2.users = $1\n' +
+                'order by\n' +
+                '\tmaindate2.solved_date desc\n' +
+                'limit $3\n' +
+                '\t',
+                [searchUser, isAC, amount]
+            );
+            socket.emit('searchResult', result.rows);
         }
     });
 
