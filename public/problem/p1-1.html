@@ -125,8 +125,9 @@
         const newRow = document.createElement('tr');
         const resColor = res === "AC" ? "green" : "yellow";
         newRow.innerHTML = `
-                <p>進捗:<span id="cur_num">0</span> / <span id="max_num">0</span>
-                <progress id = "prog-bar" value="" max=""></progress></p>
+                <td>${caseNumber}</td>
+                <td><span class="result ${resColor}">${res}</span></td>
+                <td>${time}</td>
             `;
         tableBody.appendChild(newRow);
     });
@@ -150,9 +151,8 @@
             }
             //進捗バーを表示
             progress.innerHTML = `
-                <p>進捗: <progress id = "prog-bar" value="" max="">
-                <span id="cur_num">0</span> / <span id="max_num">0</span>
-            </progress></p>
+                <p>進捗:<span id="cur_num">0</span> / <span id="max_num">0</span>
+                <progress id = "prog-bar" value="" max=""></progress></p>
             `;
         } else if (stat === "next") {
             cur_num++;
