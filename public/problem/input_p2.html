@@ -106,65 +106,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
-<script>
-    const socket = io();
-    //接続
-    socket.on('connect', function() {
-        console.log('Connected to server');
-    });
-    //結果を受信してテーブルを更新
-    socket.on('result', (caseNumber, res, time) => {
-        const tableBody = document.querySelector('#result tbody');
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-                <td>${caseNumber}</td>
-                <td>${res}</td>
-                <td>${time}</td>
-            `;
-        tableBody.appendChild(newRow);
-    });
-    //テーブルをクリア
-    socket.on('clearTable', function() {
-        const tableBody = document.querySelector('#result tbody');
-        while (tableBody.firstChild) {
-            tableBody.removeChild(tableBody.firstChild);
-        }
-    });
-    //コピー
-    function copyToClipboard(elementId) {
-        const code = document.getElementById(elementId).innerText;
-        navigator.clipboard.writeText(code).then(() => {
-            const copyMessage = document.querySelector(`#${elementId} + .copy-message`);
-            copyMessage.style.visibility = 'visible';
-            setTimeout(() => {
-                copyMessage.style.visibility = 'hidden';
-            }, 2000);
-        });
-    }
-    //コードエディターの設定
-    document.addEventListener("DOMContentLoaded", function() {
-        MathJax.typesetPromise();
-
-        // Initialize ACE Editor
-        const editor = ace.edit("txt-editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/python");
-        editor.setOptions({
-            fontSize: "14pt",
-            showPrintMargin: false,
-            enableBasicAutocompletion: true,
-            enableLiveAutocompletion: true,
-            enableSnippets: true,
-        });
-        // 提出ボタンが押されたときの処理
-        document.getElementById("run").addEventListener("click", function() {
-            const code = editor.getValue();
-            const path = window.location.pathname;
-            const pageName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
-            console.log('Sent code:', code);
-            socket.emit('run', code, pageName);
-        });
-    });
-</script>
+<script src="../js/problemsConfig.js"></script>
 </body>
 </html>
