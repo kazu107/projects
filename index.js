@@ -325,8 +325,7 @@ io.on('connection', (socket) => {
                 'order by\n' +
                 '\tmaindate2.solved_date desc\n' +
                 'limit 5\n' +
-                '\t',
-                [isAC, amount]
+                '\t'
             );
             console.log("---search result no name---\n", result.rows);
             socket.emit('searchResult', result.rows);
