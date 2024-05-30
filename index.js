@@ -181,8 +181,10 @@ io.on('connection', (socket) => {
 
             console.log('Cases loaded:', cases);
             socket.emit('clearTable');
+            //プログレスバーの初期化
+            socket.emit('progress', "init", Object.keys(cases).length);
 
-            let ACcount = 0;
+            let ACcount = 0, allCount = 0;
             for (const key in cases) {
                 if (cases.hasOwnProperty(key)) {
                     let caseData = cases[key];
@@ -223,6 +225,8 @@ io.on('connection', (socket) => {
                             socket.emit('result', key, "WA", times + " ms");
                         }
                     }
+                    allCount++;
+                    socket.emit('progress', "next", Object.keys(cases).length);
                 }
             }
             if (isLogin) {

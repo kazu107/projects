@@ -105,6 +105,9 @@
             <tbody>
             </tbody>
         </table>
+        <div id = "progress">
+
+        </div>
     </div>
 </main>
 <script src="/socket.io/socket.io.js"></script>
@@ -134,6 +137,33 @@
         while (tableBody.firstChild) {
             tableBody.removeChild(tableBody.firstChild);
         }
+    });
+    //プログレスを受信
+    let cur_num = 0, max_num = 0;
+    socket.on('progress', (stat, cases_num) => {
+        if (stat === "init") {
+            cur_num = 0;
+            max_num = cases_num;
+            const progress = document.getElementById('progress');
+            //進捗バーを削除
+            if (progress.innerHTML !== "") {
+                progress.innerHTML = "";
+            }
+            //進捗バーを表示
+            progress.innerHTML = `
+                <p>進捗: <progress id = "prog-bar" value="" max="">
+                <span id="cur_num">0</span> / <span id="max_num">0</span>
+            </progress></p>
+            `;
+        } else if (stat === "next") {
+            cur_num++;
+        } else {
+            cur_num = 0;
+        }
+        document.getElementById('cur_num').innerText = cur_num;
+        document.getElementById('max_num').innerText = max_num;
+        document.getElementById('prog-bar').value = cur_num;
+        document.getElementById('prog-bar').max = max_num;
     });
     //コピー
     function copyToClipboard(elementId) {
