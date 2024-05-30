@@ -101,6 +101,7 @@
 <script>
     async function fetchWithAuth(url, options = {}) {
         let token = localStorage.getItem('token');
+        let response = await fetch(url, options);
         if (!token) {
             return;
         }
@@ -108,7 +109,6 @@
         options.headers = options.headers || {};
         options.headers['Authorization'] = 'Bearer ' + token;
 
-        let response = await fetch(url, options);
 
         if (response.status === 401) {  // トークンの期限切れ
             const refreshToken = localStorage.getItem('refreshToken');
