@@ -267,6 +267,7 @@ io.on('connection', (socket) => {
     });
     //メインページの最近の解答を取得
     socket.on('search', async (searchUser, stats, amount) => {
+        console.log("received search request: ", searchUser, " ", stats, " ", amount, " 件取得します。");
         const isAC = stats === "AC";
         if (searchUser === "") {
             const result = await pool.query(
@@ -390,6 +391,7 @@ io.on('connection', (socket) => {
                 '\t',
                 [searchUser, isAC, amount]
             );
+            console.log("---search result---\n", result.rows);
             socket.emit('searchResult', result.rows);
         }
     });

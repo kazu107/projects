@@ -162,10 +162,12 @@
         const searchUser = document.getElementById('searchUser').value;
         const stat = document.getElementById('stat').value;
         const amount = document.getElementById('amount').value;
+        console.log("send with " + searchUser + " " + stat + " " + amount);
         socket.emit('search', searchUser, stat, amount);
     });
     //検索結果を受け取る
     socket.on('searchResult', function(data) {
+        console.log("---receive data---\n" + data);
         const tableBody = document.querySelector('#result tbody');
         // テーブルの中身を空にする
         while (tableBody.firstChild) {
