@@ -146,6 +146,48 @@
             }, 2000);
         });
     }
+    async function fetchWithAuth(url, options = {}) {
+        let token = localStorage.getItem('token');
+        options.headers = options.headers || {};
+        options.headers['Authorization'] = 'Bearer ' + token;
+        let response = await fetch(url, options);
+        if (!token) {
+            return;
+        }
+
+
+        if (response.status === 401) {  // トークンの期限切れ
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (!refreshToken) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const refreshResponse = await fetch('/refresh', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ refreshToken })
+            });
+
+            if (refreshResponse.ok) {
+                const refreshResult = await refreshResponse.json();
+                localStorage.setItem('token', refreshResult.accessToken);
+                localStorage.setItem('refreshToken', refreshResult.refreshToken);
+
+                options.headers['Authorization'] = 'Bearer ' + refreshResult.accessToken;
+                response = await fetch(url, options);
+            } else {
+                localStorage.removeItem('token');
+                localStorage.removeItem('refreshToken');
+                window.location.href = '/login.html';
+                return;
+            }
+        }
+
+        return response;
+    }
     //コードエディターの設定
     document.addEventListener("DOMContentLoaded", function() {
         MathJax.typesetPromise();

@@ -226,8 +226,10 @@ io.on('connection', (socket) => {
                 }
             }
             if (isLogin) {
+                console.log("username: ", username + " さんの解答をデータベースに保存します。");
                 const userid = await pool.query('SELECT id FROM users WHERE username = $1', [username]);
                 const user = userid.rows[0].id;
+                console.log("user id: ", user, " を取得");
                 let chap, num;
                 //0章の問題の場合
                 if (id.length > 4) {
@@ -239,6 +241,7 @@ io.on('connection', (socket) => {
                     chap = id[1];
                     num = parseInt(id.slice(-1));
                 }
+                console.log("chapter: ", chap, " problem number: ", num, " を取得");
                 const problem = await pool.query('SELECT id FROM problems WHERE chapter_id = $1 and problem_number = $2', [chap, num]);
                 const id = problem.rows[0].id;
                 let check;
@@ -247,6 +250,7 @@ io.on('connection', (socket) => {
                     'INSERT INTO usersolvedproblems (user_id, problem_id, is_correct, source_code) VALUES ($1, $2, $3, $4) RETURNING id',
                     [user, id, check, code]
                 );
+                console.log("result: ", result.rows[0].id);
             }
         } catch (error) {
             console.error("Error processing inputs or loading cases:", error);
