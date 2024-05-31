@@ -150,65 +150,68 @@
 <script>
     // テーブルの表示・非表示を切り替える
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.toggle-btn').forEach(function(btn, index) {
-            btn.addEventListener('click', function() {
-                const codeRow = btn.closest('tr').nextElementSibling;
-                if (codeRow.style.display === 'table-row') {
-                    codeRow.style.display = 'none';
-                } else {
-                    codeRow.style.display = 'table-row';
-                    const editor = ace.edit('editor' + (index + 1));
-                    editor.setTheme('ace/theme/monokai');
-                    editor.session.setMode('ace/mode/python');
-                    editor.setReadOnly(true);
-                }
+        function bindToggleButtons() {
+            document.querySelectorAll('.toggle-btn').forEach(function(btn, index) {
+                btn.addEventListener('click', function() {
+                    const codeRow = btn.closest('tr').nextElementSibling;
+                    if (codeRow.style.display === 'table-row') {
+                        codeRow.style.display = 'none';
+                    } else {
+                        codeRow.style.display = 'table-row';
+                        const editor = ace.edit('editor' + (index + 1));
+                        editor.setTheme('ace/theme/monokai');
+                        editor.session.setMode('ace/mode/javascript');
+                        editor.setReadOnly(true);
+                    }
+                });
             });
-        });
-        document.querySelectorAll('.code-row').forEach(function(row) {
-            row.style.display = 'none';
-        });
-    });
-    //検索ボタンを押したときの処理
-    const socket = io();
-    document.getElementById('search').addEventListener('click', function() {
-        const searchUser = document.getElementById('searchUser').value;
-        const stat = document.getElementById('stat').value;
-        const amount = document.getElementById('amount').value;
-        console.log("send with " + searchUser + " " + stat + " " + amount);
-        socket.emit('search', searchUser, stat, amount);
-    });
-    //検索結果を受け取る
-    socket.on('searchResult', async (data)  => {
-        console.log("---receive data---\n" + data);
-        const tableBody = document.querySelector('#result tbody');
-        // テーブルの中身を空にする
-        while (tableBody.firstChild) {
-            tableBody.removeChild(tableBody.firstChild);
+            document.querySelectorAll('.code-row').forEach(function(row) {
+                row.style.display = 'none';
+            });
         }
-        for (let i = 0; i < data.length; i++) {
-            // テーブルにデータを追加する
-            const newRow1 = document.createElement('tr');
-            newRow1.innerHTML = `
-                <td>${data[i].solved_date}</td>
-                <td>${data[i].users}</td>
-                <td>${data[i].prob}</td>
-                <td>${data[i].is_correct}</td>
-                <td>${data[i].execute_time}ms</td>
-                <td><button class="toggle-btn">^</button></td>
-            `;
-            // class="code-row"でソースコードを追加
-            const newRow2 = document.createElement('tr');
-            newRow2.className = 'code-row';
-            newRow2.innerHTML = `
-                <td colspan="6">
-                    <div id="editor${i + 1}" class="editor">${
-                        data[i].source_code
-                    }</div>
-                </td>
-            `;
-            tableBody.appendChild(newRow1);
-            tableBody.appendChild(newRow2);
-        }
+
+        bindToggleButtons();
+        // 検索ボタンをクリックしたときの処理
+        const socket = io();
+        document.getElementById('search').addEventListener('click', function() {
+            const searchUser = document.getElementById('searchUser').value;
+            const stat = document.getElementById('stat').value;
+            const amount = document.getElementById('amount').value;
+            console.log("send with " + searchUser + " " + stat + " " + amount);
+            socket.emit('search', searchUser, stat, amount);
+        });
+        // 検索結果を受信したときの処理
+        socket.on('searchResult', function(data) {
+            console.log("---receive data---\n" + data);
+            const tableBody = document.querySelector('#result tbody');
+            // テーブルの中身を空にする
+            while (tableBody.firstChild) {
+                tableBody.removeChild(tableBody.firstChild);
+            }
+            for (let i = 0; i < data.length; i++) {
+                // テーブルにデータを追加する
+                const newRow1 = document.createElement('tr');
+                newRow1.innerHTML = `
+                        <td>${data[i].solved_date}</td>
+                        <td>${data[i].users}</td>
+                        <td>${data[i].probs}</td>
+                        <td>${data[i].is_correct}</td>
+                        <td>${data[i].execute_time}ms</td>
+                        <td><button class="toggle-btn">^</button></td>
+                    `;
+                // class="code-row"でソースコードを追加
+                const newRow2 = document.createElement('tr');
+                newRow2.className = 'code-row';
+                newRow2.innerHTML = `
+                        <td colspan="6">
+                            <div id="editor${i + 1}" class="editor">${data[i].source_code}</div>
+                        </td>
+                    `;
+                tableBody.appendChild(newRow1);
+                tableBody.appendChild(newRow2);
+            }
+            bindToggleButtons(); // 新しいデータに対してクリックイベントをバインドする
+        });
     });
 
 
