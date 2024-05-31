@@ -166,7 +166,7 @@
         socket.emit('search', searchUser, stat, amount);
     });
     //検索結果を受け取る
-    socket.on('searchResult', function(data) {
+    socket.on('searchResult', async (data)  => {
         console.log("---receive data---\n" + data);
         const tableBody = document.querySelector('#result tbody');
         // テーブルの中身を空にする
@@ -194,6 +194,8 @@
                     }</div>
                 </td>
             `;
+            tableBody.appendChild(newRow1);
+            tableBody.appendChild(newRow2);
         }
     });
 
