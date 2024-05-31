@@ -282,7 +282,8 @@ io.on('connection', (socket) => {
                                          from problems
                                          where usersolvedproblems.problem_id = problems.id) as "prob",
                                         is_correct,
-                                        execute_time
+                                        execute_time,
+                                        source_code
                                  from usersolvedproblems),
                          maindate2
                              as (select maindate.solved_date,
@@ -291,7 +292,8 @@ io.on('connection', (socket) => {
                                          where usersolvedproblems.user_id = users.id) as "users",
                                         prob,
                                         maindate.is_correct,
-                                        maindate.execute_time
+                                        maindate.execute_time,
+                                        maindate.execute_time,
                                  from maindate,
                                       usersolvedproblems)
                     select *
@@ -315,7 +317,8 @@ io.on('connection', (socket) => {
                                          from problems
                                          where usersolvedproblems.problem_id = problems.id) as "prob",
                                         is_correct,
-                                        execute_time
+                                        execute_time,
+                                        source_code
                                  from usersolvedproblems),
                          maindate2
                              as (select maindate.solved_date,
@@ -324,7 +327,8 @@ io.on('connection', (socket) => {
                                          where usersolvedproblems.user_id = users.id) as "users",
                                         prob,
                                         maindate.is_correct,
-                                        maindate.execute_time
+                                        maindate.execute_time,
+                                        maindate.execute_time,
                                  from maindate,
                                       usersolvedproblems
                                  where maindate.is_correct = $1)
@@ -351,7 +355,8 @@ io.on('connection', (socket) => {
                                          from problems
                                          where usersolvedproblems.problem_id = problems.id) as "prob",
                                         is_correct,
-                                        execute_time
+                                        execute_time,
+                                        source_code
                                  from usersolvedproblems),
                          maindate2
                              as (select maindate.solved_date,
@@ -360,7 +365,8 @@ io.on('connection', (socket) => {
                                          where usersolvedproblems.user_id = users.id) as "users",
                                         prob,
                                         maindate.is_correct,
-                                        maindate.execute_time
+                                        maindate.execute_time,
+                                        maindate.execute_time,
                                  from maindate,
                                       usersolvedproblems)
                     select *
@@ -383,7 +389,8 @@ io.on('connection', (socket) => {
                                          from problems
                                          where usersolvedproblems.problem_id = problems.id) as "prob",
                                         is_correct,
-                                        execute_time
+                                        execute_time,
+                                        source_code
                                  from usersolvedproblems),
                          maindate2
                              as (select maindate.solved_date,
@@ -392,7 +399,8 @@ io.on('connection', (socket) => {
                                          where usersolvedproblems.user_id = users.id) as "users",
                                         prob,
                                         maindate.is_correct,
-                                        maindate.execute_time
+                                        maindate.execute_time,
+                                        maindate.execute_time,
                                  from maindate,
                                       usersolvedproblems
                                  where maindate.is_correct = $2)
