@@ -293,7 +293,7 @@ io.on('connection', (socket) => {
                                         prob,
                                         maindate.is_correct,
                                         maindate.execute_time,
-                                        maindate.execute_time,
+                                        maindate.source_code
                                  from maindate,
                                       usersolvedproblems)
                     select *
@@ -328,7 +328,7 @@ io.on('connection', (socket) => {
                                         prob,
                                         maindate.is_correct,
                                         maindate.execute_time,
-                                        maindate.execute_time,
+                                        maindate.source_code
                                  from maindate,
                                       usersolvedproblems
                                  where maindate.is_correct = $1)
@@ -366,7 +366,7 @@ io.on('connection', (socket) => {
                                         prob,
                                         maindate.is_correct,
                                         maindate.execute_time,
-                                        maindate.execute_time,
+                                        maindate.source_code
                                  from maindate,
                                       usersolvedproblems)
                     select *
@@ -400,7 +400,7 @@ io.on('connection', (socket) => {
                                         prob,
                                         maindate.is_correct,
                                         maindate.execute_time,
-                                        maindate.execute_time,
+                                        maindate.source_code
                                  from maindate,
                                       usersolvedproblems
                                  where maindate.is_correct = $2)
