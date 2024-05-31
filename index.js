@@ -271,61 +271,33 @@ io.on('connection', (socket) => {
         const isAC = stats === "AC";
         if (searchUser === "") {
             const result = await pool.query(
-                'with\n' +
-                '\tmaindate\n' +
-                'as (\n' +
-                '\tselect \n' +
-                '\t\tsolved_date, \n' +
-                '\t\t(\n' +
-                '\t\t\tselect\n' +
-                '\t\t\t\tid\n' +
-                '\t\t\tfrom\n' +
-                '\t\t\t\tusers\n' +
-                '\t\t\twhere\n' +
-                '\t\t\t\tusersolvedproblems.user_id = users.id\n' +
-                '\t\t) as "username",\n' +
-                '\t\t(\n' +
-                '\t\t\tselect\n' +
-                '\t\t\t\tid\n' +
-                '\t\t\tfrom\n' +
-                '\t\t\t\tproblems\n' +
-                '\t\t\twhere\n' +
-                '\t\t\t\tusersolvedproblems.problem_id = problems.id\n' +
-                '\t\t) as "prob",\n' +
-                '\t\tis_correct,\n' +
-                '\t\texecute_time \n' +
-                '\tfrom\n' +
-                '\t\tusersolvedproblems\n' +
-                '\t),\n' +
-                '\tmaindate2\n' +
-                'as(\n' +
-                '\tselect \n' +
-                '\t\tmaindate.solved_date,\n' +
-                '\t\t(\n' +
-                '\t\t\t\tselect\n' +
-                '\t\t\t\t\tusername\n' +
-                '\t\t\t\tfrom\n' +
-                '\t\t\t\t\tusers\n' +
-                '\t\t\t\twhere\n' +
-                '\t\t\t\t\tusersolvedproblems.user_id = users.id\n' +
-                '\t\t\t) as "users",\n' +
-                '\t\tprob,\n' +
-                '\t\tmaindate.is_correct,\n' +
-                '\t\tmaindate.execute_time\n' +
-                '\tfrom\n' +
-                '\t\tmaindate,\n' +
-                '\t\tusersolvedproblems\n' +
-                '\twhere\n' +
-                '\t\tmaindate.is_correct = true\n' +
-                '\t)\n' +
-                'select \n' +
-                '\t*\n' +
-                'from \n' +
-                '\tmaindate2\n' +
-                'order by\n' +
-                '\tmaindate2.solved_date desc\n' +
-                'limit 5\n' +
-                '\t'
+                `
+    WITH maindate AS (
+        SELECT 
+            solved_date, 
+            (SELECT username FROM users WHERE usersolvedproblems.user_id = users.id) AS username,
+            (SELECT id FROM problems WHERE usersolvedproblems.problem_id = problems.id) AS prob,
+            is_correct,
+            execute_time 
+        FROM usersolvedproblems
+    ),
+    maindate2 AS (
+        SELECT 
+            maindate.solved_date,
+            (SELECT username FROM users WHERE usersolvedproblems.user_id = users.id) AS users,
+            prob,
+            maindate.is_correct,
+            maindate.execute_time
+        FROM maindate
+        JOIN usersolvedproblems ON maindate.username = usersolvedproblems.user_id
+        WHERE maindate.is_correct = $1
+    )
+    SELECT *
+    FROM maindate2
+    ORDER BY maindate2.solved_date DESC
+    LIMIT $2
+    `,
+                [isAC, amount]
             );
             console.log("---search result no name---\n", result.rows);
             socket.emit('searchResult', result.rows);
