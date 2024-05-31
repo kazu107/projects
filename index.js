@@ -290,7 +290,10 @@ io.on('connection', (socket) => {
                                         (select username
                                          from users
                                          where usersolvedproblems.user_id = users.id) as "users",
-                                        prob,
+                                        (select problem_description
+                                         from problems
+                                         where maindate.prob = problems.id
+                                        ) as probs,
                                         maindate.is_correct,
                                         maindate.execute_time,
                                         maindate.source_code
@@ -325,7 +328,10 @@ io.on('connection', (socket) => {
                                         (select username
                                          from users
                                          where usersolvedproblems.user_id = users.id) as "users",
-                                        prob,
+                                        (select problem_description
+                                         from problems
+                                         where maindate.prob = problems.id
+                                        ) as probs,
                                         maindate.is_correct,
                                         maindate.execute_time,
                                         maindate.source_code
@@ -363,7 +369,10 @@ io.on('connection', (socket) => {
                                         (select username
                                          from users
                                          where usersolvedproblems.user_id = users.id) as "users",
-                                        prob,
+                                        (select problem_description
+                                         from problems
+                                         where maindate.prob = problems.id
+                                        ) as probs,
                                         maindate.is_correct,
                                         maindate.execute_time,
                                         maindate.source_code
@@ -397,7 +406,10 @@ io.on('connection', (socket) => {
                                         (select username
                                          from users
                                          where usersolvedproblems.user_id = users.id) as "users",
-                                        prob,
+                                        (select problem_description
+                                         from problems
+                                         where maindate.prob = problems.id
+                                        ) as probs,
                                         maindate.is_correct,
                                         maindate.execute_time,
                                         maindate.source_code
