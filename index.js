@@ -343,6 +343,8 @@ io.on('connection', (socket) => {
     `,
                     [searchUser, amount]
                 );
+                console.log("---search result---\n", result.rows);
+                socket.emit('searchResult', result.rows);
             }
             else {
                 const result = await pool.query(
@@ -366,9 +368,9 @@ io.on('connection', (socket) => {
     `,
                     [searchUser, isAC, amount]
                 );
+                console.log("---search result---\n", result.rows);
+                socket.emit('searchResult', result.rows);
             }
-            console.log("---search result---\n", result.rows);
-            socket.emit('searchResult', result.rows);
         }
     });
 
