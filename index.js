@@ -273,35 +273,21 @@ io.on('connection', (socket) => {
             if (stats === "all") {
                 const result = await pool.query(
                     `
-                    with maindate
-                             as (select solved_date,
-                                        (select id
-                                         from users
-                                         where usersolvedproblems.user_id = users.id)       as "username",
-                                        (select id
-                                         from problems
-                                         where usersolvedproblems.problem_id = problems.id) as "prob",
-                                        is_correct,
-                                        execute_time,
-                                        source_code
-                                 from usersolvedproblems),
-                         maindate2
-                             as (select maindate.solved_date,
-                                        (select username
-                                         from users
-                                         where usersolvedproblems.user_id = users.id) as "users",
-                                        (select problem_description
-                                         from problems
-                                         where maindate.prob = problems.id
-                                        ) as probs,
-                                        maindate.is_correct,
-                                        maindate.execute_time,
-                                        maindate.source_code
-                                 from maindate,
-                                      usersolvedproblems)
-                    select *
-                    from maindate2
-                    order by maindate2.solved_date desc limit $1
+                        with main as (select solved_date,
+                                             (select username
+                                              from users
+                                              where users.id = user_id)       as users,
+                                             (select problem_description
+                                              from problems
+                                              where problems.id = problem_id) as probs,
+                                             is_correct,
+                                             execute_time,
+                                             source_code
+                                      from usersolvedproblems
+                                      order by solved_date desc)
+                        select *
+                        from main
+                        limit $1
     `,
                     [amount]
                 );
@@ -311,36 +297,22 @@ io.on('connection', (socket) => {
             else {
                 const result = await pool.query(
                     `
-                    with maindate
-                             as (select solved_date,
-                                        (select id
-                                         from users
-                                         where usersolvedproblems.user_id = users.id)       as "username",
-                                        (select id
-                                         from problems
-                                         where usersolvedproblems.problem_id = problems.id) as "prob",
-                                        is_correct,
-                                        execute_time,
-                                        source_code
-                                 from usersolvedproblems),
-                         maindate2
-                             as (select maindate.solved_date,
-                                        (select username
-                                         from users
-                                         where usersolvedproblems.user_id = users.id) as "users",
-                                        (select problem_description
-                                         from problems
-                                         where maindate.prob = problems.id
-                                        ) as probs,
-                                        maindate.is_correct,
-                                        maindate.execute_time,
-                                        maindate.source_code
-                                 from maindate,
-                                      usersolvedproblems
-                                 where maindate.is_correct = $1)
-                    select *
-                    from maindate2
-                    order by maindate2.solved_date desc limit $2
+                        with main as (select solved_date,
+                                             (select username
+                                              from users
+                                              where users.id = user_id)       as users,
+                                             (select problem_description
+                                              from problems
+                                              where problems.id = problem_id) as probs,
+                                             is_correct,
+                                             execute_time,
+                                             source_code
+                                      from usersolvedproblems
+                                      order by solved_date desc)
+                        select *
+                        from main
+                        where is_correct = $1
+                        limit $2
     `,
                     [isAC, amount]
                 );
@@ -352,36 +324,22 @@ io.on('connection', (socket) => {
             if (stats === "all") {
                 const result = await pool.query(
                     `
-                    with maindate
-                             as (select solved_date,
-                                        (select id
-                                         from users
-                                         where usersolvedproblems.user_id = users.id)       as "username",
-                                        (select id
-                                         from problems
-                                         where usersolvedproblems.problem_id = problems.id) as "prob",
-                                        is_correct,
-                                        execute_time,
-                                        source_code
-                                 from usersolvedproblems),
-                         maindate2
-                             as (select maindate.solved_date,
-                                        (select username
-                                         from users
-                                         where usersolvedproblems.user_id = users.id) as "users",
-                                        (select problem_description
-                                         from problems
-                                         where maindate.prob = problems.id
-                                        ) as probs,
-                                        maindate.is_correct,
-                                        maindate.execute_time,
-                                        maindate.source_code
-                                 from maindate,
-                                      usersolvedproblems)
-                    select *
-                    from maindate2
-                    where maindate2.users = $1
-                    order by maindate2.solved_date desc limit $2
+                        with main as (select solved_date,
+                                             (select username
+                                              from users
+                                              where users.id = user_id)       as users,
+                                             (select problem_description
+                                              from problems
+                                              where problems.id = problem_id) as probs,
+                                             is_correct,
+                                             execute_time,
+                                             source_code
+                                      from usersolvedproblems
+                                      order by solved_date desc)
+                        select *
+                        from main
+                        where users = $1
+                        limit $2
     `,
                     [searchUser, amount]
                 );
@@ -389,37 +347,22 @@ io.on('connection', (socket) => {
             else {
                 const result = await pool.query(
                     `
-                    with maindate
-                             as (select solved_date,
-                                        (select id
-                                         from users
-                                         where usersolvedproblems.user_id = users.id)       as "username",
-                                        (select id
-                                         from problems
-                                         where usersolvedproblems.problem_id = problems.id) as "prob",
-                                        is_correct,
-                                        execute_time,
-                                        source_code
-                                 from usersolvedproblems),
-                         maindate2
-                             as (select maindate.solved_date,
-                                        (select username
-                                         from users
-                                         where usersolvedproblems.user_id = users.id) as "users",
-                                        (select problem_description
-                                         from problems
-                                         where maindate.prob = problems.id
-                                        ) as probs,
-                                        maindate.is_correct,
-                                        maindate.execute_time,
-                                        maindate.source_code
-                                 from maindate,
-                                      usersolvedproblems
-                                 where maindate.is_correct = $2)
-                    select *
-                    from maindate2
-                    where maindate2.users = $1
-                    order by maindate2.solved_date desc limit $3
+                        with main as (select solved_date,
+                                             (select username
+                                              from users
+                                              where users.id = user_id)       as users,
+                                             (select problem_description
+                                              from problems
+                                              where problems.id = problem_id) as probs,
+                                             is_correct,
+                                             execute_time,
+                                             source_code
+                                      from usersolvedproblems
+                                      order by solved_date desc)
+                        select *
+                        from main
+                        where users = $1
+                          and $2 = true limit $3
     `,
                     [searchUser, isAC, amount]
                 );
