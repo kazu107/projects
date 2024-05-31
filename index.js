@@ -272,30 +272,31 @@ io.on('connection', (socket) => {
         if (searchUser === "") {
             const result = await pool.query(
                 `
-    WITH maindate AS (
-        SELECT 
-            solved_date, 
-            (SELECT username FROM users WHERE usersolvedproblems.user_id = users.id) AS username,
-            (SELECT id FROM problems WHERE usersolvedproblems.problem_id = problems.id) AS prob,
-            is_correct,
-            execute_time 
-        FROM usersolvedproblems
-    ),
-    maindate2 AS (
-        SELECT 
-            maindate.solved_date,
-            (SELECT username FROM users WHERE usersolvedproblems.user_id = users.id) AS users,
-            prob,
-            maindate.is_correct,
-            maindate.execute_time
-        FROM maindate
-        JOIN usersolvedproblems ON maindate.username = usersolvedproblems.user_id
-        WHERE maindate.is_correct = $1
-    )
-    SELECT *
-    FROM maindate2
-    ORDER BY maindate2.solved_date DESC
-    LIMIT $2
+                    with maindate
+                             as (select solved_date,
+                                        (select id
+                                         from users
+                                         where usersolvedproblems.user_id = users.id)       as "username",
+                                        (select id
+                                         from problems
+                                         where usersolvedproblems.problem_id = problems.id) as "prob",
+                                        is_correct,
+                                        execute_time
+                                 from usersolvedproblems),
+                         maindate2
+                             as (select maindate.solved_date,
+                                        (select username
+                                         from users
+                                         where usersolvedproblems.user_id = users.id) as "users",
+                                        prob,
+                                        maindate.is_correct,
+                                        maindate.execute_time
+                                 from maindate,
+                                      usersolvedproblems
+                                 where maindate.is_correct = $1)
+                    select *
+                    from maindate2
+                    order by maindate2.solved_date desc limit $2
     `,
                 [isAC, amount]
             );
