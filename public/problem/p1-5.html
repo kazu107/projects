@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>関関数数</title>
+    <link rel="stylesheet" href="../css/problem.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header>
+    <div id="top-row">
+        <h1 id="problem-title">関関数数</h1>
+        <!-- 解説リンク -->
+        <a class="ed-rial" href="../editorial/p1-5-ed.html" target="_blank">
+            <button id="explanation-button">解説</button>
+        </a>
+    </div>
+    <div id="limits">
+        <span id="time-limit">実行時間制限: 4秒</span>
+        <span id="memory-limit">メモリ使用制限: 256MB</span>
+    </div>
+</header>
+<main>
+    <div id="problem-statement">
+        <h2>問題文</h2>
+        <!-- 問題文 -->
+        <p>関数 \(f\) と \(g\) をそれぞれ \(f(x) = x^2 + 2x + 1\), \(g(x) = -x^2 + 5x - 6\) と定義します。</p>
+        <p>整数 \(a\), \(b\) が与えられるので、\(f(g(a)) + g(f(b)) + f(f(g(b))) + a\) を求めてください。</p>
+        <!-- 問題文 -->
+        <hr>
+        <h2>制約</h2>
+        <ul id="constraints">
+            <!-- 制約 -->
+            <li>\(|a| ≤ 10\)</li>
+            <li>\(|b| ≤ 10\)</li>
+            <!-- 制約 -->
+        </ul>
+        <hr>
+        <h2>入力</h2>
+        <!-- 入力 -->
+        <p>入力は以下の形式で標準入力から与えられる。</p>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">\(a\) \(b\)</div>
+        </div>
+        <hr>
+        <h2>出力</h2>
+
+        <!-- 出力の形式 -->
+        <p>答えを出力せよ。</p>
+        <hr>
+
+        <!-- テストケース -->
+        <h2>入力例 1</h2>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">2 1</div>
+        </div>
+        <h2>出力例 1</h2>
+        <div class="code-container">
+            <!-- 出力の形式 -->
+            <div class="code-block io_format">5</div>
+        </div>
+
+        <!-- 出力例の説明 -->
+        <p> \(f(g(a)) + g(f(b)) + f(f(g(b))) + a\)</p>
+        <p>=\(f(0) + g(4) + f(f(-2)) + 2\)</p>
+        <p>=\(1 + (-2) + f(1) + 2\)</p>
+        <p>=\(1 + (-2) + 4 + 2\)</p>
+        <p>=\(5\)</p>
+        <hr>
+
+        <h2>入力例 2</h2>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">-2 3</div>
+        </div>
+        <h2>出力例 2</h2>
+        <div class="code-container">
+            <!-- 出力の形式 -->
+            <div class="code-block io_format">181</div>
+        </div>
+
+        <h2>提出欄</h2>
+        <div class="code-editor-container">
+            <div id="txt-editor" class="code-editor"></div>
+            <button id="run" class="submit-button">提出</button>
+        </div>
+        <hr>
+        <!-- 実行結果 -->
+        <h2>実行結果</h2>
+        <table id="result">
+            <thead>
+            <tr>
+                <th>ケース番号</th>
+                <th>結果</th>
+                <th>実行時間 (ms)</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div id = "progress">
+            <!-- 進捗バー -->
+        </div>
+    </div>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+<script src="../js/problemsConfig.js"></script>
+</body>
+</html>
