@@ -283,7 +283,7 @@ module.exports = {
             '3\n' +
             '1\n' +
             '1\n' +
-            '3\n',
+            '3',
         output: '2\n' +
             '2\n' +
             '2\n' +
@@ -326,7 +326,7 @@ module.exports = {
             '6\n' +
             '6\n' +
             '6\n' +
-            '8\n\n',
+            '8\n',
     },
     test3: {
         input: '1000 1000\n' +
