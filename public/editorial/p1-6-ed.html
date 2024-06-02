@@ -11,16 +11,18 @@
     <title>1-6解説</title>
 </head>
 <body>
-<h1><a href="../problem/p1-5.html" target="_blank">1-6:身長2</a>
+<h1><a href="../problem/p1-6.html" target="_blank">1-6:身長2</a>
     解説
 </h1>
 <hr>
 <!-- 解説文　-->
-<p>この問題は、実際のコードで関数を定義すると解きやすいです。</p>
-<p>具体的には、\(x\) を引数として、\(f(x) = x^2 + 2x + 1\), \(g(x) = -x^2 + 5x - 6\) を返すような関数を作りましょう。</p>
-<p></p>
+<p>ループで先頭から見ていき、隣同士を比較していきましょう。</p>
+<p>左の人が大きい場合、<code>No</code>を出力して処理を終了すると楽でしょう。</p>
 <!-- ソースコード　-->
-<p>実装例</p>
-<script src="https://gist.github.com/kazu107/d5b219a81a052078755e111f4639aa98.js"></script>
+<p>実装例 1</p>
+<script src="https://gist.github.com/kazu107/d0973d40b7c15ae1fe72516124b71d56.js"></script>
+<p>また、ソートしたものを別の配列に入れることで、簡単に比較ができます。</p>
+<p>実装例 2</p>
+<script src="https://gist.github.com/kazu107/6375623feefcb800b51c7f2e09a2eb96.js"></script>
 </body>
 </html>
