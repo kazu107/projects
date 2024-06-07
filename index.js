@@ -5,9 +5,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const fs = require('fs');
+const languages = require('./judge/languages.js');
 const path = require('path');
 const { PythonShell } = require('python-shell');
-const { exec } = require('child_process');
+const { exec, spawn} = require('child_process');
+const {performance} = require("perf_hooks");
 //const server = http.createServer(index);
 //const io = require('socket.io')(index);
 const defaultPythonPath = `${__dirname}/Python/Python311/python.exe`;
@@ -172,7 +174,7 @@ io.on('connection', (socket) => {
         console.log('Code received: ', code);
         // ファイルにコードを書き込む
         try {
-            await fs.promises.writeFile('sample.py', code);  // fs.writeFile を Promise に変更
+            await fs.promises.writeFile('judge\\langFile\\main.py', code);  // fs.writeFile を Promise に変更
             const fileName = `${id}-testcase.js`;
             const fullPath = require.resolve(`${__dirname}/public/testcase/${fileName}`);
             const problemCases = require(fullPath);
@@ -190,20 +192,53 @@ io.on('connection', (socket) => {
                     let caseData = cases[key];
                     console.log("--sending to processInputs--");
                     console.log("case: ", key);
-                    let result = await processInputs([key, caseData.input, caseData.output]);
-                    const times = parseInt(result[3]);
+
+                    const { language } = 'python';
+
+                    if (!languages[language]) {
+                        console.error('Unsupported language. Please specify one of the following: python, cpp, node, ruby, java, perl, php');
+                        socket.emit('error', 'Unsupported language');
+                        return;
+                    }
+
+                    // 入力をファイルに書き込む
+                    const inputFilePath = path.join(__dirname, 'input.txt');
+                    const inputData = caseData.input;
+                    let outputData;
+                    let ans;
+                    await new Promise((resolve, reject) => {
+                        fs.writeFile(inputFilePath, inputData, async (err) => {
+                            if (err) {
+                                console.error(`Error writing file: ${err.message}`);
+                                socket.emit('error', 'Error writing input file');
+                                reject(err);
+                                return;
+                            }
+                            const langConfig = languages[language];
+                            if (langConfig.needsCompilation) {
+                                ans = await compileAndRun(langConfig, inputFilePath, socket);
+                            } else {
+                                ans = await run(langConfig, inputFilePath, socket);
+                            }
+                            outputData = fs.readFileSync('./judge/output.txt').toString();
+                            resolve();
+                        });
+                    });
+                    console.log(ans);
+
+                    const times = ans.executionTime;
                     if (times > maxTime) {
                         maxTime = times;
                     }
-                    console.log("--send to client--\n", "case: "+ result[0] + "\n" , result[1] + " and " + result[2] + "  time: ", times + " ms");
+                    //console.log("--send to client--\n", "case: "+ result[0] + "\n" , result[1] + " and " + result[2] + "  time: ", times + " ms");
                     if (judgeway === "normal") {
                         if (times > 4000) {
                             socket.emit('result', key, "TLE", times + " ms");
                         }
-                        else if (result[1] === undefined || result[1] === undefined) {
+                        else if (caseData.input === undefined || outputData === undefined) {
                             socket.emit('result', key, "RE", times + " ms");
                         }
-                        else if (result[1] === result[2]) {
+                        else if (caseData.input === outputData) {
                             ACcount++;
                             socket.emit('result', key, "AC", times + " ms");
                         }
@@ -212,12 +247,12 @@ io.on('connection', (socket) => {
                         }
                     }
                     else if (judgeway === "decimal") {
-                        const numExpected = parseFloat(result[2]);
-                        const numActual = parseFloat(result[1]);
+                        const numExpected = parseFloat(caseData.input);
+                        const numActual = parseFloat(outputData);
                         if (times > 4000) {
                             socket.emit('result', key, "TLE", times + " ms");
                         }
-                        else if (result[1] === undefined || result[1] === undefined) {
+                        else if (caseData.input === undefined || outputData === undefined) {
                             socket.emit('result', key, "RE", times + " ms");
                         }
                         else if (Math.abs(numExpected - numActual) <= 0.0001) {
@@ -232,6 +267,7 @@ io.on('connection', (socket) => {
                     socket.emit('progress', "next", Object.keys(cases).length);
                 }
             }
+            /*
             if (isLogin) {
                 console.log("username: ", username + " さんの解答をデータベースに保存します。");
                 const userid = await pool.query('SELECT id FROM users WHERE username = $1', [username]);
@@ -260,6 +296,7 @@ io.on('connection', (socket) => {
                 );
                 console.log("result: ", result.rows[0].id);
             }
+            */
         } catch (error) {
             console.error("Error processing inputs or loading cases:", error);
             socket.emit('result', `Error: ${error.message}`);
@@ -380,80 +417,114 @@ io.on('connection', (socket) => {
     });
 });
 
-// Pythonスクリプトを実行し、入力を送り、結果を受け取る関数
-function runPythonScript(input, timeoutMs = 5000) {
-    const startTime = require('perf_hooks').performance.now();
-    let timeoutHandle;
-    let isTimeout = false;
-
+function compileAndRun(langConfig, inputFilePath, socket) {
     return new Promise((resolve, reject) => {
-        const pyshell = new PythonShell('sample.py', options);
-        let output = '';  // 出力を格納する文字列
+        const compileArgs = langConfig.args(langConfig.scriptPath);
+        const compileProcess = spawn(langConfig.compiler, compileArgs);
 
-        pyshell.send(input);
-
-        pyshell.on('message', function(message) {
-            if (!isTimeout) {  // タイムアウト後のメッセージは無視
-                output += message + `\n`;
-            }
+        compileProcess.stderr.on('data', (data) => {
+            console.error(`Compile stderr: ${data}`);
+            socket.emit('error', data.toString());
         });
 
-        // タイムアウトハンドラの設定
-        timeoutHandle = setTimeout(() => {
-            isTimeout = true;
-            pyshell.terminate();  // Pythonスクリプトの実行を終了
-            const endTime = performance.now();
-            const executionTime = endTime - startTime;
-            resolve(["error", executionTime]);  // エラーメッセージと実行時間を返す
-        }, timeoutMs);
-
-        pyshell.end(function (err) {
-            clearTimeout(timeoutHandle);  // タイムアウトタイマーをクリア
-            const endTime = require('perf_hooks').performance.now();  // 高精度な終了時刻を記録
-            const executionTime = endTime - startTime;  // 実行時間を計算
-            if (err) {
-                if (!isTimeout) {  // 通常のエラー
-                    console.error('Error finishing Python script:', err);
-                    reject(err);
-                }  // タイムアウトが発生していたらすでに resolve しているので何もしない
-            } else {
-                if (!isTimeout) {  // タイムアウトしていない正常終了
-                    console.log(`Python script finished`);
-                    resolve([output, executionTime]);
-                }
+        compileProcess.on('close', (code) => {
+            if (code !== 0) {
+                console.error(`Compilation process exited with code ${code}`);
+                socket.emit('error', `Compilation process exited with code ${code}`);
+                return;
             }
-        });
-        pyshell.on('error', function(err) {
-            clearTimeout(timeoutHandle);  // タイムアウトタイマーをクリア
-            console.error('Error from Python script:', err);
-            reject(err);
+
+            console.log('Compilation successful');
+            const executablePath = langConfig.scriptPath.replace(/\.(cpp|java|c|rs|kt|cs|go)$/, '');
+            const runArgs = langConfig.command ? langConfig.args(executablePath) : [];
+            const runProcess = langConfig.command ? spawn(langConfig.command, runArgs) : spawn(executablePath);
+
+            resolve(handleProcessOutput(runProcess, inputFilePath, langConfig.scriptPath, socket));
         });
     });
+
 }
 
+function run(langConfig, inputFilePath, socket) {
+    const runArgs = langConfig.args(langConfig.scriptPath);
+    const runProcess = spawn(langConfig.command, runArgs);
 
-// 入力ごとにPythonスクリプトを実行する関数
-async function processInputs(info) {
-    let datas = [];
-    try {
-        const output = await runPythonScript(info[1]);
-        console.log(`Processing\n${info[1]}`);
-        console.log(`expected Output is:`, info[2]);
-        console.log('actual Output is  :', output[0]);
-        datas = [info[0], output[0], info[2], output[1]];
-        //datas.push([info[0], output[0], info[2], output[1]]);
+    return handleProcessOutput(runProcess, inputFilePath, langConfig.scriptPath, socket);
+}
 
-        // 通常の判定方法
+function handleProcessOutput(process, inputFilePath, scriptPath, socket) {
+    return new Promise((resolve, reject) => {
+        const startTime = performance.now();
 
-        if (output[0] === info[2]) {
-            console.log(`${info[0]} passed`, "\n");
-        } else {
-            console.log(`${info[0]} failed`, "\n");
-        }
-    } catch (err) {
-        console.error(`Error processing ${info[1]}:`, err);
-    }
-    console.log("--send back to judge from processInputs--");
-    console.log("case: ", datas[0] + "\n", datas[1] + " and " + datas[2] + "  time: ", datas[3] + " ms");
-    return datas;
+        process.stdin.write(fs.readFileSync(inputFilePath));
+        process.stdin.end();
+
+        let outputData = '';
+        let errorData = '';
+
+        process.stdout.on('data', (data) => {
+            console.log(`Script output:\n${data}`);
+            outputData += data.toString();
+        });
+
+        process.stderr.on('data', (data) => {
+            console.error(`Error: ${data}`);
+            errorData += data.toString();
+        });
+
+        const getMemoryUsage = (pid) => {
+            return new Promise((resolve, reject) => {
+                pidusage(pid, (err, stats) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(stats.memory);
+                    }
+                });
+            });
+        };
+
+        let maxMemoryUsage = 0;
+        const intervalId = setInterval(async () => {
+            try {
+                const memoryUsage = await getMemoryUsage(process.pid);
+                if (memoryUsage > maxMemoryUsage) {
+                    maxMemoryUsage = memoryUsage;
+                }
+            } catch (err) {
+                console.error(`Error getting memory usage (You can ignore this error message): ${err.message}`);
+                clearInterval(intervalId);
+            }
+        }, 50);
+
+        process.on('close', async (code) => {
+            clearInterval(intervalId);
+            const endTime = performance.now();
+            const executionTime = endTime - startTime;
+            fs.writeFileSync('./judge/output.txt', outputData);
+            try {
+                const fileSize = fs.statSync(scriptPath).size;
+                const result = {
+                    output: outputData,
+                    error: errorData,
+                    maxMemoryUsage: `${(maxMemoryUsage / 1024).toFixed(0)}`,//kb
+                    executionTime: `${executionTime.toFixed(0)}`,//ms
+                    fileSize: `${fileSize}`//bytes
+                };
+
+                socket.emit('result', result);
+                resolve(result);
+            } catch (err) {
+                console.error(`Error getting stats: ${err.message}`);
+                socket.emit('error', 'Error getting file stats');
+                reject(err);
+            }
+
+            if (code !== 0) {
+                console.error(`Process exited with code ${code}`);
+            } else {
+                console.log('Process executed successfully');
+            }
+        });
+    });
 }
