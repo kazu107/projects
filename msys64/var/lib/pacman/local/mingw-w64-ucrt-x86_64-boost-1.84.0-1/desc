@@ -1,0 +1,49 @@
+%NAME%
+mingw-w64-ucrt-x86_64-boost
+
+%VERSION%
+1.84.0-1
+
+%BASE%
+mingw-w64-boost
+
+%DESC%
+Free peer-reviewed portable C++ source libraries (mingw-w64)
+
+%URL%
+https://www.boost.org/
+
+%ARCH%
+any
+
+%BUILDDATE%
+1702622091
+
+%INSTALLDATE%
+1712211785
+
+%PACKAGER%
+CI (msys2/msys2-autobuild/0eca067d/7218801356)
+
+%SIZE%
+194011189
+
+%LICENSE%
+spdx:BSL-1.0
+
+%VALIDATION%
+sha256
+pgp
+
+%DEPENDS%
+mingw-w64-ucrt-x86_64-gcc-libs
+mingw-w64-ucrt-x86_64-bzip2
+mingw-w64-ucrt-x86_64-icu
+mingw-w64-ucrt-x86_64-xz
+mingw-w64-ucrt-x86_64-zstd
+mingw-w64-ucrt-x86_64-zlib
+
+%OPTDEPENDS%
+mingw-w64-ucrt-x86_64-python: For Boost.Python
+mingw-w64-ucrt-x86_64-python-numpy: For Boost.Python (NumPy)
+

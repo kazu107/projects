@@ -130,6 +130,16 @@ hr {
     padding: 8px;
 }
 
+.editor-header {
+
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+    //左揃え
+
+}
+
 .code-editor-container {
     position: relative;
     margin-top: 20px;
@@ -141,6 +151,12 @@ hr {
     height: 400px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .submit-button {
@@ -187,6 +203,9 @@ hr {
     background-color: yellow;
     color: black;
 }
+
+
+
 code {
     padding: 0;
     margin: 0;

@@ -1,0 +1,174 @@
+************************************* Invoked: –Ø 4 4 15:14:37 2024
+[0] Arguments: C:\Users\kazuu\Downloads\msys2-x86_64-20240113 (1).exe
+[6] Operations sanity check succeeded.
+[19] Using metadata cache from "C:/Users/kazuu/AppData/Local/cache\\qt-installer-framework\\d75f1c19-3379-3717-ae8d-1404b51494a9"
+[19] Found 0 cached items.
+[19] Language: ja-JP
+[188] Loaded control script ":/metadata/installer-config/control_js.js"
+[188] Using control script: ":/metadata/installer-config/control_js.js"
+[1946] ÅV‚ÌXVî•ñ‚ğæ“¾‚µ‚Ä‚¢‚Ü‚·...
+[1960] ƒRƒ“ƒ|[ƒlƒ“ƒg ƒXƒNƒŠƒvƒg‚ğ“Ç‚İ‚ñ‚Å‚¢‚Ü‚·...
+[5827] backup  operation: Mkdir
+[5827] 	- arguments: C:/msys64
+[5827] Done
+[5827] perform  operation: Mkdir
+[5827] 	- arguments: C:/msys64
+[5827] Done
+[5828] ƒCƒ“ƒXƒg[ƒ‹‚ğ€”õ‚µ‚Ä‚¢‚Ü‚·...
+[5828] Install size: 1 components
+[5831] ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğŠJ«‚·‚é€”õ‚ğ‚µ‚Ä‚¢‚Ü‚·B
+[5832] backup com.msys2.root concurrent operation: Extract
+[5832] 	- arguments: installer://com.msys2.root/20240113msys64.7z, C:/msys64
+[5832] Started
+[6194] ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğŠJ«‚µ‚Ä‚¢‚Ü‚·B
+[6195] perform com.msys2.root concurrent operation: Extract
+[6195] 	- arguments: installer://com.msys2.root/20240113msys64.7z, C:/msys64
+[6195] Started
+[29479] ƒRƒ“ƒ|[ƒlƒ“ƒg MSYS2 ‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚¢‚Ü‚·
+[29479] backup com.msys2.root operation: CreateShortcut
+[29479] 	- arguments: C:/msys64/mingw32.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 MINGW32.lnk, iconPath=C:/msys64/mingw32.exe
+[29479] Done
+[29479] perform com.msys2.root operation: CreateShortcut
+[29480] 	- arguments: C:/msys64/mingw32.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 MINGW32.lnk
+[29527] Done
+[29527] backup com.msys2.root operation: CreateShortcut
+[29527] 	- arguments: C:/msys64/mingw64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 MINGW64.lnk, iconPath=C:/msys64/mingw64.exe
+[29528] Done
+[29528] perform com.msys2.root operation: CreateShortcut
+[29528] 	- arguments: C:/msys64/mingw64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 MINGW64.lnk
+[29542] Done
+[29542] backup com.msys2.root operation: CreateShortcut
+[29542] 	- arguments: C:/msys64/ucrt64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 UCRT64.lnk, iconPath=C:/msys64/ucrt64.exe
+[29543] Done
+[29543] perform com.msys2.root operation: CreateShortcut
+[29543] 	- arguments: C:/msys64/ucrt64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 UCRT64.lnk
+[29556] Done
+[29556] backup com.msys2.root operation: CreateShortcut
+[29556] 	- arguments: C:/msys64/clang64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 CLANG64.lnk, iconPath=C:/msys64/clang64.exe
+[29557] Done
+[29557] perform com.msys2.root operation: CreateShortcut
+[29557] 	- arguments: C:/msys64/clang64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 CLANG64.lnk
+[29571] Done
+[29571] backup com.msys2.root operation: CreateShortcut
+[29571] 	- arguments: C:/msys64/clangarm64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 CLANGARM64.lnk, iconPath=C:/msys64/clangarm64.exe
+[29571] Done
+[29571] perform com.msys2.root operation: CreateShortcut
+[29571] 	- arguments: C:/msys64/clangarm64.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 CLANGARM64.lnk
+[29585] Done
+[29585] backup com.msys2.root operation: CreateShortcut
+[29585] 	- arguments: C:/msys64/msys2.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 MSYS.lnk, iconPath=C:/msys64/msys2.exe
+[29585] Done
+[29586] perform com.msys2.root operation: CreateShortcut
+[29586] 	- arguments: C:/msys64/msys2.exe, C:\Users\kazuu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MSYS2/MSYS2 MSYS.lnk
+[29600] Done
+[29600] backup com.msys2.root operation: Execute
+[29600] 	- arguments: C:/msys64\usr\bin\bash.exe, --login, -c, exit
+[29600] Done
+[29600] perform com.msys2.root operation: Execute
+[29601] 	- arguments: C:/msys64\usr\bin\bash.exe, --login, -c, exit
+[29681] C:/msys64\\usr\\bin\\bash.exe" started, arguments: "--login -c exit
+[30306] Copying skeleton files.\nThese files are for the users to personalise their msys2 experience.\n\nThey will never be overwritten nor automatically updated.\n\n
+[30377] './.bashrc' -> '/home/kazuu/.bashrc'\n
+[30407] './.bash_logout' -> '/home/kazuu/.bash_logout'\n
+[30438] './.bash_profile' -> '/home/kazuu/.bash_profile'\n
+[30469] './.profile' -> '/home/kazuu/.profile'\n
+[30781] 'C:\\WINDOWS\\system32\\drivers\\etc\\hosts' -> '/etc/hosts'\n'C:\\WINDOWS\\system32\\drivers\\etc\\protocol' -> '/etc/protocols'\n
+[30813] 'C:\\WINDOWS\\system32\\drivers\\etc\\services' -> '/etc/services'\n
+[30883] 'C:\\WINDOWS\\system32\\drivers\\etc\\networks' -> '/etc/networks'\n
+[32332] ==> Generating pacman master key. This may take some time.\n
+[34497] ==> Updating trust database...\n==> Appending keys from msys2.gpg...\n
+[35629] ==> Locally signing trusted keys in keyring...\n
+[35942]   -> Locally signed 5 keys.\n==> Importing owner trust values...\n==> Disabling revoked keys in keyring...\n
+[36255]   -> Disabled 4 keys.\n==> Updating trust database...\n
+[55844] \x1B[H\x1B[2J\x1B[3J
+[55844] Warning: [1;32mMSYS2 is starting for the first time. Executing the initial setup.[1;0m
+gpg: /etc/pacman.d/gnupg/trustdb.gpg: trustdb created
+gpg: no ultimately trusted keys found
+gpg: starting migration from earlier GnuPG versions
+gpg: porting secret keys from '/etc/pacman.d/gnupg/secring.gpg' to gpg-agent
+gpg: migration succeeded
+gpg: Generating pacman keyring master key...
+gpg: directory '/etc/pacman.d/gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/etc/pacman.d/gnupg/openpgp-revocs.d/2D73E945C024630A5E326C23EE3465BA10C51659.rev'
+gpg: Done
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: setting ownertrust to 4
+gpg: setting ownertrust to 4
+gpg: setting ownertrust to 4
+gpg: setting ownertrust to 4
+gpg: setting ownertrust to 4
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   5  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 1  valid:   5  signed:   7  trust: 0-, 0q, 0n, 5m, 0f, 0u
+gpg: depth: 2  valid:   4  signed:   2  trust: 4-, 0q, 0n, 0m, 0f, 0u
+gpg: next trustdb check due at 2024-04-10
+gpg: error retrieving 'alexey.pawlow@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: F40D263ECA25678A
+gpg: error retrieving 'david.macek.0@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: 790AE56A1D3CFDDC
+gpg: error retrieving 'martellmalone@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: DA7EF2ABAEEA755C
+gpg: error retrieving 'reiter.christoph@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: 755B8182ACD22879
+gpg: error retrieving 'icquinteiro@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: 9F418C233E652008
+gpg: error retrieving 'mingw.android@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: BBE514E53E0D0813
+gpg: error retrieving 'alexpux@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: 5F92EFC1A47D45A1
+gpg: error retrieving 'david.macek.0@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: 974C8BE49078F532
+gpg: error retrieving 'reiter.christoph@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: FA11531AA0AA7F57
+gpg: error retrieving 'me@martellmalone.com' via WKD: No name
+gpg: error reading key: No name
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: 794DCF97F93FC717
+gpg: error retrieving 'martellmalone@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: D595C9AB2C51581E
+gpg: error retrieving 'mingw.android@gmail.com' via WKD: No data
+gpg: error reading key: No data
+gpg: refreshing 1 key from hkps://keyserver.ubuntu.com
+gpg: keyserver refresh failed: Server indicated a failure
+==> ERROR: Could not update key: 4DF3B7664CA56930
+[1;32mInitial setup complete. MSYS2 is now ready to use.[1;0m
+
+[55844] Done
+[56416] Writing maintenance tool: "C:/msys64/uninstall.exe.new"
+[56417] •Ûçƒc[ƒ‹‚Ìƒf[ƒ^‚ğ‘‚«‚ñ‚Å‚¢‚Ü‚·B
+[56488] Wrote permissions for maintenance tool.
+[56525] Maintenance tool hard restart: false.
+[56527] ƒCƒ“ƒXƒg[ƒ‹‚ªI—¹‚µ‚Ü‚µ‚½B
+[58842] starting "C:/msys64/ucrt64.exe" ()

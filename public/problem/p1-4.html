@@ -84,8 +84,20 @@ sbcdefscde</div>
     </div>
 
     <p><code>a</code>ランクの人が居ません。</p>
-
-    <h2>提出欄</h2>
+      <hr>
+      <div class="editor-header">
+          <h2>提出欄</h2>
+          <label for="language">言語:</label>
+          <select id="language">
+              <option value="py">Python</option>
+              <option value="cpp">C++</option>
+              <option value="js">JavaScript</option>
+              <option value="rb">Ruby</option>
+              <option value="java">Java</option>
+              <option value="pl">Perl</option>
+              <option value="php">PHP</option>
+          </select>
+      </div>
     <div class="code-editor-container">
       <div id="txt-editor" class="code-editor"></div>
       <button id="run" class="submit-button">提出</button>

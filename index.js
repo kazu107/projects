@@ -170,17 +170,16 @@ const io = require('socket.io')(index);
 io.on('connection', (socket) => {
     console.log('A user connected');
 
-    socket.on('run', async (code, id, isLogin, username) => {
+    socket.on('run', async (code, id, isLogin, username, language) => {
         console.log('Code received: ', code);
         // ファイルにコードを書き込む
         try {
-            await fs.promises.writeFile('judge\\langFile\\main.py', code);  // fs.writeFile を Promise に変更
+            await fs.promises.writeFile(`judge\\langFile\\main.${language}`, code);  // fs.writeFile を Promise に変更
             const fileName = `${id}-testcase.js`;
             const fullPath = require.resolve(`${__dirname}/public/testcase/${fileName}`);
             const problemCases = require(fullPath);
             const judgeway = problemCases.judge;
             const { judge, ...cases } = problemCases;
-
             console.log('Cases loaded:', cases);
             socket.emit('clearTable');
             //プログレスバーの初期化
@@ -192,9 +191,7 @@ io.on('connection', (socket) => {
                     let caseData = cases[key];
                     console.log("--sending to processInputs--");
                     console.log("case: ", key);
-
-                    const { language } = 'python';
-
+                    console.log(language);
                     if (!languages[language]) {
                         console.error('Unsupported language. Please specify one of the following: python, cpp, node, ruby, java, perl, php');
                         socket.emit('error', 'Unsupported language');
@@ -202,8 +199,9 @@ io.on('connection', (socket) => {
                     }
 
                     // 入力をファイルに書き込む
-                    const inputFilePath = path.join(__dirname, 'input.txt');
+                    const inputFilePath = 'judge\\input.txt';
                     const inputData = caseData.input;
+                    fs.writeFileSync('./judge/Eoutput.txt', caseData.output);
                     let outputData;
                     let ans;
                     await new Promise((resolve, reject) => {
@@ -230,6 +228,10 @@ io.on('connection', (socket) => {
                     if (times > maxTime) {
                         maxTime = times;
                     }
+                    console.log("-----------------------------------");
+                    console.log("actual output  : ", outputData);
+                    console.log("expected output: ", caseData.output);
+                    console.log("-----------------------------------");
                     //console.log("--send to client--\n", "case: "+ result[0] + "\n" , result[1] + " and " + result[2] + "  time: ", times + " ms");
                     if (judgeway === "normal") {
                         if (times > 4000) {
@@ -238,7 +240,7 @@ io.on('connection', (socket) => {
                         else if (caseData.input === undefined || outputData === undefined) {
                             socket.emit('result', key, "RE", times + " ms");
                         }
-                        else if (caseData.input === outputData) {
+                        else if (caseData.output.toString() === outputData.toString()) {
                             ACcount++;
                             socket.emit('result', key, "AC", times + " ms");
                         }
@@ -247,7 +249,7 @@ io.on('connection', (socket) => {
                         }
                     }
                     else if (judgeway === "decimal") {
-                        const numExpected = parseFloat(caseData.input);
+                        const numExpected = parseFloat(caseData.output);
                         const numActual = parseFloat(outputData);
                         if (times > 4000) {
                             socket.emit('result', key, "TLE", times + " ms");
@@ -501,9 +503,11 @@ function handleProcessOutput(process, inputFilePath, scriptPath, socket) {
             clearInterval(intervalId);
             const endTime = performance.now();
             const executionTime = endTime - startTime;
-            fs.writeFileSync('./judge/output.txt', outputData);
             try {
                 const fileSize = fs.statSync(scriptPath).size;
+                outputData = outputData.replace(/\r/g, '');
+                errorData = errorData.replace(/\r/g, '');
+                fs.writeFileSync('./judge/output.txt', outputData);
                 const result = {
                     output: outputData,
                     error: errorData,
@@ -512,7 +516,7 @@ function handleProcessOutput(process, inputFilePath, scriptPath, socket) {
                     fileSize: `${fileSize}`//bytes
                 };
 
-                socket.emit('result', result);
+                //socket.emit('result', result);
                 resolve(result);
             } catch (err) {
                 console.error(`Error getting stats: ${err.message}`);

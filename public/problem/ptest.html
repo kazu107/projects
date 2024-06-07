@@ -7,76 +7,82 @@
     <link rel="stylesheet" href="../css/problem.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-xGh+DBFOUgXTUI+/5Z/UCA71b02aYYvA4BR7m+yo9PEgNSE33EjXBc+JxUzf5OD0Tu3sfGctgPmpUoeUvcRHGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-cdrBlrKb3GLK0s4oRM2qvsVg4d4a6DKYf4MVj2ksI+eNkhaQF5C12IBFZjkE4hPy" crossorigin="anonymous"></script>
 </head>
 <body>
 <header>
     <div id="top-row">
         <h1 id="problem-title">問題のタイトル</h1>
-        <!-- 解説リンク -->
-        <a class="ed-rial" href="../editorial/p1-1-ed.html" target="_blank">
-            <button id="explanation-button">解説</button>
-        </a>
+        <button id="explanation-button">解説を見る</button>
     </div>
     <div id="limits">
-        <span id="time-limit">実行時間制限: 4秒</span>
+        <span id="time-limit">実行時間制限: 2秒</span>
         <span id="memory-limit">メモリ使用制限: 256MB</span>
     </div>
 </header>
 <main>
     <div id="problem-statement">
         <h2>問題文</h2>
-        <!-- 問題文 -->
         <p>次の式を計算してください：</p>
         <p>\[ E = mc^2 \]</p>
-        <!-- 問題文 -->
         <hr>
         <h2>制約</h2>
         <ul id="constraints">
-            <!-- 制約 -->
             <li>変数 \( m \) は正の整数である。</li>
             <li>変数 \( c \) は光速であり、定数 \( 3 \times 10^8 \) m/s である。</li>
-            <!-- 制約 -->
         </ul>
         <hr>
         <h2>入力</h2>
-        <!-- 入力 -->
         <p>入力は以下の形式で標準入力から与えられる。</p>
         <div class="code-container">
-            <!-- 入力の形式 -->
-            <div class="code-block io_format">\( m \)</div>
+            <button class="copy-button" onclick="copyToClipboard('input-example')">コピー</button>
+            <span id="copy-message">コピーされました</span>
+            <div id="input-example" class="code-block io_format">
+                \( m \)
+            </div>
         </div>
         <hr>
         <h2>出力</h2>
-
-        <!-- 出力の形式 -->
         <p>答えを出力せよ。</p>
         <hr>
-
-        <!-- テストケース -->
         <h2>入力例 1</h2>
         <div class="code-container">
-            <!-- 入力の形式 -->
-            <div class="code-block io_format">\( 2 \)</div>
+            <button class="copy-button" onclick="copyToClipboard('input-example-1')">コピー</button>
+            <span id="copy-message-1" class="copy-message">コピーされました</span>
+            <div id="input-example-1" class="code-block io_format">
+                \( 2 \)
+            </div>
         </div>
         <h2>出力例 1</h2>
         <div class="code-container">
-            <!-- 出力の形式 -->
-            <div class="code-block io_format">\( 1.8 \times 10^{17} \)</div>
+            <button class="copy-button" onclick="copyToClipboard('output-example-1')">コピー</button>
+            <span id="copy-message-2" class="copy-message">コピーされました</span>
+            <div id="output-example-1" class="code-block io_format">
+                \( 1.8 \times 10^{17} \)
+            </div>
         </div>
-
-        <!-- 出力例の説明 -->
         <p>このテストケースでは、\( m = 2 \) なので、\( E = 2 \times (3 \times 10^8)^2 = 1.8 \times 10^{17} \) となります。</p>
         <hr>
+        <div class="editor-header">
+            <h2>コードエディター</h2>
+            <label for="language">言語:</label>
+            <select id="language">
+                <option value=".py">Python</option>
+                <option value=".cpp">C++</option>
+                <option value=".js">JavaScript</option>
+                <option value=".rb">Ruby</option>
+                <option value=".java">Java</option>
+                <option value=".pl">Perl</option>
+                <option value=".php">PHP</option>
+            </select>
+        </div>
 
-        <!-- さらに -->
-
-        <h2>提出欄</h2>
         <div class="code-editor-container">
             <div id="txt-editor" class="code-editor"></div>
             <button id="run" class="submit-button">提出</button>
         </div>
         <hr>
-        <!-- 実行結果 -->
         <h2>実行結果</h2>
         <table id="result">
             <thead>
@@ -89,14 +95,81 @@
             <tbody>
             </tbody>
         </table>
-        <div id = "progress">
-            <!-- 進捗バー -->
-        </div>
     </div>
 </main>
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
-<script src="../js/problemsConfig.js"></script>
+<script>
+    const socket = io();
+
+    socket.on('connect', function() {
+        console.log('Connected to server');
+    });
+
+    socket.on('result', (caseNumber, res, time) => {
+        const tableBody = document.querySelector('#result tbody');
+        const newRow = document.createElement('tr');
+        const resColor = res === "AC" ? "green" : "yellow";
+        newRow.innerHTML = `
+                <td>${caseNumber}</td>
+                <td><span class="result ${resColor}">${res}</span></td>
+                <td>${time}</td>
+            `;
+        tableBody.appendChild(newRow);
+    });
+
+    socket.on('clearTable', function() {
+        const tableBody = document.querySelector('#result tbody');
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+        }
+    });
+
+    function copyToClipboard(elementId) {
+        const code = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(code).then(() => {
+            const copyMessage = document.querySelector(`#${elementId} + .copy-message`);
+            copyMessage.style.visibility = 'visible';
+            setTimeout(() => {
+                copyMessage.style.visibility = 'hidden';
+            }, 2000);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        MathJax.typesetPromise();
+
+        // Initialize ACE Editor
+        const editor = ace.edit("txt-editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/python");
+        editor.setOptions({
+            fontSize: "14pt",
+            showPrintMargin: false,
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            enableSnippets: true,
+        });
+
+        document.getElementById("run").addEventListener("click", function() {
+            const code = editor.getValue();
+            const path = window.location.pathname;
+            const pageName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
+            const language = document.getElementById("language").value;
+            socket.emit('run', code, pageName, language);
+        });
+
+        document.getElementById("language").addEventListener("change", function() {
+            const mode = {
+                '.py': 'ace/mode/python',
+                '.cpp': 'ace/mode/c_cpp',
+                '.js': 'ace/mode/javascript',
+                '.rb': 'ace/mode/ruby',
+                '.java': 'ace/mode/java',
+                '.pl': 'ace/mode/perl',
+                '.php': 'ace/mode/php'
+            }[this.value];
+            editor.session.setMode(mode);
+        });
+    });
+</script>
 </body>
 </html>

@@ -8,6 +8,7 @@ socket.on('result', (caseNumber, res, time) => {
     const tableBody = document.querySelector('#result tbody');
     const newRow = document.createElement('tr');
     const resColor = res === "AC" ? "green" : "yellow";
+    console.log("caseNumber: " + caseNumber + ", res: " + res + ", time: " + time);
     newRow.innerHTML = `
                 <td>${caseNumber}</td>
                 <td><span class="result ${resColor}">${res}</span></td>
@@ -121,12 +122,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const code = editor.getValue();
         const path = window.location.pathname;
         const pageName = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
+        const language = document.getElementById('language').value;
         console.log('Sent code:', code);
+        console.log("choose language: " + language);
+
+        //socket.emit('run', code, pageName, false, language, language);
         const response = await fetchWithAuth('/profile');
         if (response.ok) {
             const user = await response.json();
-            socket.emit('run', code, pageName, true, user.username);
+            socket.emit('run', code, pageName, true, user.username, language);
         }
-        else socket.emit('run', code, pageName, false);
+        else socket.emit('run', code, pageName, false, null, language);
     });
 });
