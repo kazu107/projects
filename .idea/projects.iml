@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
-  <component name="NewModuleRootManager">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/Python" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/clang32" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/clang64" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/clangarm64" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/dev" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/etc/fstab.d" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/etc/pki/ca-trust/source" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/mingw32" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/mingw64" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/opt" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/ucrt64/etc/ssl/certs" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/ucrt64/etc/ssl/private" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/bin/site_perl" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/bin/vendor_perl" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/lib/perl5/site_perl" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/share/man/man2" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/share/man/man4" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/share/man/man6" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/share/perl5/core_perl/CPAN/API" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/share/perl5/core_perl/CPAN/Meta/History" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/share/perl5/site_perl" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/src" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/ssl/private" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/usr/var" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/var/cache/man" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/var/empty" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/var/lib/misc" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/var/local" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/var/log/old" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/var/opt" />
+      <excludeFolder url="file://$MODULE_DIR$/msys64/var/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
