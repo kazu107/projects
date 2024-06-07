@@ -146,15 +146,12 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('Sent code:', code);
         console.log("choose language: " + language);
 
-        socket.emit('run', code, pageName, false, language, language);
-        /*
+        //socket.emit('run', code, pageName, false, language, language);
         const response = await fetchWithAuth('/profile');
         if (response.ok) {
             const user = await response.json();
             socket.emit('run', code, pageName, true, user.username, language);
         }
         else socket.emit('run', code, pageName, false, null, language);
-
-         */
     });
 });

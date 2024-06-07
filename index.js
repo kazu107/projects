@@ -16,18 +16,10 @@ const defaultPythonPath = `${__dirname}/Python/Python311/python.exe`;
 const heroku_pythonPath = 'python';
 const options = {
     mode: 'text',
-    /*
-    デプロイするときは絶対に書き換える！！！！！
-    デプロイするときは絶対に書き換える！！！！！
-    デプロイするときは絶対に書き換える！！！！！
-     */
+
     pythonPath: heroku_pythonPath,
     //pythonPath: defaultPythonPath,
-    /*
-    デプロイするときは絶対に書き換える！！！！！
-    デプロイするときは絶対に書き換える！！！！！
-    デプロイするときは絶対に書き換える！！！！！
-     */
+
     pythonOptions: ['-u'], // コマンドラインオプション
     scriptPath: __dirname, // スクリプトのディレクトリ指定
     stderrParser: (log) => { return log; },

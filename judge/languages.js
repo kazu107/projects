@@ -10,15 +10,15 @@ const languages = {
         needsCompilation: false,
     },
     cpp: {
-        compiler: '.\\msys64\\ucrt64\\bin\\g++', // 例: '/usr/bin/g++' または 'C:\\MinGW\\bin\\g++.exe'
-        //compiler: 'g++',
+        //compiler: '.\\msys64\\ucrt64\\bin\\g++', // 例: '/usr/bin/g++' または 'C:\\MinGW\\bin\\g++.exe'
+        compiler: 'g++',
         args: (scriptPath) => ['-o', scriptPath.replace('.cpp', ''), scriptPath],
         scriptPath: 'judge\\langFile\\main.cpp',
         needsCompilation: true,
     },
     c: {
-        compiler: '.\\msys64\\ucrt64\\bin\\gcc.exe', // 例: '/usr/bin/gcc' または 'C:\\MinGW\\bin\\gcc.exe'
-        //compiler: 'gcc',
+        //compiler: '.\\msys64\\ucrt64\\bin\\gcc.exe', // 例: '/usr/bin/gcc' または 'C:\\MinGW\\bin\\gcc.exe'
+        compiler: 'gcc',
         args: (scriptPath) => ['-o', scriptPath.replace('.c', ''), scriptPath],
         scriptPath: 'judge\\langFile\\main.c',
         needsCompilation: true,
