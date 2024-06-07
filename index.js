@@ -184,7 +184,7 @@ io.on('connection', (socket) => {
             socket.emit('clearTable');
             //プログレスバーの初期化
             socket.emit('progress', "init", Object.keys(cases).length);
-
+            socket.emit('initTable', cases);
             let ACcount = 0, allCount = 0, maxTime = 0;
             for (const key in cases) {
                 if (cases.hasOwnProperty(key)) {
@@ -235,40 +235,41 @@ io.on('connection', (socket) => {
                     //console.log("--send to client--\n", "case: "+ result[0] + "\n" , result[1] + " and " + result[2] + "  time: ", times + " ms");
                     if (judgeway === "normal") {
                         if (times > 4000) {
-                            socket.emit('result', key, "TLE", times + " ms");
+                            socket.emit('result', key, "TLE", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                         else if (caseData.input === undefined || outputData === undefined) {
-                            socket.emit('result', key, "RE", times + " ms");
+                            socket.emit('result', key, "RE", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                         else if (caseData.output.toString() === outputData.toString()) {
                             ACcount++;
-                            socket.emit('result', key, "AC", times + " ms");
+                            socket.emit('result', key, "AC", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                         else {
-                            socket.emit('result', key, "WA", times + " ms");
+                            socket.emit('result', key, "WA", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                     }
                     else if (judgeway === "decimal") {
                         const numExpected = parseFloat(caseData.output);
                         const numActual = parseFloat(outputData);
                         if (times > 4000) {
-                            socket.emit('result', key, "TLE", times + " ms");
+                            socket.emit('result', key, "TLE", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                         else if (caseData.input === undefined || outputData === undefined) {
-                            socket.emit('result', key, "RE", times + " ms");
+                            socket.emit('result', key, "RE", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                         else if (Math.abs(numExpected - numActual) <= 0.0001) {
                             ACcount++;
-                            socket.emit('result', key, "AC", times + " ms");
+                            socket.emit('result', key, "AC", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                         else {
-                            socket.emit('result', key, "WA", times + " ms");
+                            socket.emit('result', key, "WA", times + " ms", ans.maxMemoryUsage, allCount);
                         }
                     }
                     allCount++;
                     socket.emit('progress', "next", Object.keys(cases).length);
                 }
             }
+            /*
             if (isLogin) {
                 console.log("username: ", username + " さんの解答をデータベースに保存します。");
                 const userid = await pool.query('SELECT id FROM users WHERE username = $1', [username]);
@@ -297,31 +298,38 @@ io.on('connection', (socket) => {
                 );
                 console.log("result: ", result.rows[0].id);
             }
+
+             */
         } catch (error) {
             console.error("Error processing inputs or loading cases:", error);
             socket.emit('result', `Error: ${error.message}`);
         }
     });
     //メインページの最近の解答を取得
-    socket.on('search', async (searchUser, stats, amount) => {
-        console.log("received search request: ", searchUser, " ", stats, " ", amount, " 件取得します。");
+    socket.on('search', async (searchUser, stats, amount, lang) => {
+        console.log("received search request: ", searchUser, " ", stats, " ", amount, " 件取得します。", lang);
         const isAC = stats === "ac";
         if (searchUser === "") {
             if (stats === "all") {
                 const result = await pool.query(
                     `
-                        with main as (select solved_date,
+                        with main as (select submission_date,
                                              (select username
                                               from users
-                                              where users.id = user_id)       as users,
+                                              where users.id = user_id)                                  as users,
                                              (select problem_description
                                               from problems
-                                              where problems.id = problem_id) as probs,
+                                              where problems.id = problem_id)                            as probs,
+                                             (select lang_view.lang_name
+                                              from lang_view
+                                              where lang_view.lang_extension = solvedproblems.lang_name) as lang,
+                                             code_length,
                                              is_correct,
-                                             execute_time,
+                                             execution_time,
+                                             memory,
                                              source_code
-                                      from usersolvedproblems
-                                      order by solved_date desc)
+                                      from solvedproblems
+                                      order by submission_date desc)
                         select *
                         from main
                         limit $1
@@ -334,22 +342,26 @@ io.on('connection', (socket) => {
             else {
                 const result = await pool.query(
                     `
-                        with main as (select solved_date,
+                        with main as (select submission_date,
                                              (select username
                                               from users
-                                              where users.id = user_id)       as users,
+                                              where users.id = user_id)                                  as users,
                                              (select problem_description
                                               from problems
-                                              where problems.id = problem_id) as probs,
+                                              where problems.id = problem_id)                            as probs,
+                                             (select lang_view.lang_name
+                                              from lang_view
+                                              where lang_view.lang_extension = solvedproblems.lang_name) as lang,
+                                             code_length,
                                              is_correct,
-                                             execute_time,
+                                             execution_time,
+                                             memory,
                                              source_code
-                                      from usersolvedproblems
-                                      order by solved_date desc)
+                                      from solvedproblems
+                                      order by submission_date desc)
                         select *
                         from main
-                        where is_correct = $1
-                        limit $2
+                        where $1 = true limit $2
     `,
                     [isAC, amount]
                 );
@@ -361,22 +373,26 @@ io.on('connection', (socket) => {
             if (stats === "all") {
                 const result = await pool.query(
                     `
-                        with main as (select solved_date,
+                        with main as (select submission_date,
                                              (select username
                                               from users
-                                              where users.id = user_id)       as users,
+                                              where users.id = user_id)                                  as users,
                                              (select problem_description
                                               from problems
-                                              where problems.id = problem_id) as probs,
+                                              where problems.id = problem_id)                            as probs,
+                                             (select lang_view.lang_name
+                                              from lang_view
+                                              where lang_view.lang_extension = solvedproblems.lang_name) as lang,
+                                             code_length,
                                              is_correct,
-                                             execute_time,
+                                             execution_time,
+                                             memory,
                                              source_code
-                                      from usersolvedproblems
-                                      order by solved_date desc)
+                                      from solvedproblems
+                                      order by submission_date desc)
                         select *
                         from main
-                        where users = $1
-                        limit $2
+                        where users = $1 limit $2
     `,
                     [searchUser, amount]
                 );
@@ -386,18 +402,23 @@ io.on('connection', (socket) => {
             else {
                 const result = await pool.query(
                     `
-                        with main as (select solved_date,
+                        with main as (select submission_date,
                                              (select username
                                               from users
-                                              where users.id = user_id)       as users,
+                                              where users.id = user_id)                                  as users,
                                              (select problem_description
                                               from problems
-                                              where problems.id = problem_id) as probs,
+                                              where problems.id = problem_id)                            as probs,
+                                             (select lang_view.lang_name
+                                              from lang_view
+                                              where lang_view.lang_extension = solvedproblems.lang_name) as lang,
+                                             code_length,
                                              is_correct,
-                                             execute_time,
+                                             execution_time,
+                                             memory,
                                              source_code
-                                      from usersolvedproblems
-                                      order by solved_date desc)
+                                      from solvedproblems
+                                      order by submission_date desc)
                         select *
                         from main
                         where users = $1

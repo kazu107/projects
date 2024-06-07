@@ -113,6 +113,20 @@
                 <option value="20">20</option>
                 <option value="30">30</option>
             </select>
+            <select id="language" class="search-select">
+                <option value="py">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C++</option>
+                <option value="js">JavaScript</option>
+                <option value="rb">Ruby</option>
+                <option value="java">Java</option>
+                <option value="pl">Perl</option>
+                <option value="php">PHP</option>
+                <option value="rs">C++</option>
+                <option value="kt">C++</option>
+                <option value="cs">C++</option>
+                <option value="go">C++</option>
+            </select>
             <button id="search" class="search-button">検索</button>
         </div>
         <div class="table-container">
@@ -122,8 +136,11 @@
                     <th>提出日時</th>
                     <th>ユーザー名</th>
                     <th>問題</th>
+                    <th>言語</th>
+                    <th>コード長</th>
                     <th>結果</th>
                     <th>実行時間</th>
+                    <th>メモリ</th>
                     <th>コード</th>
                 </tr>
                 </thead>
@@ -165,8 +182,9 @@
             const searchUser = document.getElementById('searchUser').value;
             const stat = document.getElementById('stat').value;
             const amount = document.getElementById('amount').value;
-            console.log("send with " + searchUser + " " + stat + " " + amount);
-            socket.emit('search', searchUser, stat, amount);
+            const language = document.getElementById('language').value;
+            console.log("send with " + searchUser + " " + stat + " " + amount + " " + language);
+            socket.emit('search', searchUser, stat, amount, language);
         }
 
         document.getElementById('search').addEventListener('click', performSearch);
@@ -182,12 +200,15 @@
                 // テーブルにデータを追加する
                 const newRow1 = document.createElement('tr');
                 newRow1.innerHTML = `
-                        <td>${data[i].solved_date}</td>
+                        <td>${data[i].submission_date}</td>
                         <td>${data[i].users}</td>
                         <td>${data[i].probs}</td>
+                        <td>${data[i].langs}</td>
+                        <td>${data[i].code_length}</td>
                         <td>${data[i].is_correct}</td>
-                        <td>${data[i].execute_time}ms</td>
-                        <td><button class="toggle-btn">^</button></td>
+                        <td>${data[i].execution_time}ms</td>
+                        <td>${data[i].memory}KB</td>
+                        <td><button class="toggle-btn">code</button></td>
                     `;
                 // class="code-row"でソースコードを追加
                 const newRow2 = document.createElement('tr');

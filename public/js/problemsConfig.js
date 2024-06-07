@@ -3,18 +3,36 @@ const socket = io();
 socket.on('connect', function() {
     console.log('Connected to server');
 });
-//結果を受信してテーブルを更新
-socket.on('result', (caseNumber, res, time) => {
+//あらかじめ全テストケースのテーブルを作成
+socket.on('initTable', (cases) => {
     const tableBody = document.querySelector('#result tbody');
-    const newRow = document.createElement('tr');
+    for (const name in cases) {
+        //resultは灰色で表示
+        const resColor = "gray";
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+                <td>${name}</td>
+                <td><span class="result ${resColor}">WJ</span></td>
+                <td>計測中</td>
+                <td>計測中</td>
+            `;
+        tableBody.appendChild(newRow);
+
+    }
+});
+//結果を受信してテーブルを上からcnt番目を更新
+socket.on('result', (caseNumber, res, time, memory, cnt) => {
+    const tableBody = document.querySelector('#result tbody');
+    const row = tableBody.children[cnt];
+    const result = row.querySelector('.result');
     const resColor = res === "AC" ? "green" : "yellow";
     console.log("caseNumber: " + caseNumber + ", res: " + res + ", time: " + time);
-    newRow.innerHTML = `
-                <td>${caseNumber}</td>
-                <td><span class="result ${resColor}">${res}</span></td>
-                <td>${time}</td>
-            `;
-    tableBody.appendChild(newRow);
+    result.innerText = res;
+    row.children[2].innerText = time;
+    row.children[3].innerText = memory + " kb";
+    //resultのclassを変更
+    result.classList.remove("gray");
+    result.classList.add(resColor);
 });
 //テーブルをクリア
 socket.on('clearTable', function() {
@@ -48,6 +66,8 @@ socket.on('progress', (stat, cases_num) => {
     document.getElementById('max_num').innerText = max_num;
     document.getElementById('prog-bar').value = cur_num;
     document.getElementById('prog-bar').max = max_num;
+    //ページを最下部にスクロール
+    window.scrollTo(0, document.body.scrollHeight);
 });
 //コピー
 function copyToClipboard(elementId) {
@@ -126,12 +146,15 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('Sent code:', code);
         console.log("choose language: " + language);
 
-        //socket.emit('run', code, pageName, false, language, language);
+        socket.emit('run', code, pageName, false, language, language);
+        /*
         const response = await fetchWithAuth('/profile');
         if (response.ok) {
             const user = await response.json();
             socket.emit('run', code, pageName, true, user.username, language);
         }
         else socket.emit('run', code, pageName, false, null, language);
+
+         */
     });
 });

@@ -203,6 +203,9 @@ hr {
     background-color: yellow;
     color: black;
 }
+.result.gray {
+    background-color: gray;
+}
 
 
 
