@@ -172,7 +172,7 @@ io.on('connection', (socket) => {
 
     socket.on('run', async (code, id, isLogin, username, language) => {
         console.log('Code received: ', code);
-        // ファイルにコードを書き込む
+        //ファイルにコードを書き込む
         try {
             await fs.promises.writeFile(`judge\\langFile\\main.${language}`, code);  // fs.writeFile を Promise に変更
             const fileName = `${id}-testcase.js`;
