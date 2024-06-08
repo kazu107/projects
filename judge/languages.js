@@ -1,4 +1,4 @@
-// languages.js・
+// languages.js
 const path = require('path');
 
 const languages = {
