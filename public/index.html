@@ -152,6 +152,39 @@
         </div>
     </div>
 </main>
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>サイトについて</h3>
+            <p>このサイトはプログラミングの学習をサポートするために作成されました。詳しくは<a href="./about.html">こちら</a>をご覧ください。</p>
+        </div>
+        <div class="footer-section">
+            <h3>リンク</h3>
+            <ul>
+                <li><a href="#">ホーム</a></li>
+                <li><a href="./terms.html">利用規約</a></li>
+                <li><a href="./privacy.html">プライバシーポリシー</a></li>
+                <li><a href="./contact.html">お問い合わせ</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>制作者</h3>
+            <ul class="social-media">
+                <li><a href="https://x.com/uttu03_k" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+                <li><a href="https://github.com/kazu107/projects" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>ニュースレター</h3>
+            <p>最新の更新情報を受け取るためにサインアップしてください。</p>
+            <input type="email" placeholder="実装中">
+            <button>登録</button>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Online Judge by kazu107. All rights reserved.</p>
+    </div>
+</footer>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     // テーブルの表示・非表示を切り替える
@@ -214,7 +247,7 @@
                 const newRow2 = document.createElement('tr');
                 newRow2.className = 'code-row';
                 newRow2.innerHTML = `
-                        <td colspan="6">
+                        <td colspan="9">
                             <div id="editor${i + 1}" class="editor">${data[i].source_code}</div>
                         </td>
                     `;

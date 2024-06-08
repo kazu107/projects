@@ -114,7 +114,7 @@ main {
     transition: all 0.3s ease-in-out;
 }
 
-.item-list li a:hover::after {
+item-list li a:hover::after {
     visibility: visible;
     width: 100%;
 }
@@ -295,4 +295,67 @@ main {
         width: 90%;
         margin-bottom: 20px;
     }
+}
+
+/* フッターのスタイル */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    text-decoration: underline;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-media li {
+    display: inline;
+}
+
+.social-media li a {
+    color: white;
+    font-size: 24px;
+}
+
+.footer-bottom {
+    margin-top: 20px;
 }
