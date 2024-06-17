@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>約約数数</title>
+    <link rel="stylesheet" href="../css/problem.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header>
+    <div id="top-row">
+        <h1 id="problem-title">約約数数</h1>
+        <!-- 解説リンク -->
+        <a class="ed-rial" href="../editorial/p2-4-ed.html" target="_blank">
+            <button id="explanation-button">解説</button>
+        </a>
+    </div>
+    <div id="limits">
+        <span id="time-limit">実行時間制限: 4秒</span>
+        <span id="memory-limit">メモリ使用制限: 256MB</span>
+    </div>
+</header>
+<main>
+    <div id="problem-statement">
+        <h2>問題文</h2>
+        <!-- 問題文 -->
+        <p>整数 \(N\), \(L\), \(R\) が与えられるので、以下の条件に当てはまる整数 \(x\) の個数を出力してください。</p>
+        <ul class="prob-list">
+            <!-- 箇条書き -->
+            <li>\(x\) は \(N\) の約数である</li>
+            <li>\(x\) は素数である。</li>
+            <li>\(x\) は\(L\) 以上 \(R\) 以下の整数である。</li>
+            <li>\(x\) の各桁の総和を \(y\) としたとき、\(y\) の約数の個数が \(N\) の約数の個数より少ない。</li>
+            <!-- 箇条書き -->
+        </ul>
+        <!-- 問題文 -->
+        <hr>
+        <h2>制約</h2>
+        <ul id="constraints">
+            <!-- 制約 -->
+            <li>\(1 ≤ N, L, R ≤ 10^8\)</li>
+            <!-- 制約 -->
+        </ul>
+        <hr>
+        <h2>入力</h2>
+        <!-- 入力 -->
+        <p>入力は以下の形式で標準入力から与えられる。</p>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">\(N\) \(L\) \(R\)</div>
+        </div>
+        <hr>
+        <h2>出力</h2>
+
+        <!-- 出力の形式 -->
+        <p>答えを出力せよ。</p>
+        <hr>
+
+        <!-- テストケース -->
+        <h2>入力例 1</h2>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">3</div>
+        </div>
+        <h2>出力例 1</h2>
+        <div class="code-container">
+            <!-- 出力の形式 -->
+            <div class="code-block io_format">2</div>
+        </div>
+
+        <!-- 出力例の説明 -->
+        <p>(3 -> 2 -> 0), (3 -> 1 -> 0) の2つの遷移のみが勝ちうるパターンです。</p>
+        <hr>
+
+        <h2>入力例 2</h2>
+        <div class="code-container">
+            <!-- 入力の形式 -->
+            <div class="code-block io_format">5</div>
+        </div>
+        <h2>出力例 2</h2>
+        <div class="code-container">
+            <!-- 出力の形式 -->
+            <div class="code-block io_format">6</div>
+        </div>
+        <hr>
+        <div class="editor-header">
+            <h2>提出欄</h2>
+            <label for="language">言語:</label>
+            <select id="language">
+                <option value="py">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+                <option value="js">JavaScript</option>
+                <option value="rb">Ruby</option>
+                <option value="java">Java</option>
+                <option value="pl">Perl</option>
+                <option value="php">PHP</option>
+                <option value="rs">rust</option>
+                <option value="kt">kotlin</option>
+                <option value="cs">c#</option>
+                <option value="go">go</option>
+            </select>
+        </div>
+        <div class="code-editor-container">
+            <div id="txt-editor" class="code-editor"></div>
+            <button id="run" class="submit-button">提出</button>
+        </div>
+        <hr>
+        <!-- 実行結果 -->
+        <h2>実行結果</h2>
+        <table id="result">
+            <thead>
+            <tr>
+                <th>ケース番号</th>
+                <th>結果</th>
+                <th>実行時間 (ms)</th>
+                <th>メモリ使用量 (KB)</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div id = "progress">
+            <!-- 進捗バー -->
+        </div>
+    </div>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+<script src="../js/problemsConfig.js"></script>
+</body>
+</html>

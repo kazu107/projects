@@ -261,7 +261,6 @@ io.on('connection', (socket) => {
                     socket.emit('progress', "next", Object.keys(cases).length);
                 }
             }
-            /*
             if (isLogin) {
                 console.log("username: ", username + " さんの解答をデータベースに保存します。");
                 const userid = await pool.query('SELECT id FROM users WHERE username = $1', [username]);
@@ -290,8 +289,6 @@ io.on('connection', (socket) => {
                 );
                 console.log("result: ", result.rows[0].id);
             }
-
-             */
         } catch (error) {
             console.error("Error processing inputs or loading cases:", error);
             socket.emit('result', `Error: ${error.message}`);
