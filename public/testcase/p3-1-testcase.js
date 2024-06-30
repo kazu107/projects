@@ -7,8 +7,8 @@ module.exports = {
     },
     sample2: {
         input: '10 100\n' +
-            '12 23 34 44 56 67 74 89 90 12',
-        output: '92\n',
+            '13 22 35 43 53 62 73 80 91 22',
+        output: '94\n',
     },
     test1: {
         input: '10 10000\n' +
