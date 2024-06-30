@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>巡回セールスマン改題</title>
+    <title>遠足</title>
     <link rel="stylesheet" href="../css/problem.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -11,9 +11,9 @@
 <body>
 <header>
     <div id="top-row">
-        <h1 id="problem-title">巡回セールスマン改題</h1>
+        <h1 id="problem-title">遠足</h1>
         <!-- 解説リンク -->
-        <a class="ed-rial" href="../editorial/p2-2-ed.html" target="_blank">
+        <a class="ed-rial" href="../editorial/p3-1-ed.html" target="_blank">
             <button id="explanation-button">解説</button>
         </a>
     </div>
@@ -26,16 +26,18 @@
     <div id="problem-statement">
         <h2>問題文</h2>
         <!-- 問題文 -->
-        <p>２次元座標上に \(N\) 個の都市があり、それらの座標 \(A_i\), \(B_i\) が与えられます。</p>
-        <p>都市1をスタートとしたとき、全都市を1回ずつ通って都市1に帰ってくるパターンの中での最短距離を出力してください。</p>
+        <p>小学生のkazu107さんは、遠足のおやつを買うために駄菓子屋さんに来ました。</p>
+        <p>駄菓子屋さんには \(N\) 種類の駄菓子がありそれらのうちいくつかを1個ずつだけ買おうと考えています。</p>
+        <p>遠足のおやつは \(M\) 円までと決まっており、kazu107さんは \(M\) 円を超えない最大の金額を使いたいと考えています。</p>
+        <p>駄菓子の値段 \(A_i\) が与えられるので、\(M\) 円以下で最高の金額を出力してください。</p>
         <!-- 問題文 -->
         <hr>
         <h2>制約</h2>
         <ul id="constraints">
             <!-- 制約 -->
-            <li>\(2 ≤ N ≤ 10\)</li>
-            <li>\(0 ≤ A_i, B_i ≤ 1000\)</li>
-            <li>\(A_i, B_i\)は小数</li>
+            <li>\(1 ≤ N ≤ 100\)</li>
+            <li>\(1 ≤ M ≤ 10^4\)</li>
+            <li>\(1 ≤ A_i ≤ M\)</li>
             <!-- 制約 -->
         </ul>
         <hr>
@@ -44,55 +46,46 @@
         <p>入力は以下の形式で標準入力から与えられる。</p>
         <div class="code-container">
             <!-- 入力の形式 -->
-            <div class="code-block io_format">\(N\)
-                \(A_1\) \(B_1\)
-                \(A_2\) \(B_2\)
-                \(\vdots\)
-                \(A_N\) \(B_N\)</div>
+            <div class="code-block io_format">\(N\) \(M\)
+                \(A_1\) \(A_2\) \(\cdots\) \(A_N\)</div>
         </div>
         <hr>
         <h2>出力</h2>
 
         <!-- 出力の形式 -->
-        <p>答えを出力せよ。ただし、出力誤差は<code>0.0001</code>まで認められる。</p>
+        <p>\(M\) 円以下で使用可能な最高の金額を出力せよ</p>
         <hr>
 
         <!-- テストケース -->
         <h2>入力例 1</h2>
         <div class="code-container">
             <!-- 入力の形式 -->
-            <div class="code-block io_format">4
-                3.21 6.54
-                9.87 4.32
-                7.65 0.98
-                5.43 8.76</div>
+            <div class="code-block io_format">4 100
+                10 20 30 60</div>
         </div>
         <h2>出力例 1</h2>
         <div class="code-container">
             <!-- 出力の形式 -->
-            <div class="code-block io_format">20.54442</div>
+            <div class="code-block io_format">10</div>
         </div>
 
         <!-- 出力例の説明 -->
-        <p>1 -> 3 -> 2 -> 4が最短経路です。</p>
+        <p>駄菓子1, 3, 4を選ぶと100円になり、これが使用可能な最高の金額です。</p>
         <hr>
 
         <h2>入力例 2</h2>
         <div class="code-container">
             <!-- 入力の形式 -->
-            <div class="code-block io_format">6
-                5.07 5.99
-                8.78 8.27
-                1.68 2.33
-                4.89 5.58
-                4.84 7.23
-                5.36 3.25</div>
+            <div class="code-block io_format">10 100
+                12 23 34 44 56 67 74 89 90 12</div>
         </div>
         <h2>出力例 2</h2>
         <div class="code-container">
             <!-- 出力の形式 -->
-            <div class="code-block io_format">20.21939</div>
+            <div class="code-block io_format">92</div>
         </div>
+        <p>93円以上になる組み合わせはありません。</p>
+        <hr>
         <hr>
         <div class="editor-header">
             <h2>提出欄</h2>

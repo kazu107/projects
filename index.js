@@ -178,6 +178,7 @@ io.on('connection', (socket) => {
             socket.emit('progress', "init", Object.keys(cases).length);
             socket.emit('initTable', cases);
             let ACcount = 0, allCount = 0, maxTime = 0;
+            let ans;
             for (const key in cases) {
                 if (cases.hasOwnProperty(key)) {
                     let caseData = cases[key];
@@ -195,7 +196,6 @@ io.on('connection', (socket) => {
                     const inputData = caseData.input;
                     fs.writeFileSync('./judge/Eoutput.txt', caseData.output);
                     let outputData;
-                    let ans;
                     await new Promise((resolve, reject) => {
                         fs.writeFile(inputFilePath, inputData, async (err) => {
                             if (err) {
@@ -284,8 +284,8 @@ io.on('connection', (socket) => {
                 let check;
                 check = ACcount === Object.keys(cases).length;
                 const result = await pool.query(
-                    'INSERT INTO usersolvedproblems (user_id, problem_id, is_correct, source_code, execute_time) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-                    [user, probID, check, code, maxTime]
+                    'INSERT INTO solvedproblems (user_id, problem_id, is_correct, source_code, execute_time, lang_name, code_length, memory) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+                    [user, probID, check, code, maxTime, language, ans.fileSize, ans.maxMemoryUsage]
                 );
                 console.log("result: ", result.rows[0].id);
             }
