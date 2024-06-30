@@ -284,7 +284,7 @@ io.on('connection', (socket) => {
                 let check;
                 check = ACcount === Object.keys(cases).length;
                 const result = await pool.query(
-                    'INSERT INTO solvedproblems (user_id, problem_id, is_correct, source_code, execute_time, lang_name, code_length, memory) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+                    'INSERT INTO solvedproblems (user_id, problem_id, is_correct, source_code, execution_time, lang_name, code_length, memory) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
                     [user, probID, check, code, maxTime, language, ans.fileSize, ans.maxMemoryUsage]
                 );
                 console.log("result: ", result.rows[0].id);
