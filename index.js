@@ -12,7 +12,7 @@ const { exec, spawn} = require('child_process');
 const {performance} = require("perf_hooks");
 //const server = http.createServer(index);
 //const io = require('socket.io')(index);
-const defaultPythonPath = `${__dirname}/Python/Python311/python.exe`;
+//const defaultPythonPath = `${__dirname}/Python/Python311/python.exe`;
 const heroku_pythonPath = 'python';
 const options = {
     mode: 'text',
